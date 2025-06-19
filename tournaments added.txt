@@ -1,0 +1,3463 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinalScore - Enhanced Pick'em Challenge</title>
+</head>
+<body>
+    <div style="
+        display: block !important; 
+        visibility: visible !important; 
+        opacity: 1 !important; 
+        position: relative !important;
+        width: 100% !important;
+        min-height: 100vh !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        font-family: 'Arial', sans-serif !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    " id="pickemApp">
+        
+        <!-- Notification System -->
+        <div id="notificationContainer" style="
+            position: fixed !important;
+            top: 20px !important;
+            right: 20px !important;
+            z-index: 1000 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            max-width: 350px !important;
+        "></div>
+        
+        <!-- Main Header -->
+        <header style="
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            padding: 15px 20px !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 100 !important;
+        ">
+            <div style="
+                max-width: 1200px !important;
+                margin: 0 auto !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                flex-wrap: wrap !important;
+                gap: 15px !important;
+            ">
+                <div style="flex: 1 !important;">
+                    <h1 style="
+                        margin: 0 !important;
+                        color: #667eea !important;
+                        font-size: clamp(22px, 4vw, 28px) !important;
+                        font-weight: bold !important;
+                    ">FinalScore</h1>
+                    <p style="
+                        margin: 5px 0 0 0 !important;
+                        color: #666 !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                        display: none !important;
+                    " id="headerSubtext">Enhanced tournaments and social features</p>
+                </div>
+                
+                <div style="
+                    display: flex !important; 
+                    gap: 10px !important; 
+                    align-items: center !important;
+                    flex-wrap: wrap !important;
+                ">
+                    <!-- Messages Notification -->
+                    <div id="messagesNotification" onclick="showMessages()" style="
+                        position: relative !important;
+                        background: #10b981 !important;
+                        color: white !important;
+                        padding: 8px 12px !important;
+                        border-radius: 20px !important;
+                        font-weight: bold !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                        display: none !important;
+                        cursor: pointer !important;
+                        transition: all 0.3s ease !important;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        💬 <span id="unreadCount">0</span>
+                        <div id="messagesBadge" style="
+                            position: absolute !important;
+                            top: -8px !important;
+                            right: -8px !important;
+                            background: #ef4444 !important;
+                            color: white !important;
+                            border-radius: 50% !important;
+                            width: 20px !important;
+                            height: 20px !important;
+                            display: none !important;
+                            align-items: center !important;
+                            justify-content: center !important;
+                            font-size: 10px !important;
+                            font-weight: bold !important;
+                        "></div>
+                    </div>
+                    
+                    <div id="currencyDisplay" onclick="openStore()" style="
+                        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                        color: white !important;
+                        padding: 8px 12px !important;
+                        border-radius: 20px !important;
+                        font-weight: bold !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                        display: none !important;
+                        cursor: pointer !important;
+                        transition: all 0.3s ease !important;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        💰 <span id="userCoins">0</span>
+                    </div>
+                    
+                    <button id="achievementsBtn" onclick="showAchievements()" style="
+                        padding: 8px 16px !important;
+                        background: #f59e0b !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                        display: none !important;
+                    ">🏆</button>
+                    
+                    <button id="tournamentsBtn" onclick="showTournaments()" style="
+                        padding: 8px 16px !important;
+                        background: #8b5cf6 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                        display: none !important;
+                        position: relative !important;
+                    ">
+                        🏁
+                        <div id="tournamentsBadge" style="
+                            position: absolute !important;
+                            top: -8px !important;
+                            right: -8px !important;
+                            background: #ef4444 !important;
+                            color: white !important;
+                            border-radius: 50% !important;
+                            width: 18px !important;
+                            height: 18px !important;
+                            display: none !important;
+                            align-items: center !important;
+                            justify-content: center !important;
+                            font-size: 10px !important;
+                            font-weight: bold !important;
+                        "></div>
+                    </button>
+                    
+                    <button id="leaguesBtn" onclick="showLeagues()" style="
+                        padding: 8px 16px !important;
+                        background: #06b6d4 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                        display: none !important;
+                    ">⚔️</button>
+                    
+                    <button id="loginBtn" onclick="showLogin()" style="
+                        padding: 8px 16px !important;
+                        background: #667eea !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                    ">Login</button>
+                    
+                    <button id="accountBtn" onclick="showAccount()" style="
+                        padding: 8px 16px !important;
+                        background: #667eea !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: clamp(12px, 2.5vw, 14px) !important;
+                        display: none !important;
+                    ">👤</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main style="
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 20px 15px !important;
+        ">
+            
+            <!-- User Stats Section -->
+            <div id="userStatsSection" style="
+                display: none !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 25px !important;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+            ">
+                <div style="
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                    margin-bottom: 20px !important;
+                    flex-wrap: wrap !important;
+                    gap: 15px !important;
+                ">
+                    <div style="flex: 1 !important;">
+                        <h2 style="margin: 0 !important; color: #333 !important; font-size: clamp(18px, 4vw, 24px) !important;">
+                            Welcome back, <span id="welcomeUsername"></span>!
+                        </h2>
+                        <p style="margin: 5px 0 0 0 !important; color: #666 !important; font-size: clamp(12px, 2.5vw, 14px) !important;">
+                            Your enhanced gaming experience awaits
+                        </p>
+                    </div>
+                    <div style="display: flex !important; gap: 10px !important; flex-wrap: wrap !important;">
+                        <button onclick="showCommunity()" style="
+                            padding: 10px 16px !important;
+                            background: #8b5cf6 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            cursor: pointer !important;
+                            font-weight: bold !important;
+                            font-size: clamp(12px, 2.5vw, 14px) !important;
+                        ">Community</button>
+                        <button onclick="showFriends()" style="
+                            padding: 10px 16px !important;
+                            background: #10b981 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            cursor: pointer !important;
+                            font-weight: bold !important;
+                            font-size: clamp(12px, 2.5vw, 14px) !important;
+                        ">Friends</button>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Stats Grid -->
+                <div style="
+                    display: grid !important;
+                    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+                    gap: 15px !important;
+                ">
+                    <div style="
+                        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: clamp(18px, 4vw, 24px) !important; font-weight: bold !important; color: #667eea !important;" id="userScore">0</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: clamp(12px, 2.5vw, 14px) !important;">Score</div>
+                    </div>
+                    
+                    <div style="
+                        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: clamp(18px, 4vw, 24px) !important; font-weight: bold !important; color: #10b981 !important;" id="userAccuracy">0%</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: clamp(12px, 2.5vw, 14px) !important;">Accuracy</div>
+                    </div>
+                    
+                    <div style="
+                        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: clamp(18px, 4vw, 24px) !important; font-weight: bold !important; color: #f59e0b !important;" id="userStreak">0</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: clamp(12px, 2.5vw, 14px) !important;">Win Streak</div>
+                    </div>
+                    
+                    <div onclick="showFriends()" style="
+                        background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                        cursor: pointer !important;
+                        transition: all 0.3s ease !important;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: clamp(18px, 4vw, 24px) !important; font-weight: bold !important; color: #8b5cf6 !important;" id="friendsCount">0</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: clamp(12px, 2.5vw, 14px) !important;">Friends</div>
+                    </div>
+                    
+                    <div onclick="showTournaments()" style="
+                        background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                        cursor: pointer !important;
+                        transition: all 0.3s ease !important;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: clamp(18px, 4vw, 24px) !important; font-weight: bold !important; color: #8b5cf6 !important;" id="activeTournamentsCount">0</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: clamp(12px, 2.5vw, 14px) !important;">Tournaments</div>
+                    </div>
+                    
+                    <div onclick="showLeagues()" style="
+                        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                        cursor: pointer !important;
+                        transition: all 0.3s ease !important;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: clamp(18px, 4vw, 24px) !important; font-weight: bold !important; color: #059669 !important;" id="userLeaguesCount">0</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: clamp(12px, 2.5vw, 14px) !important;">Leagues</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Games Section -->
+            <div style="
+                background: rgba(255, 255, 255, 0.95) !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 25px !important;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+                backdrop-filter: blur(10px) !important;
+            ">
+                <div style="
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                    margin-bottom: 20px !important;
+                    flex-wrap: wrap !important;
+                    gap: 15px !important;
+                ">
+                    <div style="flex: 1 !important;">
+                        <h2 style="margin: 0 !important; color: #333 !important; font-size: clamp(18px, 4vw, 24px) !important;">Today's Games</h2>
+                        <p style="margin: 5px 0 0 0 !important; color: #666 !important; font-size: clamp(12px, 2.5vw, 14px) !important;">
+                            Make your predictions and share your reasoning
+                        </p>
+                    </div>
+                    
+                    <div style="display: flex !important; gap: 10px !important; align-items: center !important; flex-wrap: wrap !important;">
+                        <div id="pickStatus" style="
+                            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+                            padding: 8px 12px !important;
+                            border-radius: 20px !important;
+                            font-size: clamp(11px, 2vw, 14px) !important;
+                            font-weight: bold !important;
+                            color: #4a5568 !important;
+                            border: 2px solid #e2e8f0 !important;
+                        ">0 picks made</div>
+                        
+                        <button onclick="quickFillRandom()" style="
+                            padding: 8px 12px !important;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 15px !important;
+                            font-size: clamp(10px, 2vw, 12px) !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                        ">Quick Fill</button>
+                        
+                        <button onclick="clearAllPicks()" style="
+                            padding: 8px 12px !important;
+                            background: #ef4444 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 15px !important;
+                            font-size: clamp(10px, 2vw, 12px) !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                        ">Clear</button>
+                    </div>
+                </div>
+                
+                <div id="gamesContainer" style="
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 15px !important;
+                ">
+                    <!-- Games will be loaded here -->
+                </div>
+                
+                <button id="submitPicksBtn" onclick="submitAllPicks()" style="
+                    width: 100% !important;
+                    padding: 15px !important;
+                    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%) !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 12px !important;
+                    font-size: clamp(14px, 3vw, 16px) !important;
+                    font-weight: bold !important;
+                    cursor: not-allowed !important;
+                    margin-top: 20px !important;
+                    transition: all 0.3s ease !important;
+                " disabled>
+                    Submit All Picks
+                </button>
+            </div>
+            
+            <!-- Leaderboard Section -->
+            <div style="
+                background: rgba(255, 255, 255, 0.95) !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+            ">
+                <h2 style="margin: 0 0 15px 0 !important; color: #333 !important; font-size: clamp(18px, 4vw, 24px) !important;">Leaderboard</h2>
+                <div id="leaderboardContainer">
+                    <!-- Leaderboard will be loaded here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Enhanced Tournaments Modal -->
+        <div id="tournamentsModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 900px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideTournaments()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <div style="
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                    margin-bottom: 20px !important;
+                    flex-wrap: wrap !important;
+                    gap: 15px !important;
+                ">
+                    <h2 style="margin: 0 !important; color: #8b5cf6 !important;">
+                        🏁 Tournaments Hub
+                    </h2>
+                    <button onclick="createTournament()" style="
+                        padding: 10px 16px !important;
+                        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">+ Create Tournament</button>
+                </div>
+                
+                <!-- Tournament Filter Tabs -->
+                <div style="
+                    display: flex !important;
+                    margin-bottom: 25px !important;
+                    background: #f0f0f0 !important;
+                    border-radius: 10px !important;
+                    padding: 5px !important;
+                    flex-wrap: wrap !important;
+                    gap: 5px !important;
+                ">
+                    <button id="allTournamentsTab" onclick="filterTournaments('all')" style="
+                        flex: 1 !important;
+                        padding: 10px !important;
+                        border: none !important;
+                        background: #8b5cf6 !important;
+                        color: white !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: 12px !important;
+                        min-width: 80px !important;
+                    ">All</button>
+                    <button id="myTournamentsTab" onclick="filterTournaments('my')" style="
+                        flex: 1 !important;
+                        padding: 10px !important;
+                        border: none !important;
+                        background: transparent !important;
+                        color: #666 !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: 12px !important;
+                        min-width: 80px !important;
+                    ">My Tournaments</button>
+                    <button id="publicTournamentsTab" onclick="filterTournaments('public')" style="
+                        flex: 1 !important;
+                        padding: 10px !important;
+                        border: none !important;
+                        background: transparent !important;
+                        color: #666 !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: 12px !important;
+                        min-width: 80px !important;
+                    ">Public</button>
+                    <button id="privateTournamentsTab" onclick="filterTournaments('private')" style="
+                        flex: 1 !important;
+                        padding: 10px !important;
+                        border: none !important;
+                        background: transparent !important;
+                        color: #666 !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: 12px !important;
+                        min-width: 80px !important;
+                    ">Private</button>
+                </div>
+                
+                <div id="tournamentsContainer">
+                    <!-- Tournaments will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Leagues Modal -->
+        <div id="leaguesModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 800px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideLeagues()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <div style="
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                    margin-bottom: 20px !important;
+                    flex-wrap: wrap !important;
+                    gap: 15px !important;
+                ">
+                    <h2 style="margin: 0 !important; color: #059669 !important;">
+                        ⚔️ Leagues & Competitions
+                    </h2>
+                    <button onclick="createLeague()" style="
+                        padding: 10px 16px !important;
+                        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">+ Create League</button>
+                </div>
+                
+                <div id="leaguesContainer">
+                    <!-- Leagues will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Friends Modal -->
+        <div id="friendsModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 700px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideFriends()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="margin: 0 0 20px 0 !important; color: #8b5cf6 !important;">
+                    👥 Friends & Social
+                </h2>
+                
+                <!-- Social Stats -->
+                <div style="
+                    display: grid !important;
+                    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+                    gap: 15px !important;
+                    margin-bottom: 25px !important;
+                ">
+                    <div style="
+                        background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 10px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: 20px !important; font-weight: bold !important; color: #7c3aed !important;" id="totalFriends">0</div>
+                        <div style="font-size: 12px !important; color: #666 !important;">Total Friends</div>
+                    </div>
+                    <div style="
+                        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 10px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: 20px !important; font-weight: bold !important; color: #059669 !important;" id="onlineFriends">0</div>
+                        <div style="font-size: 12px !important; color: #666 !important;">Online Now</div>
+                    </div>
+                    <div style="
+                        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+                        padding: 15px !important;
+                        border-radius: 10px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: 20px !important; font-weight: bold !important; color: #d97706 !important;" id="friendRequests">0</div>
+                        <div style="font-size: 12px !important; color: #666 !important;">Pending Requests</div>
+                    </div>
+                </div>
+                
+                <!-- Friend Search -->
+                <div style="margin-bottom: 20px !important;">
+                    <div style="
+                        display: flex !important;
+                        gap: 10px !important;
+                        margin-bottom: 15px !important;
+                    ">
+                        <input type="text" id="friendSearchInput" placeholder="Search for friends by username..." style="
+                            flex: 1 !important;
+                            padding: 12px !important;
+                            border: 2px solid #e5e7eb !important;
+                            border-radius: 8px !important;
+                            box-sizing: border-box !important;
+                        ">
+                        <button onclick="searchFriend()" style="
+                            padding: 12px 20px !important;
+                            background: #10b981 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                            white-space: nowrap !important;
+                        ">Add Friend</button>
+                    </div>
+                    
+                    <!-- Quick Add Suggested Friends -->
+                    <div style="margin-bottom: 15px !important;">
+                        <div style="font-weight: bold !important; margin-bottom: 8px !important; color: #333 !important;">Suggested Friends:</div>
+                        <div id="suggestedFriends" style="
+                            display: flex !important;
+                            gap: 8px !important;
+                            flex-wrap: wrap !important;
+                        ">
+                            <!-- Suggested friends will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Friend Tabs -->
+                <div style="
+                    display: flex !important;
+                    margin-bottom: 20px !important;
+                    background: #f0f0f0 !important;
+                    border-radius: 10px !important;
+                    padding: 5px !important;
+                ">
+                    <button id="friendsListTab" onclick="switchFriendsTab('list')" style="
+                        flex: 1 !important;
+                        padding: 10px !important;
+                        border: none !important;
+                        background: #8b5cf6 !important;
+                        color: white !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: 12px !important;
+                    ">Friends List</button>
+                    <button id="friendRequestsTab" onclick="switchFriendsTab('requests')" style="
+                        flex: 1 !important;
+                        padding: 10px !important;
+                        border: none !important;
+                        background: transparent !important;
+                        color: #666 !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: 12px !important;
+                    ">Requests</button>
+                    <button id="friendActivityTab" onclick="switchFriendsTab('activity')" style="
+                        flex: 1 !important;
+                        padding: 10px !important;
+                        border: none !important;
+                        background: transparent !important;
+                        color: #666 !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        font-size: 12px !important;
+                    ">Activity</button>
+                </div>
+                
+                <!-- Friends Content -->
+                <div id="friendsListContent">
+                    <div id="friendsContainer">
+                        <!-- Friends list will be loaded here -->
+                    </div>
+                </div>
+                
+                <div id="friendRequestsContent" style="display: none !important;">
+                    <div id="friendRequestsContainer">
+                        <!-- Friend requests will be loaded here -->
+                    </div>
+                </div>
+                
+                <div id="friendActivityContent" style="display: none !important;">
+                    <div id="friendActivityContainer">
+                        <!-- Friend activity will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Modal -->
+        <div id="messagesModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 600px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideMessages()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="margin: 0 0 20px 0 !important; color: #10b981 !important;">
+                    💬 Messages
+                </h2>
+                
+                <!-- Message Threads -->
+                <div id="messageThreads" style="
+                    max-height: 400px !important;
+                    overflow-y: auto !important;
+                    border: 1px solid #e5e7eb !important;
+                    border-radius: 8px !important;
+                    padding: 15px !important;
+                ">
+                    <!-- Messages will be loaded here -->
+                </div>
+                
+                <!-- Quick Message Options -->
+                <div style="margin-top: 15px !important;">
+                    <div style="font-weight: bold !important; margin-bottom: 10px !important;">Quick Actions:</div>
+                    <div style="display: flex !important; gap: 10px !important; flex-wrap: wrap !important;">
+                        <button onclick="messageAllFriends()" style="
+                            padding: 8px 12px !important;
+                            background: #8b5cf6 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 6px !important;
+                            font-size: 12px !important;
+                            cursor: pointer !important;
+                        ">Broadcast to Friends</button>
+                        <button onclick="inviteToTournament()" style="
+                            padding: 8px 12px !important;
+                            background: #f59e0b !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 6px !important;
+                            font-size: 12px !important;
+                            cursor: pointer !important;
+                        ">Tournament Invite</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Tournament Modal -->
+        <div id="createTournamentModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1001 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 500px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideCreateTournament()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="margin: 0 0 20px 0 !important; color: #8b5cf6 !important;">
+                    🏁 Create Tournament
+                </h2>
+                
+                <form id="createTournamentForm">
+                    <div style="margin-bottom: 15px !important;">
+                        <label style="display: block !important; font-weight: bold !important; margin-bottom: 5px !important;">Tournament Name:</label>
+                        <input type="text" id="tournamentName" style="
+                            width: 100% !important;
+                            padding: 10px !important;
+                            border: 2px solid #e5e7eb !important;
+                            border-radius: 6px !important;
+                            box-sizing: border-box !important;
+                        " placeholder="My Awesome Tournament">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px !important;">
+                        <label style="display: block !important; font-weight: bold !important; margin-bottom: 5px !important;">Description:</label>
+                        <textarea id="tournamentDescription" style="
+                            width: 100% !important;
+                            padding: 10px !important;
+                            border: 2px solid #e5e7eb !important;
+                            border-radius: 6px !important;
+                            box-sizing: border-box !important;
+                            height: 80px !important;
+                            resize: vertical !important;
+                        " placeholder="Describe your tournament..."></textarea>
+                    </div>
+                    
+                    <div style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 15px !important; margin-bottom: 15px !important;">
+                        <div>
+                            <label style="display: block !important; font-weight: bold !important; margin-bottom: 5px !important;">Entry Fee:</label>
+                            <input type="number" id="tournamentEntryFee" min="0" max="500" value="25" style="
+                                width: 100% !important;
+                                padding: 10px !important;
+                                border: 2px solid #e5e7eb !important;
+                                border-radius: 6px !important;
+                                box-sizing: border-box !important;
+                            ">
+                        </div>
+                        <div>
+                            <label style="display: block !important; font-weight: bold !important; margin-bottom: 5px !important;">Max Players:</label>
+                            <input type="number" id="tournamentMaxPlayers" min="2" max="100" value="20" style="
+                                width: 100% !important;
+                                padding: 10px !important;
+                                border: 2px solid #e5e7eb !important;
+                                border-radius: 6px !important;
+                                box-sizing: border-box !important;
+                            ">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px !important;">
+                        <label style="display: block !important; font-weight: bold !important; margin-bottom: 5px !important;">Tournament Type:</label>
+                        <select id="tournamentType" style="
+                            width: 100% !important;
+                            padding: 10px !important;
+                            border: 2px solid #e5e7eb !important;
+                            border-radius: 6px !important;
+                            box-sizing: border-box !important;
+                        ">
+                            <option value="public">Public - Anyone can join</option>
+                            <option value="private">Private - Invite only</option>
+                            <option value="friends">Friends Only</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px !important;">
+                        <label style="display: block !important; font-weight: bold !important; margin-bottom: 5px !important;">Duration:</label>
+                        <select id="tournamentDuration" style="
+                            width: 100% !important;
+                            padding: 10px !important;
+                            border: 2px solid #e5e7eb !important;
+                            border-radius: 6px !important;
+                            box-sizing: border-box !important;
+                        ">
+                            <option value="daily">Daily Tournament</option>
+                            <option value="weekly">Weekly Tournament</option>
+                            <option value="weekend">Weekend Special</option>
+                            <option value="monthly">Monthly Championship</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" onclick="submitCreateTournament()" style="
+                        width: 100% !important;
+                        padding: 15px !important;
+                        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">Create Tournament (Cost: 50 coins)</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- All other existing modals (keeping the existing ones) -->
+        <!-- Account Modal -->
+        <div id="accountModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 500px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideAccount()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <div style="text-align: center !important; margin-bottom: 25px !important;">
+                    <div style="
+                        width: 80px !important;
+                        height: 80px !important;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                        border-radius: 50% !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                        font-size: 32px !important;
+                        color: white !important;
+                        margin: 0 auto 15px auto !important;
+                    ">👤</div>
+                    <h2 style="margin: 0 !important; color: #333 !important;" id="accountUsername">Username</h2>
+                    <p style="margin: 5px 0 0 0 !important; color: #666 !important;" id="accountEmail">email@example.com</p>
+                </div>
+                
+                <!-- Account Stats -->
+                <div style="
+                    display: grid !important;
+                    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+                    gap: 15px !important;
+                    margin-bottom: 25px !important;
+                ">
+                    <div style="text-align: center !important; padding: 15px !important; background: #f8fafc !important; border-radius: 10px !important;">
+                        <div style="font-size: 20px !important; font-weight: bold !important; color: #667eea !important;" id="accountScore">0</div>
+                        <div style="font-size: 12px !important; color: #666 !important;">Total Score</div>
+                    </div>
+                    <div onclick="openStore()" style="text-align: center !important; padding: 15px !important; background: #fef3c7 !important; border-radius: 10px !important; cursor: pointer !important;">
+                        <div style="font-size: 20px !important; font-weight: bold !important; color: #f59e0b !important;" id="accountCoins">0</div>
+                        <div style="font-size: 12px !important; color: #666 !important;">💰 Coins (Click for Store)</div>
+                    </div>
+                    <div style="text-align: center !important; padding: 15px !important; background: #d1fae5 !important; border-radius: 10px !important;">
+                        <div style="font-size: 20px !important; font-weight: bold !important; color: #10b981 !important;" id="accountAccuracy">0%</div>
+                        <div style="font-size: 12px !important; color: #666 !important;">Accuracy</div>
+                    </div>
+                </div>
+                
+                <!-- Account Actions -->
+                <div style="display: flex !important; flex-direction: column !important; gap: 15px !important;">
+                    <button onclick="showFriends()" style="
+                        width: 100% !important;
+                        padding: 15px !important;
+                        background: #8b5cf6 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 10px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">👥 Friends & Social</button>
+                    
+                    <button onclick="showMessages()" style="
+                        width: 100% !important;
+                        padding: 15px !important;
+                        background: #10b981 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 10px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">💬 Messages</button>
+                    
+                    <button onclick="openStore()" style="
+                        width: 100% !important;
+                        padding: 15px !important;
+                        background: #f59e0b !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 10px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">🛒 Coin Store</button>
+                    
+                    <button onclick="logout()" style="
+                        width: 100% !important;
+                        padding: 15px !important;
+                        background: #ef4444 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 10px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">🚪 Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Store Modal (keeping existing) -->
+        <div id="storeModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 600px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideStore()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="margin: 0 0 20px 0 !important; color: #f59e0b !important; text-align: center !important;">
+                    🛒 Coin Store
+                </h2>
+                
+                <div style="text-align: center !important; margin-bottom: 25px !important;">
+                    <div style="
+                        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                        color: white !important;
+                        padding: 15px !important;
+                        border-radius: 10px !important;
+                        display: inline-block !important;
+                        font-weight: bold !important;
+                        font-size: 18px !important;
+                    ">
+                        Your Balance: <span id="storeCoins">0</span> 💰
+                    </div>
+                </div>
+                
+                <div style="
+                    display: grid !important;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+                    gap: 15px !important;
+                " id="storeItems">
+                    <!-- Store items will be generated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Modal (keeping existing) -->
+        <div id="loginModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 400px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideLogin()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="text-align: center !important; margin-bottom: 25px !important; color: #667eea !important;">
+                    Join FinalScore
+                </h2>
+                
+                <!-- Message Area -->
+                <div id="messageArea" style="
+                    display: none !important;
+                    padding: 15px !important;
+                    border-radius: 8px !important;
+                    margin-bottom: 20px !important;
+                    text-align: center !important;
+                    font-weight: bold !important;
+                "></div>
+                
+                <!-- Tabs -->
+                <div style="
+                    display: flex !important;
+                    margin-bottom: 25px !important;
+                    background: #f0f0f0 !important;
+                    border-radius: 10px !important;
+                    padding: 5px !important;
+                ">
+                    <button id="loginTab" style="
+                        flex: 1 !important;
+                        padding: 12px !important;
+                        border: none !important;
+                        background: #667eea !important;
+                        color: white !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                    " onclick="switchToLogin()">Login</button>
+                    <button id="registerTab" style="
+                        flex: 1 !important;
+                        padding: 12px !important;
+                        border: none !important;
+                        background: transparent !important;
+                        color: #666 !important;
+                        border-radius: 6px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                    " onclick="switchToRegister()">Register</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="loginForm">
+                    <div style="margin-bottom: 20px !important;">
+                        <label style="
+                            display: block !important;
+                            margin-bottom: 8px !important;
+                            font-weight: bold !important;
+                            color: #333 !important;
+                        ">Username:</label>
+                        <input type="text" id="loginUsername" style="
+                            width: 100% !important;
+                            padding: 12px !important;
+                            border: 2px solid #ddd !important;
+                            border-radius: 6px !important;
+                            font-size: 16px !important;
+                            box-sizing: border-box !important;
+                        " />
+                    </div>
+                    
+                    <div style="margin-bottom: 25px !important;">
+                        <label style="
+                            display: block !important;
+                            margin-bottom: 8px !important;
+                            font-weight: bold !important;
+                            color: #333 !important;
+                        ">Password:</label>
+                        <input type="password" id="loginPassword" style="
+                            width: 100% !important;
+                            padding: 12px !important;
+                            border: 2px solid #ddd !important;
+                            border-radius: 6px !important;
+                            font-size: 16px !important;
+                            box-sizing: border-box !important;
+                        " />
+                    </div>
+                    
+                    <button id="loginButton" onclick="attemptLogin()" style="
+                        width: 100% !important;
+                        padding: 15px !important;
+                        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        font-size: 16px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">Login</button>
+                </div>
+                
+                <!-- Register Form -->
+                <div id="registerForm" style="display: none !important;">
+                    <div style="margin-bottom: 20px !important;">
+                        <label style="
+                            display: block !important;
+                            margin-bottom: 8px !important;
+                            font-weight: bold !important;
+                            color: #333 !important;
+                        ">Username:</label>
+                        <input type="text" id="registerUsername" style="
+                            width: 100% !important;
+                            padding: 12px !important;
+                            border: 2px solid #ddd !important;
+                            border-radius: 6px !important;
+                            font-size: 16px !important;
+                            box-sizing: border-box !important;
+                        " />
+                    </div>
+                    
+                    <div style="margin-bottom: 20px !important;">
+                        <label style="
+                            display: block !important;
+                            margin-bottom: 8px !important;
+                            font-weight: bold !important;
+                            color: #333 !important;
+                        ">Email:</label>
+                        <input type="email" id="registerEmail" style="
+                            width: 100% !important;
+                            padding: 12px !important;
+                            border: 2px solid #ddd !important;
+                            border-radius: 6px !important;
+                            font-size: 16px !important;
+                            box-sizing: border-box !important;
+                        " />
+                    </div>
+                    
+                    <div style="margin-bottom: 25px !important;">
+                        <label style="
+                            display: block !important;
+                            margin-bottom: 8px !important;
+                            font-weight: bold !important;
+                            color: #333 !important;
+                        ">Password:</label>
+                        <input type="password" id="registerPassword" style="
+                            width: 100% !important;
+                            padding: 12px !important;
+                            border: 2px solid #ddd !important;
+                            border-radius: 6px !important;
+                            font-size: 16px !important;
+                            box-sizing: border-box !important;
+                        " />
+                    </div>
+                    
+                    <button id="registerButton" onclick="attemptRegister()" style="
+                        width: 100% !important;
+                        padding: 15px !important;
+                        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        font-size: 16px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">Register</button>
+                </div>
+                
+                <!-- Test Accounts -->
+                <div style="
+                    margin-top: 25px !important;
+                    padding: 15px !important;
+                    background: #e0f2fe !important;
+                    border-radius: 8px !important;
+                    font-size: 14px !important;
+                ">
+                    <strong>Test Accounts:</strong><br/>
+                    <div id="testAccountsList" style="margin-top: 10px !important;">
+                        <strong>demo</strong> / demo123<br/>
+                        <strong>test</strong> / test123
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other existing modals would continue here... -->
+        <!-- Community Modal -->
+        <div id="communityModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 800px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideCommunity()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">
+                    Community Predictions
+                </h2>
+                
+                <div id="communityContent" style="
+                    max-height: 400px !important;
+                    overflow-y: auto !important;
+                ">
+                    <!-- Community predictions will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements Modal -->
+        <div id="achievementsModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 600px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hideAchievements()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">
+                    Your Achievements
+                </h2>
+                
+                <div id="achievementsGrid" style="
+                    display: grid !important;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+                    gap: 15px !important;
+                ">
+                    <!-- Achievements will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Pick Details Modal -->
+        <div id="pickDetailsModal" style="
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 1000 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        ">
+            <div style="
+                background: white !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                max-width: 500px !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                position: relative !important;
+            ">
+                <button onclick="hidePickDetails()" style="
+                    position: absolute !important;
+                    top: 15px !important;
+                    right: 15px !important;
+                    background: #ef4444 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 50% !important;
+                    width: 30px !important;
+                    height: 30px !important;
+                    cursor: pointer !important;
+                    font-weight: bold !important;
+                ">×</button>
+                
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;" id="pickDetailsTitle">
+                    Share Your Prediction
+                </h2>
+                
+                <div style="margin-bottom: 20px !important;">
+                    <label style="
+                        display: block !important;
+                        margin-bottom: 8px !important;
+                        font-weight: bold !important;
+                        color: #333 !important;
+                    ">Your Pick:</label>
+                    <div id="selectedPickDisplay" style="
+                        padding: 12px !important;
+                        background: #f0f9ff !important;
+                        border: 2px solid #3b82f6 !important;
+                        border-radius: 8px !important;
+                        font-weight: bold !important;
+                        color: #1e40af !important;
+                    "></div>
+                </div>
+                
+                <div style="margin-bottom: 20px !important;">
+                    <label style="
+                        display: block !important;
+                        margin-bottom: 8px !important;
+                        font-weight: bold !important;
+                        color: #333 !important;
+                    ">Confidence Level:</label>
+                    <div id="confidenceStars" style="
+                        display: flex !important;
+                        gap: 5px !important;
+                        margin-bottom: 10px !important;
+                    ">
+                        <span onclick="setConfidence(1)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
+                        <span onclick="setConfidence(2)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
+                        <span onclick="setConfidence(3)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
+                        <span onclick="setConfidence(4)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
+                        <span onclick="setConfidence(5)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
+                    </div>
+                    <div id="confidenceLabel" style="font-size: 14px !important; color: #666 !important;">Click stars to set confidence</div>
+                </div>
+                
+                <div style="margin-bottom: 25px !important;">
+                    <label style="
+                        display: block !important;
+                        margin-bottom: 8px !important;
+                        font-weight: bold !important;
+                        color: #333 !important;
+                    ">Share Your Reasoning (Optional):</label>
+                    <textarea id="pickReasoning" placeholder="Why are you confident in this pick? Share your analysis..." style="
+                        width: 100% !important;
+                        height: 100px !important;
+                        padding: 12px !important;
+                        border: 2px solid #ddd !important;
+                        border-radius: 8px !important;
+                        font-size: 14px !important;
+                        box-sizing: border-box !important;
+                        resize: vertical !important;
+                        font-family: Arial, sans-serif !important;
+                    "></textarea>
+                    <div style="font-size: 12px !important; color: #666 !important; margin-top: 5px !important;">
+                        💰 Earn 5 coins for sharing detailed reasoning!
+                    </div>
+                </div>
+                
+                <div style="display: flex !important; gap: 15px !important;">
+                    <button onclick="confirmPick()" style="
+                        flex: 1 !important;
+                        padding: 15px !important;
+                        background: linear-gradient(135deg, #10b981, #059669) !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        font-size: 16px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">Confirm Pick</button>
+                    
+                    <button onclick="hidePickDetails()" style="
+                        padding: 15px 20px !important;
+                        background: #6b7280 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        font-size: 16px !important;
+                        font-weight: bold !important;
+                        cursor: pointer !important;
+                    ">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced Configuration and Variables
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnL_Fmd4fFbRw3O8YRGYnjZHBgB3tTIYRQVj70CRi_8J2jsdM0S7j31IywNQdEHDbM/exec';
+        
+        // Core Variables
+        let allUsers = [];
+        let currentUser = null;
+        let todaysGames = [];
+        let userPicks = {};
+        let userAchievements = [];
+        let totalPicksMade = 0;
+        let communityPicks = [];
+        let currentPickDetails = null;
+        let userCoins = 0;
+        let likedPicks = new Set();
+        let submittedGames = new Set();
+        
+        // Enhanced Social Variables
+        let userFriends = [];
+        let friendRequests = [];
+        let suggestedFriends = [];
+        let friendActivity = [];
+        let unreadMessages = 0;
+        let messageThreads = [];
+        
+        // Enhanced Tournament Variables
+        let activeTournaments = [];
+        let userTournaments = [];
+        let currentTournamentFilter = 'all';
+        let userLeagues = [];
+        let tournamentTypes = ['public', 'private', 'friends'];
+        
+        // Store items
+        const STORE_ITEMS = [
+            {
+                id: 'tip_boost',
+                name: 'Tip Boost',
+                description: 'Get insider tips for next game',
+                price: 50,
+                icon: '💡',
+                type: 'boost'
+            },
+            {
+                id: 'double_coins',
+                name: 'Double Coins',
+                description: '2x coins for next 5 picks',
+                price: 100,
+                icon: '⚡',
+                type: 'boost'
+            },
+            {
+                id: 'premium_badge',
+                name: 'Premium Badge',
+                description: 'Show off your premium status',
+                price: 200,
+                icon: '👑',
+                type: 'cosmetic'
+            },
+            {
+                id: 'tournament_creator',
+                name: 'Tournament Creator',
+                description: 'Create unlimited tournaments',
+                price: 300,
+                icon: '🏆',
+                type: 'feature'
+            },
+            {
+                id: 'custom_avatar',
+                name: 'Custom Avatar',
+                description: 'Unlock avatar customization',
+                price: 150,
+                icon: '🎨',
+                type: 'cosmetic'
+            },
+            {
+                id: 'league_manager',
+                name: 'League Manager',
+                description: 'Advanced league management tools',
+                price: 250,
+                icon: '⚔️',
+                type: 'feature'
+            }
+        ];
+
+        // Enhanced achievement definitions
+        const ACHIEVEMENTS = {
+            firstPick: {
+                id: 'firstPick',
+                name: 'First Steps',
+                description: 'Made your first pick!',
+                icon: '🎯',
+                color: '#10b981',
+                coinReward: 5,
+                condition: () => totalPicksMade >= 1
+            },
+            socialButterfly: {
+                id: 'socialButterfly',
+                name: 'Social Butterfly',
+                description: 'Added 10 friends!',
+                icon: '🦋',
+                color: '#ec4899',
+                coinReward: 50,
+                condition: () => userFriends.length >= 10
+            },
+            tournamentHost: {
+                id: 'tournamentHost',
+                name: 'Tournament Host',
+                description: 'Created your first tournament!',
+                icon: '🏆',
+                color: '#f59e0b',
+                coinReward: 75,
+                condition: () => activeTournaments.filter(t => t.creator === currentUser?.username).length >= 1
+            },
+            messageExpert: {
+                id: 'messageExpert',
+                name: 'Message Expert',
+                description: 'Sent 50 messages to friends!',
+                icon: '💬',
+                color: '#10b981',
+                coinReward: 30,
+                condition: () => messageThreads.length >= 10
+            },
+            leagueChampion: {
+                id: 'leagueChampion',
+                name: 'League Champion',
+                description: 'Won a league championship!',
+                icon: '👑',
+                color: '#8b5cf6',
+                coinReward: 100,
+                condition: () => userLeagues.filter(l => l.position === 1).length >= 1
+            },
+            pickMaster: {
+                id: 'pickMaster',
+                name: 'Pick Master',
+                description: 'Made 25 picks total!',
+                icon: '🎯',
+                color: '#8b5cf6',
+                coinReward: 40,
+                condition: () => totalPicksMade >= 25
+            }
+        };
+
+        // Enhanced Tournament Types
+        const TOURNAMENT_TEMPLATES = {
+            daily: {
+                name: 'Daily Challenge',
+                duration: '24 hours',
+                maxPlayers: 50,
+                entryFee: 25
+            },
+            weekly: {
+                name: 'Weekly Championship',
+                duration: '7 days',
+                maxPlayers: 100,
+                entryFee: 50
+            },
+            weekend: {
+                name: 'Weekend Warriors',
+                duration: '3 days',
+                maxPlayers: 75,
+                entryFee: 40
+            },
+            monthly: {
+                name: 'Monthly Masters',
+                duration: '30 days',
+                maxPlayers: 200,
+                entryFee: 100
+            }
+        };
+
+        // Initialize Enhanced App
+        function initializeApp() {
+            console.log('Initializing Enhanced FinalScore Platform...');
+            loadUsers();
+            loadTodaysGames();
+            loadCommunityPicks();
+            loadEnhancedTournaments();
+            loadFriendsData();
+            loadLeagues();
+            loadMessages();
+            updateLeaderboard();
+            updateSocialNotifications();
+        }
+
+        // Enhanced Tournament Functions
+        function loadEnhancedTournaments() {
+            activeTournaments = [
+                {
+                    id: 1,
+                    name: 'Weekend Warriors',
+                    description: 'Pick winners for all weekend games',
+                    entryFee: 50,
+                    prizePool: 500,
+                    participants: 23,
+                    maxParticipants: 50,
+                    endTime: 'Sunday 11:59 PM',
+                    status: 'active',
+                    type: 'public',
+                    creator: 'ProBettor',
+                    created: '2 hours ago'
+                },
+                {
+                    id: 2,
+                    name: 'Friends Only NBA',
+                    description: 'Private NBA tournament for close friends',
+                    entryFee: 25,
+                    prizePool: 200,
+                    participants: 8,
+                    maxParticipants: 20,
+                    endTime: 'Friday 8:00 PM',
+                    status: 'active',
+                    type: 'friends',
+                    creator: 'demo',
+                    created: '1 day ago'
+                },
+                {
+                    id: 3,
+                    name: 'High Roller Championship',
+                    description: 'Premium tournament for serious players',
+                    entryFee: 250,
+                    prizePool: 5000,
+                    participants: 12,
+                    maxParticipants: 20,
+                    endTime: 'Next Monday',
+                    status: 'active',
+                    type: 'public',
+                    creator: 'GameMaster',
+                    created: '3 hours ago'
+                },
+                {
+                    id: 4,
+                    name: 'Invite Only Elite',
+                    description: 'Exclusive invitation-only tournament',
+                    entryFee: 100,
+                    prizePool: 1500,
+                    participants: 5,
+                    maxParticipants: 15,
+                    endTime: 'Saturday 6:00 PM',
+                    status: 'active',
+                    type: 'private',
+                    creator: 'PickExpert',
+                    created: '6 hours ago'
+                }
+            ];
+            
+            updateTournamentBadge();
+        }
+
+        function showTournaments() {
+            if (!currentUser) {
+                showLogin();
+                return;
+            }
+            
+            renderTournaments();
+            document.getElementById('tournamentsModal').style.display = 'flex';
+        }
+
+        function hideTournaments() {
+            document.getElementById('tournamentsModal').style.display = 'none';
+        }
+
+        function filterTournaments(filter) {
+            currentTournamentFilter = filter;
+            
+            // Update tab styles
+            document.querySelectorAll('[id$="TournamentsTab"]').forEach(tab => {
+                tab.style.background = 'transparent';
+                tab.style.color = '#666';
+            });
+            
+            document.getElementById(filter + 'TournamentsTab').style.background = '#8b5cf6';
+            document.getElementById(filter + 'TournamentsTab').style.color = 'white';
+            
+            renderTournaments();
+        }
+
+        function renderTournaments() {
+            const container = document.getElementById('tournamentsContainer');
+            let filteredTournaments = activeTournaments;
+            
+            // Apply filters
+            switch(currentTournamentFilter) {
+                case 'my':
+                    filteredTournaments = activeTournaments.filter(t => 
+                        userTournaments.includes(t.id) || t.creator === currentUser?.username
+                    );
+                    break;
+                case 'public':
+                    filteredTournaments = activeTournaments.filter(t => t.type === 'public');
+                    break;
+                case 'private':
+                    filteredTournaments = activeTournaments.filter(t => 
+                        t.type === 'private' || t.type === 'friends'
+                    );
+                    break;
+            }
+            
+            container.innerHTML = filteredTournaments.map(tournament => {
+                const isJoined = userTournaments.includes(tournament.id);
+                const canAfford = userCoins >= tournament.entryFee;
+                const isFull = tournament.participants >= tournament.maxParticipants;
+                const isCreator = tournament.creator === currentUser?.username;
+                
+                return `
+                    <div style="
+                        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                        border: 2px solid ${isJoined ? '#10b981' : isCreator ? '#f59e0b' : '#e5e7eb'} !important;
+                        border-radius: 12px !important;
+                        padding: 20px !important;
+                        margin-bottom: 15px !important;
+                        transition: all 0.3s ease !important;
+                    ">
+                        <div style="
+                            display: flex !important;
+                            justify-content: space-between !important;
+                            align-items: flex-start !important;
+                            margin-bottom: 15px !important;
+                            flex-wrap: wrap !important;
+                            gap: 15px !important;
+                        ">
+                            <div style="flex: 1 !important;">
+                                <div style="display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 5px !important;">
+                                    <h3 style="margin: 0 !important; color: #333 !important; font-size: 18px !important;">${tournament.name}</h3>
+                                    <span style="
+                                        background: ${tournament.type === 'public' ? '#10b981' : tournament.type === 'private' ? '#ef4444' : '#f59e0b'} !important;
+                                        color: white !important;
+                                        padding: 2px 8px !important;
+                                        border-radius: 10px !important;
+                                        font-size: 10px !important;
+                                        font-weight: bold !important;
+                                        text-transform: uppercase !important;
+                                    ">${tournament.type}</span>
+                                    ${isCreator ? '<span style="background: #f59e0b !important; color: white !important; padding: 2px 8px !important; border-radius: 10px !important; font-size: 10px !important; font-weight: bold !important;">CREATOR</span>' : ''}
+                                </div>
+                                <p style="margin: 0 0 10px 0 !important; color: #666 !important; font-size: 14px !important;">${tournament.description}</p>
+                                <div style="font-size: 12px !important; color: #666 !important;">
+                                    Created by <strong>${tournament.creator}</strong> • ${tournament.created} • Ends: ${tournament.endTime}
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: right !important;">
+                                <div style="
+                                    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                                    color: white !important;
+                                    padding: 6px 12px !important;
+                                    border-radius: 15px !important;
+                                    font-weight: bold !important;
+                                    font-size: 14px !important;
+                                    margin-bottom: 8px !important;
+                                ">💰 ${tournament.entryFee} coins</div>
+                                
+                                <div style="
+                                    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                                    color: white !important;
+                                    padding: 6px 12px !important;
+                                    border-radius: 15px !important;
+                                    font-weight: bold !important;
+                                    font-size: 14px !important;
+                                ">🏆 ${tournament.prizePool} prize</div>
+                            </div>
+                        </div>
+                        
+                        <div style="
+                            display: flex !important;
+                            justify-content: space-between !important;
+                            align-items: center !important;
+                            margin-bottom: 15px !important;
+                        ">
+                            <div style="color: #666 !important; font-size: 14px !important;">
+                                👥 ${tournament.participants}/${tournament.maxParticipants} players
+                            </div>
+                            
+                            <div style="
+                                background: #e5e7eb !important;
+                                border-radius: 10px !important;
+                                height: 8px !important;
+                                width: 120px !important;
+                                overflow: hidden !important;
+                            ">
+                                <div style="
+                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                                    height: 100% !important;
+                                    width: ${(tournament.participants / tournament.maxParticipants) * 100}% !important;
+                                    transition: width 0.3s ease !important;
+                                "></div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex !important; gap: 10px !important;">
+                            <button onclick="joinTournament(${tournament.id})" style="
+                                flex: 1 !important;
+                                padding: 12px !important;
+                                background: ${isJoined ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 
+                                           (!canAfford || isFull) ? '#9ca3af' : 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)'} !important;
+                                color: white !important;
+                                border: none !important;
+                                border-radius: 8px !important;
+                                font-weight: bold !important;
+                                cursor: ${isJoined || !canAfford || isFull ? 'not-allowed' : 'pointer'} !important;
+                                font-size: 14px !important;
+                            " ${isJoined || !canAfford || isFull ? 'disabled' : ''}>
+                                ${isJoined ? '✓ Joined' : 
+                                  isFull ? 'Tournament Full' :
+                                  !canAfford ? 'Not Enough Coins' : 'Join Tournament'}
+                            </button>
+                            
+                            ${isCreator ? `
+                                <button onclick="manageTournament(${tournament.id})" style="
+                                    padding: 12px 16px !important;
+                                    background: #f59e0b !important;
+                                    color: white !important;
+                                    border: none !important;
+                                    border-radius: 8px !important;
+                                    font-weight: bold !important;
+                                    cursor: pointer !important;
+                                    font-size: 14px !important;
+                                ">⚙️</button>
+                            ` : ''}
+                            
+                            <button onclick="viewTournamentDetails(${tournament.id})" style="
+                                padding: 12px 16px !important;
+                                background: #667eea !important;
+                                color: white !important;
+                                border: none !important;
+                                border-radius: 8px !important;
+                                font-weight: bold !important;
+                                cursor: pointer !important;
+                                font-size: 14px !important;
+                            ">👁️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            if (filteredTournaments.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center !important; padding: 40px !important; color: #666 !important;">
+                        <div style="font-size: 48px !important; margin-bottom: 15px !important;">🏁</div>
+                        <p>No tournaments found for this filter. Why not create one?</p>
+                        <button onclick="createTournament()" style="
+                            margin-top: 15px !important;
+                            padding: 12px 20px !important;
+                            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                        ">Create Tournament</button>
+                    </div>
+                `;
+            }
+        }
+
+        function createTournament() {
+            if (!currentUser) {
+                showLogin();
+                return;
+            }
+            
+            if (userCoins < 50) {
+                showNotification('You need at least 50 coins to create a tournament!', 'error');
+                return;
+            }
+            
+            document.getElementById('createTournamentModal').style.display = 'flex';
+        }
+
+        function hideCreateTournament() {
+            document.getElementById('createTournamentModal').style.display = 'none';
+        }
+
+        function submitCreateTournament() {
+            const name = document.getElementById('tournamentName').value.trim();
+            const description = document.getElementById('tournamentDescription').value.trim();
+            const entryFee = parseInt(document.getElementById('tournamentEntryFee').value);
+            const maxPlayers = parseInt(document.getElementById('tournamentMaxPlayers').value);
+            const type = document.getElementById('tournamentType').value;
+            const duration = document.getElementById('tournamentDuration').value;
+            
+            if (!name || !description) {
+                showNotification('Please fill in all required fields!', 'error');
+                return;
+            }
+            
+            if (userCoins < 50) {
+                showNotification('Not enough coins to create tournament!', 'error');
+                return;
+            }
+            
+            // Create new tournament
+            const newTournament = {
+                id: Date.now(),
+                name: name,
+                description: description,
+                entryFee: entryFee,
+                prizePool: entryFee,
+                participants: 1,
+                maxParticipants: maxPlayers,
+                endTime: getEndTimeFromDuration(duration),
+                status: 'active',
+                type: type,
+                creator: currentUser.username,
+                created: 'Just now'
+            };
+            
+            activeTournaments.unshift(newTournament);
+            userTournaments.push(newTournament.id);
+            userCoins -= 50;
+            
+            updateCoinDisplay();
+            hideCreateTournament();
+            renderTournaments();
+            updateTournamentBadge();
+            
+            showNotification(`Tournament "${name}" created successfully! 🏁`, 'success', 4000);
+            checkAchievements();
+        }
+
+        function getEndTimeFromDuration(duration) {
+            const now = new Date();
+            switch(duration) {
+                case 'daily': return 'Tomorrow 11:59 PM';
+                case 'weekly': return 'Next week';
+                case 'weekend': return 'Sunday 11:59 PM';
+                case 'monthly': return 'End of month';
+                default: return 'TBD';
+            }
+        }
+
+        function joinTournament(tournamentId) {
+            const tournament = activeTournaments.find(t => t.id === tournamentId);
+            if (!tournament || userTournaments.includes(tournamentId) || userCoins < tournament.entryFee) {
+                return;
+            }
+            
+            userCoins -= tournament.entryFee;
+            userTournaments.push(tournamentId);
+            tournament.participants++;
+            tournament.prizePool += tournament.entryFee;
+            
+            updateCoinDisplay();
+            renderTournaments();
+            updateTournamentBadge();
+            
+            showNotification(`Joined ${tournament.name}! Good luck! 🏁`, 'success', 4000);
+            checkAchievements();
+        }
+
+        function manageTournament(tournamentId) {
+            showNotification('Tournament management features coming soon!', 'info', 3000);
+        }
+
+        function viewTournamentDetails(tournamentId) {
+            showNotification('Detailed tournament view coming soon!', 'info', 3000);
+        }
+
+        function updateTournamentBadge() {
+            const badge = document.getElementById('tournamentsBadge');
+            const myTournaments = activeTournaments.filter(t => 
+                userTournaments.includes(t.id) && t.status === 'active'
+            ).length;
+            
+            document.getElementById('activeTournamentsCount').textContent = myTournaments;
+            
+            if (myTournaments > 0) {
+                badge.textContent = myTournaments;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Enhanced Social Functions
+        function loadFriendsData() {
+            // Load suggested friends (users not yet friended)
+            suggestedFriends = allUsers.filter(user => 
+                user.Username !== currentUser?.username && 
+                !userFriends.find(f => f.username === user.Username)
+            ).slice(0, 5);
+            
+            // Simulate friend requests
+            friendRequests = [
+                {
+                    username: 'SportsFan123',
+                    mutualFriends: 3,
+                    requestTime: '2 hours ago'
+                },
+                {
+                    username: 'PickPro',
+                    mutualFriends: 1,
+                    requestTime: '1 day ago'
+                }
+            ];
+            
+            // Simulate friend activity
+            friendActivity = [
+                {
+                    username: 'ProBettor',
+                    action: 'won a tournament',
+                    time: '30 minutes ago',
+                    icon: '🏆'
+                },
+                {
+                    username: 'SportsAnalyst',
+                    action: 'made 5 perfect picks',
+                    time: '1 hour ago',
+                    icon: '🎯'
+                },
+                {
+                    username: 'GameMaster',
+                    action: 'joined Weekend Warriors tournament',
+                    time: '2 hours ago',
+                    icon: '🏁'
+                }
+            ];
+            
+            updateSocialStats();
+        }
+
+        function updateSocialStats() {
+            if (!currentUser) return;
+            
+            document.getElementById('totalFriends').textContent = userFriends.length;
+            document.getElementById('onlineFriends').textContent = userFriends.filter(f => f.online).length;
+            document.getElementById('friendRequests').textContent = friendRequests.length;
+            document.getElementById('friendsCount').textContent = userFriends.length;
+        }
+
+        function showFriends() {
+            if (!currentUser) {
+                showLogin();
+                return;
+            }
+            
+            renderSuggestedFriends();
+            renderFriends();
+            updateSocialStats();
+            document.getElementById('friendsModal').style.display = 'flex';
+        }
+
+        function hideFriends() {
+            document.getElementById('friendsModal').style.display = 'none';
+        }
+
+        function renderSuggestedFriends() {
+            const container = document.getElementById('suggestedFriends');
+            container.innerHTML = suggestedFriends.map(user => `
+                <button onclick="quickAddFriend('${user.Username}')" style="
+                    background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%) !important;
+                    border: none !important;
+                    border-radius: 15px !important;
+                    padding: 5px 10px !important;
+                    font-size: 12px !important;
+                    font-weight: bold !important;
+                    color: #7c3aed !important;
+                    cursor: pointer !important;
+                    transition: all 0.3s ease !important;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    + ${user.Username}
+                </button>
+            `).join('');
+        }
+
+        function quickAddFriend(username) {
+            const user = allUsers.find(u => u.Username === username);
+            if (!user) return;
+            
+            const newFriend = {
+                username: user.Username,
+                score: parseInt(user.Score || 0),
+                accuracy: parseFloat(user.Accuracy || 0),
+                online: Math.random() > 0.5
+            };
+            
+            userFriends.push(newFriend);
+            suggestedFriends = suggestedFriends.filter(u => u.Username !== username);
+            
+            renderSuggestedFriends();
+            renderFriends();
+            updateSocialStats();
+            
+            showNotification(`Added ${username} as a friend! 👥`, 'success');
+            checkAchievements();
+        }
+
+        function switchFriendsTab(tab) {
+            // Hide all content
+            document.getElementById('friendsListContent').style.display = 'none';
+            document.getElementById('friendRequestsContent').style.display = 'none';
+            document.getElementById('friendActivityContent').style.display = 'none';
+            
+            // Reset all tab styles
+            document.querySelectorAll('[id$="Tab"]').forEach(tabBtn => {
+                if (tabBtn.id.includes('friends') || tabBtn.id.includes('friend')) {
+                    tabBtn.style.background = 'transparent';
+                    tabBtn.style.color = '#666';
+                }
+            });
+            
+            // Show selected content and highlight tab
+            switch(tab) {
+                case 'list':
+                    document.getElementById('friendsListContent').style.display = 'block';
+                    document.getElementById('friendsListTab').style.background = '#8b5cf6';
+                    document.getElementById('friendsListTab').style.color = 'white';
+                    renderFriends();
+                    break;
+                case 'requests':
+                    document.getElementById('friendRequestsContent').style.display = 'block';
+                    document.getElementById('friendRequestsTab').style.background = '#8b5cf6';
+                    document.getElementById('friendRequestsTab').style.color = 'white';
+                    renderFriendRequests();
+                    break;
+                case 'activity':
+                    document.getElementById('friendActivityContent').style.display = 'block';
+                    document.getElementById('friendActivityTab').style.background = '#8b5cf6';
+                    document.getElementById('friendActivityTab').style.color = 'white';
+                    renderFriendActivity();
+                    break;
+            }
+        }
+
+        function renderFriends() {
+            const container = document.getElementById('friendsContainer');
+            
+            if (userFriends.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center !important; padding: 40px !important; color: #666 !important;">
+                        <div style="font-size: 48px !important; margin-bottom: 15px !important;">👥</div>
+                        <p>No friends yet! Use the search above or add suggested friends to start building your network.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = userFriends.map(friend => `
+                <div style="
+                    background: white !important;
+                    border: 2px solid #e5e7eb !important;
+                    border-radius: 10px !important;
+                    padding: 15px !important;
+                    margin-bottom: 10px !important;
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                ">
+                    <div style="flex: 1 !important;">
+                        <div style="display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 5px !important;">
+                            <div style="font-weight: bold !important; color: #333 !important;">${friend.username}</div>
+                            <div style="
+                                background: ${friend.online ? '#10b981' : '#9ca3af'} !important;
+                                width: 8px !important;
+                                height: 8px !important;
+                                border-radius: 50% !important;
+                            "></div>
+                            <span style="font-size: 10px !important; color: #666 !important;">
+                                ${friend.online ? 'Online' : 'Offline'}
+                            </span>
+                        </div>
+                        <div style="font-size: 12px !important; color: #666 !important;">
+                            Score: ${friend.score} • Accuracy: ${friend.accuracy}%
+                        </div>
+                    </div>
+                    <div style="display: flex !important; gap: 8px !important;">
+                        <button onclick="messageFriend('${friend.username}')" style="
+                            background: #10b981 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 6px !important;
+                            padding: 6px 10px !important;
+                            font-size: 12px !important;
+                            cursor: pointer !important;
+                        ">💬</button>
+                        <button onclick="challengeFriend('${friend.username}')" style="
+                            background: #f59e0b !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 6px !important;
+                            padding: 6px 10px !important;
+                            font-size: 12px !important;
+                            cursor: pointer !important;
+                        ">⚔️</button>
+                        <button onclick="removeFriend('${friend.username}')" style="
+                            background: #ef4444 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 6px !important;
+                            padding: 6px 10px !important;
+                            font-size: 12px !important;
+                            cursor: pointer !important;
+                        ">❌</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderFriendRequests() {
+            const container = document.getElementById('friendRequestsContainer');
+            
+            if (friendRequests.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center !important; padding: 40px !important; color: #666 !important;">
+                        <div style="font-size: 48px !important; margin-bottom: 15px !important;">📝</div>
+                        <p>No pending friend requests.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = friendRequests.map((request, index) => `
+                <div style="
+                    background: white !important;
+                    border: 2px solid #e5e7eb !important;
+                    border-radius: 10px !important;
+                    padding: 15px !important;
+                    margin-bottom: 10px !important;
+                ">
+                    <div style="display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 10px !important;">
+                        <div>
+                            <div style="font-weight: bold !important; color: #333 !important;">${request.username}</div>
+                            <div style="font-size: 12px !important; color: #666 !important;">
+                                ${request.mutualFriends} mutual friends • ${request.requestTime}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex !important; gap: 10px !important;">
+                        <button onclick="acceptFriendRequest(${index})" style="
+                            flex: 1 !important;
+                            background: #10b981 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 6px !important;
+                            padding: 8px !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                        ">Accept</button>
+                        <button onclick="declineFriendRequest(${index})" style="
+                            flex: 1 !important;
+                            background: #ef4444 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 6px !important;
+                            padding: 8px !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                        ">Decline</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderFriendActivity() {
+            const container = document.getElementById('friendActivityContainer');
+            
+            if (friendActivity.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center !important; padding: 40px !important; color: #666 !important;">
+                        <div style="font-size: 48px !important; margin-bottom: 15px !important;">📈</div>
+                        <p>No recent friend activity.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = friendActivity.map(activity => `
+                <div style="
+                    background: white !important;
+                    border: 2px solid #e5e7eb !important;
+                    border-radius: 10px !important;
+                    padding: 15px !important;
+                    margin-bottom: 10px !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 15px !important;
+                ">
+                    <div style="font-size: 24px !important;">${activity.icon}</div>
+                    <div style="flex: 1 !important;">
+                        <div style="font-weight: bold !important; color: #333 !important;">
+                            ${activity.username} ${activity.action}
+                        </div>
+                        <div style="font-size: 12px !important; color: #666 !important;">${activity.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function acceptFriendRequest(index) {
+            const request = friendRequests[index];
+            
+            const newFriend = {
+                username: request.username,
+                score: Math.floor(Math.random() * 500),
+                accuracy: Math.floor(Math.random() * 100),
+                online: Math.random() > 0.5
+            };
+            
+            userFriends.push(newFriend);
+            friendRequests.splice(index, 1);
+            
+            renderFriendRequests();
+            updateSocialStats();
+            
+            showNotification(`You are now friends with ${request.username}! 👥`, 'success');
+            awardCoins(5, 'New friendship bonus!');
+            checkAchievements();
+        }
+
+        function declineFriendRequest(index) {
+            const request = friendRequests[index];
+            friendRequests.splice(index, 1);
+            
+            renderFriendRequests();
+            updateSocialStats();
+            
+            showNotification(`Declined friend request from ${request.username}`, 'info');
+        }
+
+        function messageFriend(username) {
+            showNotification(`Opening message thread with ${username}...`, 'info');
+            // This would open the messaging system
+            showMessages();
+        }
+
+        function challengeFriend(username) {
+            showNotification(`Challenge sent to ${username}! 🎯`, 'success');
+            awardCoins(2, 'Friend challenge bonus!');
+        }
+
+        function removeFriend(username) {
+            userFriends = userFriends.filter(f => f.username !== username);
+            renderFriends();
+            updateSocialStats();
+            showNotification(`Removed ${username} from friends`, 'info');
+        }
+
+        function searchFriend() {
+            const searchTerm = document.getElementById('friendSearchInput').value.trim();
+            if (!searchTerm) {
+                showNotification('Enter a username to search', 'warning');
+                return;
+            }
+            
+            const foundUser = allUsers.find(u => u.Username.toLowerCase() === searchTerm.toLowerCase());
+            if (!foundUser) {
+                showNotification('User not found', 'error');
+                return;
+            }
+            
+            if (foundUser.Username === currentUser.username) {
+                showNotification("You can't add yourself as a friend!", 'warning');
+                return;
+            }
+            
+            if (userFriends.find(f => f.username === foundUser.Username)) {
+                showNotification('Already friends with this user', 'warning');
+                return;
+            }
+            
+            quickAddFriend(foundUser.Username);
+            document.getElementById('friendSearchInput').value = '';
+        }
+
+        // Enhanced Messaging System
+        function loadMessages() {
+            messageThreads = [
+                {
+                    id: 1,
+                    participants: ['demo', 'ProBettor'],
+                    lastMessage: 'Great picks on the Lakers game!',
+                    timestamp: '2 hours ago',
+                    unread: true
+                },
+                {
+                    id: 2,
+                    participants: ['demo', 'SportsAnalyst'],
+                    lastMessage: 'Want to join my private tournament?',
+                    timestamp: '1 day ago',
+                    unread: false
+                }
+            ];
+            
+            unreadMessages = messageThreads.filter(t => t.unread).length;
+            updateMessageNotifications();
+        }
+
+        function updateMessageNotifications() {
+            const badge = document.getElementById('messagesBadge');
+            const unreadCount = document.getElementById('unreadCount');
+            
+            unreadCount.textContent = unreadMessages;
+            
+            if (unreadMessages > 0) {
+                badge.textContent = unreadMessages;
+                badge.style.display = 'flex';
+                document.getElementById('messagesNotification').style.display = 'block';
+            } else {
+                badge.style.display = 'none';
+                document.getElementById('messagesNotification').style.display = 'none';
+            }
+        }
+
+        function showMessages() {
+            if (!currentUser) {
+                showLogin();
+                return;
+            }
+            
+            renderMessages();
+            document.getElementById('messagesModal').style.display = 'flex';
+        }
+
+        function hideMessages() {
+            document.getElementById('messagesModal').style.display = 'none';
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('messageThreads');
+            
+            if (messageThreads.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center !important; padding: 40px !important; color: #666 !important;">
+                        <div style="font-size: 48px !important; margin-bottom: 15px !important;">💬</div>
+                        <p>No messages yet. Start a conversation with your friends!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = messageThreads.map(thread => {
+                const otherParticipant = thread.participants.find(p => p !== currentUser.username);
+                return `
+                    <div onclick="openMessageThread(${thread.id})" style="
+                        background: ${thread.unread ? '#f0f9ff' : 'white'} !important;
+                        border: 2px solid ${thread.unread ? '#3b82f6' : '#e5e7eb'} !important;
+                        border-radius: 10px !important;
+                        padding: 15px !important;
+                        margin-bottom: 10px !important;
+                        cursor: pointer !important;
+                        transition: all 0.3s ease !important;
+                    " onmouseover="this.style.borderColor='#8b5cf6'" onmouseout="this.style.borderColor='${thread.unread ? '#3b82f6' : '#e5e7eb'}'">
+                        <div style="display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 5px !important;">
+                            <div style="font-weight: bold !important; color: #333 !important;">${otherParticipant}</div>
+                            <div style="font-size: 12px !important; color: #666 !important;">${thread.timestamp}</div>
+                        </div>
+                        <div style="color: #666 !important; font-size: 14px !important;">${thread.lastMessage}</div>
+                        ${thread.unread ? '<div style="width: 8px !important; height: 8px !important; background: #3b82f6 !important; border-radius: 50% !important; margin-top: 5px !important;"></div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openMessageThread(threadId) {
+            const thread = messageThreads.find(t => t.id === threadId);
+            if (thread && thread.unread) {
+                thread.unread = false;
+                unreadMessages--;
+                updateMessageNotifications();
+                renderMessages();
+            }
+            
+            showNotification('Message thread opened! (Full chat coming soon)', 'info');
+        }
+
+        function messageAllFriends() {
+            showNotification('Broadcast message sent to all friends! 📢', 'success');
+            awardCoins(10, 'Broadcast message bonus!');
+        }
+
+        function inviteToTournament() {
+            showNotification('Tournament invitations sent! 🏁', 'success');
+            awardCoins(5, 'Tournament invitation bonus!');
+        }
+
+        // Enhanced Leagues System
+        function loadLeagues() {
+            userLeagues = [
+                {
+                    id: 1,
+                    name: 'Championship League',
+                    position: 3,
+                    totalPlayers: 20,
+                    weeklyScore: 85,
+                    status: 'active'
+                },
+                {
+                    id: 2,
+                    name: 'Friends League',
+                    position: 1,
+                    totalPlayers: 8,
+                    weeklyScore: 92,
+                    status: 'leading'
+                }
+            ];
+            
+            document.getElementById('userLeaguesCount').textContent = userLeagues.length;
+        }
+
+        function showLeagues() {
+            if (!currentUser) {
+                showLogin();
+                return;
+            }
+            
+            renderLeagues();
+            document.getElementById('leaguesModal').style.display = 'flex';
+        }
+
+        function hideLeagues() {
+            document.getElementById('leaguesModal').style.display = 'none';
+        }
+
+        function renderLeagues() {
+            const container = document.getElementById('leaguesContainer');
+            
+            if (userLeagues.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center !important; padding: 40px !important; color: #666 !important;">
+                        <div style="font-size: 48px !important; margin-bottom: 15px !important;">⚔️</div>
+                        <p>You're not in any leagues yet. Create or join one to compete with others!</p>
+                        <button onclick="createLeague()" style="
+                            margin-top: 15px !important;
+                            padding: 12px 20px !important;
+                            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                        ">Create League</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = userLeagues.map(league => `
+                <div style="
+                    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                    border: 2px solid ${league.status === 'leading' ? '#10b981' : '#e5e7eb'} !important;
+                    border-radius: 12px !important;
+                    padding: 20px !important;
+                    margin-bottom: 15px !important;
+                    transition: all 0.3s ease !important;
+                ">
+                    <div style="
+                        display: flex !important;
+                        justify-content: space-between !important;
+                        align-items: flex-start !important;
+                        margin-bottom: 15px !important;
+                        flex-wrap: wrap !important;
+                        gap: 15px !important;
+                    ">
+                        <div style="flex: 1 !important;">
+                            <div style="display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 5px !important;">
+                                <h3 style="margin: 0 !important; color: #333 !important; font-size: 18px !important;">${league.name}</h3>
+                                ${league.status === 'leading' ? '<span style="background: #10b981 !important; color: white !important; padding: 2px 8px !important; border-radius: 10px !important; font-size: 10px !important; font-weight: bold !important;">LEADING</span>' : ''}
+                            </div>
+                            <div style="font-size: 14px !important; color: #666 !important;">
+                                Position: #${league.position} of ${league.totalPlayers} players
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: right !important;">
+                            <div style="
+                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                                color: white !important;
+                                padding: 6px 12px !important;
+                                border-radius: 15px !important;
+                                font-weight: bold !important;
+                                font-size: 14px !important;
+                            ">Weekly: ${league.weeklyScore} pts</div>
+                        </div>
+                    </div>
+                    
+                    <div style="
+                        display: flex !important;
+                        justify-content: space-between !important;
+                        align-items: center !important;
+                    ">
+                        <div style="
+                            background: #e5e7eb !important;
+                            border-radius: 10px !important;
+                            height: 8px !important;
+                            width: 150px !important;
+                            overflow: hidden !important;
+                        ">
+                            <div style="
+                                background: ${league.status === 'leading' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'} !important;
+                                height: 100% !important;
+                                width: ${Math.max(10, 100 - (league.position / league.totalPlayers * 100))}% !important;
+                                transition: width 0.3s ease !important;
+                            "></div>
+                        </div>
+                        
+                        <button onclick="viewLeagueDetails(${league.id})" style="
+                            padding: 8px 16px !important;
+                            background: #667eea !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                            font-size: 12px !important;
+                        ">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function createLeague() {
+            showNotification('League creation feature coming soon! 🚀', 'info', 3000);
+        }
+
+        function viewLeagueDetails(leagueId) {
+            showNotification('League details view coming soon! 📊', 'info', 3000);
+        }
+
+        function updateSocialNotifications() {
+            updateMessageNotifications();
+            updateTournamentBadge();
+        }
+
+        // Enhanced User Interface Functions
+        function showUserInterface() {
+            const headerSubtext = document.getElementById('headerSubtext');
+            if (window.innerWidth <= 768) {
+                headerSubtext.style.display = 'none';
+            } else {
+                headerSubtext.style.display = 'block';
+                headerSubtext.textContent = `Welcome back, ${currentUser.username}! Enhanced features await.`;
+            }
+            
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('accountBtn').style.display = 'block';
+            document.getElementById('achievementsBtn').style.display = 'block';
+            document.getElementById('tournamentsBtn').style.display = 'block';
+            document.getElementById('leaguesBtn').style.display = 'block';
+            document.getElementById('currencyDisplay').style.display = 'block';
+            document.getElementById('userStatsSection').style.display = 'block';
+            
+            // Update stats
+            document.getElementById('welcomeUsername').textContent = currentUser.username;
+            document.getElementById('userScore').textContent = currentUser.score;
+            document.getElementById('userAccuracy').textContent = currentUser.accuracy + '%';
+            document.getElementById('userStreak').textContent = currentUser.streak;
+            
+            updateCoinDisplay();
+            updateSocialStats();
+            updateTournamentBadge();
+            updateSocialNotifications();
+            
+            // Initialize achievements
+            userAchievements = [];
+            totalPicksMade = 0;
+            setTimeout(() => checkAchievements(), 1000);
+        }
+
+        // All existing functions remain the same but with enhanced features
+        // (Login, logout, game rendering, pick selection, etc.)
+        
+        // Enhanced Login Functions (keeping existing ones)
+        function showLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function hideLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+            clearMessage();
+        }
+
+        function switchToLogin() {
+            document.getElementById('loginTab').style.background = '#667eea';
+            document.getElementById('loginTab').style.color = 'white';
+            document.getElementById('registerTab').style.background = 'transparent';
+            document.getElementById('registerTab').style.color = '#666';
+            
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            clearMessage();
+        }
+
+        function switchToRegister() {
+            document.getElementById('registerTab').style.background = '#667eea';
+            document.getElementById('registerTab').style.color = 'white';
+            document.getElementById('loginTab').style.background = 'transparent';
+            document.getElementById('loginTab').style.color = '#666';
+            
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+            clearMessage();
+        }
+
+        async function loadUsers() {
+            try {
+                allUsers = [
+                    { Username: 'demo', Password: 'demo123', Score: '150', Streak: '5', Accuracy: '75', Coins: '100' },
+                    { Username: 'test', Password: 'test123', Score: '0', Streak: '0', Accuracy: '0', Coins: '50' },
+                    { Username: 'ProBettor', Password: 'pro123', Score: '320', Streak: '8', Accuracy: '85', Coins: '200' },
+                    { Username: 'SportsAnalyst', Password: 'analyst123', Score: '275', Streak: '3', Accuracy: '80', Coins: '150' },
+                    { Username: 'GameMaster', Password: 'game123', Score: '450', Streak: '12', Accuracy: '90', Coins: '300' },
+                    { Username: 'PickExpert', Password: 'pick123', Score: '380', Streak: '6', Accuracy: '82', Coins: '250' },
+                    { Username: 'SportsFan123', Password: 'fan123', Score: '200', Streak: '4', Accuracy: '70', Coins: '120' },
+                    { Username: 'PickPro', Password: 'pro123', Score: '160', Streak: '2', Accuracy: '65', Coins: '80' }
+                ];
+                console.log('Enhanced users loaded successfully');
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        async function attemptLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            if (!username || !password) {
+                showMessage('Please enter both username and password', 'error');
+                return;
+            }
+            
+            const loginButton = document.getElementById('loginButton');
+            loginButton.innerHTML = 'Logging in...';
+            loginButton.disabled = true;
+            
+            try {
+                const user = allUsers.find(u => 
+                    u.Username === username && u.Password === password
+                );
+                
+                if (user) {
+                    currentUser = {
+                        username: user.Username,
+                        email: user.Email,
+                        score: parseInt(user.Score || 0),
+                        streak: parseInt(user.Streak || 0),
+                        accuracy: parseFloat(user.Accuracy || 0),
+                        totalSpent: 0,
+                        totalCoinsEarned: 0
+                    };
+                    
+                    userCoins = parseInt(user.Coins || 0);
+                    
+                    showUserInterface();
+                    hideLogin();
+                    showNotification(`Welcome back, ${username}! Enhanced features unlocked! 🚀`, 'success', 4000);
+                } else {
+                    showMessage('Invalid username or password. Try one of the test accounts below.', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage('Login failed. Please try again.', 'error');
+            } finally {
+                loginButton.innerHTML = 'Login';
+                loginButton.disabled = false;
+            }
+        }
+
+        async function attemptRegister() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value.trim();
+            
+            if (!username || !email || !password) {
+                showMessage('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (allUsers.find(u => u.Username === username)) {
+                showMessage('Username already exists', 'error');
+                return;
+            }
+            
+            const registerButton = document.getElementById('registerButton');
+            registerButton.innerHTML = 'Registering...';
+            registerButton.disabled = true;
+            
+            try {
+                const newUser = {
+                    Username: username,
+                    Email: email,
+                    Password: password,
+                    Score: '0',
+                    Streak: '0',
+                    Accuracy: '0',
+                    Coins: '100'
+                };
+                allUsers.push(newUser);
+                
+                showMessage('Registration successful! You can now login.', 'success');
+                showNotification(`Account created successfully! Welcome ${username}! +100 starter coins! 🎉`, 'success', 5000);
+                
+                switchToLogin();
+                
+                document.getElementById('registerUsername').value = '';
+                document.getElementById('registerEmail').value = '';
+                document.getElementById('registerPassword').value = '';
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showMessage('Registration failed. Please try again.', 'error');
+            } finally {
+                registerButton.innerHTML = 'Register';
+                registerButton.disabled = false;
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            userPicks = {};
+            userAchievements = [];
+            totalPicksMade = 0;
+            userCoins = 0;
+            userFriends = [];
+            userTournaments = [];
+            userLeagues = [];
+            friendRequests = [];
+            messageThreads = [];
+            unreadMessages = 0;
+            likedPicks.clear();
+            submittedGames.clear();
+            
+            const headerSubtext = document.getElementById('headerSubtext');
+            headerSubtext.textContent = 'Enhanced tournaments and social features';
+            headerSubtext.style.display = 'block';
+            
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('accountBtn').style.display = 'none';
+            document.getElementById('achievementsBtn').style.display = 'none';
+            document.getElementById('tournamentsBtn').style.display = 'none';
+            document.getElementById('leaguesBtn').style.display = 'none';
+            document.getElementById('currencyDisplay').style.display = 'none';
+            document.getElementById('userStatsSection').style.display = 'none';
+            
+            // Hide social notifications
+            document.getElementById('messagesNotification').style.display = 'none';
+            document.getElementById('messagesBadge').style.display = 'none';
+            document.getElementById('tournamentsBadge').style.display = 'none';
+            
+            // Reset submit button
+            const submitBtn = document.getElementById('submitPicksBtn');
+            submitBtn.innerHTML = 'Submit All Picks';
+            submitBtn.style.background = 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)';
+            submitBtn.disabled = true;
+            
+            // Close all modals
+            hideAccount();
+            hideStore();
+            hideTournaments();
+            hideLeagues();
+            hideFriends();
+            hideMessages();
+            
+            showNotification('Successfully logged out. Enhanced features await your return! 👋', 'info', 4000);
+        }
+
+        // All other existing functions (games, picks, achievements, etc.) remain the same
+        // but can now access the enhanced social and tournament features
+
+        // Enhanced Utility Functions
+        function showNotification(message, type = 'info', duration = 4000) {
+            const container = document.getElementById('notificationContainer');
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                background: ${getNotificationColor(type)} !important;
+                color: white !important;
+                padding: 12px 16px !important;
+                border-radius: 10px !important;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+                font-weight: bold !important;
+                font-size: clamp(12px, 2.5vw, 14px) !important;
+                transform: translateY(-100%) !important;
+                transition: all 0.3s ease !important;
+                cursor: pointer !important;
+                word-wrap: break-word !important;
+                max-width: 300px !important;
+                z-index: 1001 !important;
+            `;
+            
+            notification.innerHTML = message;
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+            
+            const timeoutId = setTimeout(() => {
+                removeNotification(notification);
+            }, duration);
+            
+            notification.onclick = () => {
+                clearTimeout(timeoutId);
+                removeNotification(notification);
+            };
+        }
+
+        function removeNotification(notification) {
+            notification.style.transform = 'translateY(-100%)';
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+
+        function getNotificationColor(type) {
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: '#667eea',
+                pick: '#6366f1'
+            };
+            return colors[type] || colors.info;
+        }
+
+        function updateCoinDisplay() {
+            const coinDisplays = ['userCoins', 'storeCoins', 'accountCoins'];
+            coinDisplays.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = userCoins;
+                }
+            });
+        }
+
+        function awardCoins(amount, reason) {
+            userCoins += amount;
+            if (!currentUser.totalCoinsEarned) currentUser.totalCoinsEarned = 0;
+            currentUser.totalCoinsEarned += amount;
+            
+            updateCoinDisplay();
+            if (reason) {
+                showNotification(`+${amount} coins: ${reason}`, 'success', 3000);
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageArea = document.getElementById('messageArea');
+            messageArea.textContent = text;
+            messageArea.style.display = 'block';
+            
+            if (type === 'error') {
+                messageArea.style.background = '#fee2e2';
+                messageArea.style.color = '#dc2626';
+            } else if (type === 'success') {
+                messageArea.style.background = '#d1fae5';
+                messageArea.style.color = '#065f46';
+            } else {
+                messageArea.style.background = '#dbeafe';
+                messageArea.style.color = '#1e40af';
+            }
+        }
+
+        function clearMessage() {
+            document.getElementById('messageArea').style.display = 'none';
+        }
+
+        function checkAchievements() {
+            let newAchievements = [];
+            
+            for (const [key, achievement] of Object.entries(ACHIEVEMENTS)) {
+                if (!userAchievements.includes(achievement.id) && achievement.condition()) {
+                    userAchievements.push(achievement.id);
+                    newAchievements.push(achievement);
+                    
+                    if (achievement.coinReward) {
+                        awardCoins(achievement.coinReward, `Achievement: ${achievement.name}!`);
+                    }
+                }
+            }
+            
+            newAchievements.forEach((achievement, index) => {
+                setTimeout(() => {
+                    showNotification(`🏆 Achievement Unlocked: ${achievement.name}!`, 'success', 4000);
+                }, 500 * (index + 1));
+            });
+            
+            return newAchievements;
+        }
+
+        // Placeholder functions for other features (keeping existing implementations)
+        async function loadTodaysGames() {
+            try {
+                todaysGames = [
+                    { id: 1, teamA: 'Lakers', teamB: 'Warriors', league: 'NBA' },
+                    { id: 2, teamA: 'Chiefs', teamB: 'Bills', league: 'NFL' },
+                    { id: 3, teamA: 'Real Madrid', teamB: 'Barcelona', league: 'La Liga' },
+                    { id: 4, teamA: 'Celtics', teamB: 'Heat', league: 'NBA' }
+                ];
+                
+                renderGames();
+                updatePickStatus();
+                
+            } catch (error) {
+                console.error('Error loading games:', error);
+                todaysGames = [
+                    { id: 1, teamA: 'Lakers', teamB: 'Warriors', league: 'NBA' }
+                ];
+                renderGames();
+            }
+        }
+
+        function renderGames() {
+            const container = document.getElementById('gamesContainer');
+            container.innerHTML = '';
+            
+            todaysGames.forEach((game, index) => {
+                const countdown = getGameCountdown();
+                const gameDiv = document.createElement('div');
+                gameDiv.style.cssText = `
+                    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+                    border-radius: 15px !important;
+                    padding: 20px !important;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+                    border: 2px solid #e5e7eb !important;
+                    transition: all 0.3s ease !important;
+                    position: relative !important;
+                    overflow: hidden !important;
+                `;
+                
+                gameDiv.innerHTML = `
+                    <div style="
+                        position: absolute !important;
+                        top: 0 !important;
+                        right: 0 !important;
+                        width: 60px !important;
+                        height: 60px !important;
+                        background: linear-gradient(135deg, #667eea20 0%, transparent 100%) !important;
+                        border-radius: 0 15px 0 100% !important;
+                    "></div>
+                    
+                    <div style="
+                        display: flex !important;
+                        justify-content: space-between !important;
+                        align-items: center !important;
+                        margin-bottom: 15px !important;
+                        flex-wrap: wrap !important;
+                        gap: 15px !important;
+                    ">
+                        <h3 style="
+                            color: #1f2937 !important;
+                            margin: 0 !important;
+                            font-size: clamp(16px, 4vw, 20px) !important;
+                            font-weight: 700 !important;
+                            flex: 1 !important;
+                        ">${game.teamA} vs ${game.teamB}</h3>
+                        
+                        <div style="display: flex !important; gap: 8px !important; align-items: center !important; flex-wrap: wrap !important;">
+                            <span style="
+                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                                color: white !important;
+                                padding: 4px 8px !important;
+                                border-radius: 12px !important;
+                                font-size: clamp(10px, 2vw, 11px) !important;
+                                font-weight: bold !important;
+                                text-transform: uppercase !important;
+                            ">${game.league}</span>
+                            <span style="
+                                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                                color: white !important;
+                                padding: 4px 8px !important;
+                                border-radius: 12px !important;
+                                font-size: clamp(10px, 2vw, 11px) !important;
+                                font-weight: bold !important;
+                            ">${countdown}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px !important;">
+                        <div style="
+                            display: flex !important;
+                            align-items: center !important;
+                            margin-bottom: 10px !important;
+                            gap: 8px !important;
+                        ">
+                            <div style="
+                                width: 3px !important;
+                                height: 16px !important;
+                                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                                border-radius: 2px !important;
+                            "></div>
+                            <strong style="color: #1f2937 !important; font-weight: 600 !important; font-size: clamp(14px, 3vw, 16px) !important;">Pick the Winner</strong>
+                        </div>
+                        <div style="
+                            display: grid !important;
+                            grid-template-columns: 1fr 1fr !important;
+                            gap: 10px !important;
+                        ">
+                            <button onclick="selectPick(${game.id}, 'winner', '${game.teamA}')" 
+                                    id="pick_${game.id}_winner_${game.teamA}" style="
+                                padding: 12px 8px !important;
+                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                                border: 2px solid #e2e8f0 !important;
+                                border-radius: 8px !important;
+                                cursor: pointer !important;
+                                font-weight: 600 !important;
+                                transition: all 0.3s ease !important;
+                                color: #334155 !important;
+                                font-size: clamp(12px, 2.5vw, 14px) !important;
+                            ">${game.teamA}</button>
+                            
+                            <button onclick="selectPick(${game.id}, 'winner', '${game.teamB}')" 
+                                    id="pick_${game.id}_winner_${game.teamB}" style="
+                                padding: 12px 8px !important;
+                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                                border: 2px solid #e2e8f0 !important;
+                                border-radius: 8px !important;
+                                cursor: pointer !important;
+                                font-weight: 600 !important;
+                                transition: all 0.3s ease !important;
+                                color: #334155 !important;
+                                font-size: clamp(12px, 2.5vw, 14px) !important;
+                            ">${game.teamB}</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="
+                            display: flex !important;
+                            align-items: center !important;
+                            margin-bottom: 10px !important;
+                            gap: 8px !important;
+                        ">
+                            <div style="
+                                width: 3px !important;
+                                height: 16px !important;
+                                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                                border-radius: 2px !important;
+                            "></div>
+                            <strong style="color: #1f2937 !important; font-weight: 600 !important; font-size: clamp(14px, 3vw, 16px) !important;">Total Points</strong>
+                        </div>
+                        <div style="
+                            display: grid !important;
+                            grid-template-columns: 1fr 1fr !important;
+                            gap: 10px !important;
+                        ">
+                            <button onclick="selectPick(${game.id}, 'total', 'Over')" 
+                                    id="pick_${game.id}_total_Over" style="
+                                padding: 12px 8px !important;
+                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                                border: 2px solid #e2e8f0 !important;
+                                border-radius: 8px !important;
+                                cursor: pointer !important;
+                                font-weight: 600 !important;
+                                transition: all 0.3s ease !important;
+                                color: #334155 !important;
+                                font-size: clamp(12px, 2.5vw, 14px) !important;
+                            ">Over 45.5</button>
+                            
+                            <button onclick="selectPick(${game.id}, 'total', 'Under')" 
+                                    id="pick_${game.id}_total_Under" style="
+                                padding: 12px 8px !important;
+                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                                border: 2px solid #e2e8f0 !important;
+                                border-radius: 8px !important;
+                                cursor: pointer !important;
+                                font-weight: 600 !important;
+                                transition: all 0.3s ease !important;
+                                color: #334155 !important;
+                                font-size: clamp(12px, 2.5vw, 14px) !important;
+                            ">Under 45.5</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(gameDiv);
+            });
+        }
+
+        function getGameCountdown() {
+            const now = new Date();
+            const randomHours = Math.floor(Math.random() * 12) + 1;
+            const gameStart = new Date(now.getTime() + (randomHours * 60 * 60 * 1000));
+            
+            const timeDiff = gameStart - now;
+            const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (hours > 0) {
+                return `${hours}h ${minutes}m`;
+            } else if (minutes > 0) {
+                return `${minutes}m`;
+            } else {
+                return 'Live';
+            }
+        }
+
+        // Initialize the enhanced app
+        initializeApp();
+
+        console.log('🚀 Enhanced FinalScore with Advanced Tournaments, Social Features, Leagues, and Messaging System initialized!');
+    </script>
+</body>
+</html>
