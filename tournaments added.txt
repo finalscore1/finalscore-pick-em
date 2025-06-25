@@ -4,6 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinalScore - Pick'em Challenge</title>
+<style>
+/* Tournament Banner Styles */
+.tournament-banner {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+    animation: tournamentPulse 3s infinite ease-in-out;
+    display: none; /* Hidden by default */
+}
+
+.tournament-banner.active {
+    display: block;
+}
+
+.tournament-banner h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.tournament-banner .tournament-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.tournament-stat {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.tournament-stat .label {
+    font-size: 12px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tournament-stat .value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.join-tournament-btn {
+    background: white;
+    color: #d97706;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 15px 10px 0 10px;
+    display: inline-block;
+}
+
+.join-tournament-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.join-tournament-btn:disabled {
+    background: #9ca3af;
+    color: white;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.tournament-leaderboard-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 15px 10px 0 10px;
+}
+
+.tournament-leaderboard-btn:hover {
+    background: white;
+    color: #d97706;
+}
+
+@keyframes tournamentPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+/* Tournament Game Badge */
+.tournament-game-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+    animation: badgeShine 2s infinite;
+}
+
+@keyframes badgeShine {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* Mini Tournament Leaderboard */
+.mini-tournament-leaderboard {
+    background: #f8fafc;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    display: none;
+}
+
+.mini-tournament-leaderboard.active {
+    display: block;
+}
+
+.mini-tournament-leaderboard h3 {
+    margin: 0 0 15px 0;
+    color: #374151;
+}
+
+.tournament-ranking {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tournament-ranking:last-child {
+    border-bottom: none;
+}
+
+.tournament-ranking.user-rank {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    margin: 0 -10px;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.rank-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rank-number {
+    background: #6b7280;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.rank-number.first { background: #fbbf24; }
+.rank-number.second { background: #9ca3af; }
+.rank-number.third { background: #cd7f32; }
+
+.tournament-points {
+    font-weight: bold;
+    color: #059669;
+
+}
+</style>
 </head>
 <body>
     <div style="
@@ -374,6 +559,45 @@
     </button>
 </div>
 
+<!-- Tournament Banner HTML -->
+<div id="tournamentBanner" class="tournament-banner">
+    <h2>🏆 <span id="tournamentName">Weekend Warrior #1</span> - LIVE!</h2>
+    <div class="tournament-info">
+        <div class="tournament-stat">
+            <div class="label">Prize Pool</div>
+            <div class="value" id="tournamentPrizePool">500 coins</div>
+        </div>
+        <div class="tournament-stat">
+            <div class="label">Participants</div>
+            <div class="value" id="tournamentParticipants">0 / 1000</div>
+        </div>
+        <div class="tournament-stat">
+            <div class="label">Time Left</div>
+            <div class="value" id="tournamentTimeLeft">2 days 15h</div>
+        </div>
+        <div class="tournament-stat">
+            <div class="label">Your Rank</div>
+            <div class="value" id="tournamentUserRank">Not Joined</div>
+        </div>
+    </div>
+    <div>
+        <button id="joinTournamentBtn" class="join-tournament-btn" onclick="joinTournament()">
+            🚀 Join Tournament (FREE!)
+        </button>
+        <button class="tournament-leaderboard-btn" onclick="toggleTournamentLeaderboard()">
+            📊 View Leaderboard
+        </button>
+    </div>
+</div>
+
+<!-- Mini Tournament Leaderboard -->
+<div id="miniTournamentLeaderboard" class="mini-tournament-leaderboard">
+    <h3>🏆 Tournament Leaderboard</h3>
+    <div id="tournamentRankings">
+        <!-- Rankings will be populated by JavaScript -->
+    </div>
+</div>
+
 <!-- 🔧 Debug Tools Section -->
 <div style="
     background: rgba(254, 243, 199, 0.95) !important;
@@ -575,7 +799,7 @@
 
     <script>
         // Configuration
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnL_Fmd4fFbRw3O8YRGYnjZHBgB3tTIYRQVj70CRi_8J2jsdM0S7j31IywNQdEHDbM/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoF43jxw5Zvh7dKUfgcEnbf18JzQXPiT5YC3H0fp0AMw2Qi_-jsNIwz2HeYUYa6HLA/exec';
         
         let allUsers = [];
         let currentUser = null;
@@ -588,27 +812,234 @@
         let userCoins = 0;
         let likedPicks = new Set();
         let submittedGames = new Set();
+let currentTournament = null;
+let userTournamentData = null;
+let tournamentLeaderboard = [];
 
-        // Achievement definitions with coin rewards
-        const ACHIEVEMENTS = {
-            firstShare: { id: 'firstShare', name: 'First Insight', description: 'Shared your first pick reasoning!', icon: '💭', color: '#10b981', coinReward: 10, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 1 },
-            socialButterfly: { id: 'socialButterfly', name: 'Social Butterfly', description: 'Shared reasoning for 5 picks!', icon: '🦋', color: '#ec4899', coinReward: 25, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 5 },
-            confident: { id: 'confident', name: 'Supremely Confident', description: 'Made a 5-star confidence pick!', icon: '⭐', color: '#f59e0b', coinReward: 15, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.confidence === 5).length >= 1 },
-            firstPick: { id: 'firstPick', name: 'First Steps', description: 'Made your first pick!', icon: '🎯', color: '#10b981', coinReward: 5, condition: () => totalPicksMade >= 1 },
-            quickStarter: { id: 'quickStarter', name: 'Quick Starter', description: 'Made 5 picks in one session!', icon: '⚡', color: '#f59e0b', coinReward: 15, condition: () => totalPicksMade >= 5 },
-            pickMaster: { id: 'pickMaster', name: 'Pick Master', description: 'Made 10 picks total!', icon: '🏆', color: '#8b5cf6', coinReward: 30, condition: () => totalPicksMade >= 10 },
-            streakStarter: { id: 'streakStarter', name: 'On Fire', description: 'Reached a 3-game win streak!', icon: '🔥', color: '#ef4444', coinReward: 20, condition: () => currentUser && currentUser.streak >= 3 },
-            streakMaster: { id: 'streakMaster', name: 'Unstoppable', description: 'Reached a 5-game win streak!', icon: '🌟', color: '#fbbf24', coinReward: 50, condition: () => currentUser && currentUser.streak >= 5 },
-            accurateShooter: { id: 'accurateShooter', name: 'Sharp Shooter', description: 'Maintained 80%+ accuracy!', icon: '🎯', color: '#06b6d4', coinReward: 40, condition: () => currentUser && currentUser.accuracy >= 80 },
-            centurion: { id: 'centurion', name: 'Centurion', description: 'Reached 100 points!', icon: '💯', color: '#ec4899', coinReward: 25, condition: () => currentUser && currentUser.score >= 100 }
+         // 🔧 ENHANCED: Better achievement conditions with debugging
+        const ACHIEVEMENTS_FIXED = {
+            firstShare: { 
+                id: 'firstShare', 
+                name: 'First Insight', 
+                description: 'Shared your first pick reasoning!', 
+                icon: '💭', 
+                color: '#10b981', 
+                coinReward: 10, 
+                condition: () => {
+                    const count = communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length;
+                    console.log('firstShare check:', count >= 1, 'count:', count);
+                    return count >= 1;
+                }
+            },
+            socialButterfly: { 
+                id: 'socialButterfly', 
+                name: 'Social Butterfly', 
+                description: 'Shared reasoning for 5 picks!', 
+                icon: '🦋', 
+                color: '#ec4899', 
+                coinReward: 25, 
+                condition: () => {
+                    const count = communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length;
+                    console.log('socialButterfly check:', count >= 5, 'count:', count);
+                    return count >= 5;
+                }
+            },
+            confident: { 
+                id: 'confident', 
+                name: 'Supremely Confident', 
+                description: 'Made a 5-star confidence pick!', 
+                icon: '⭐', 
+                color: '#f59e0b', 
+                coinReward: 15, 
+                condition: () => {
+                    const count = communityPicks.filter(p => p.username === currentUser?.username && p.confidence === 5).length;
+                    console.log('confident check:', count >= 1, 'count:', count);
+                    return count >= 1;
+                }
+            },
+            firstPick: { 
+                id: 'firstPick', 
+                name: 'First Steps', 
+                description: 'Made your first pick!', 
+                icon: '🎯', 
+                color: '#10b981', 
+                coinReward: 5, 
+                condition: () => {
+                    console.log('firstPick check:', totalPicksMade >= 1, 'totalPicks:', totalPicksMade);
+                    return totalPicksMade >= 1;
+                }
+            },
+            quickStarter: { 
+                id: 'quickStarter', 
+                name: 'Quick Starter', 
+                description: 'Made 5 picks in one session!', 
+                icon: '⚡', 
+                color: '#f59e0b', 
+                coinReward: 15, 
+                condition: () => {
+                    console.log('quickStarter check:', totalPicksMade >= 5, 'totalPicks:', totalPicksMade);
+                    return totalPicksMade >= 5;
+                }
+            },
+            pickMaster: { 
+                id: 'pickMaster', 
+                name: 'Pick Master', 
+                description: 'Made 10 picks total!', 
+                icon: '🏆', 
+                color: '#8b5cf6', 
+                coinReward: 30, 
+                condition: () => {
+                    console.log('pickMaster check:', totalPicksMade >= 10, 'totalPicks:', totalPicksMade);
+                    return totalPicksMade >= 10;
+                }
+            },
+            streakStarter: { 
+                id: 'streakStarter', 
+                name: 'On Fire', 
+                description: 'Reached a 3-game win streak!', 
+                icon: '🔥', 
+                color: '#ef4444', 
+                coinReward: 20, 
+                condition: () => {
+                    const streak = currentUser?.streak || 0;
+                    console.log('streakStarter check:', streak >= 3, 'streak:', streak);
+                    return streak >= 3;
+                }
+            },
+            streakMaster: { 
+                id: 'streakMaster', 
+                name: 'Unstoppable', 
+                description: 'Reached a 5-game win streak!', 
+                icon: '🌟', 
+                color: '#fbbf24', 
+                coinReward: 50, 
+                condition: () => {
+                    const streak = currentUser?.streak || 0;
+                    console.log('streakMaster check:', streak >= 5, 'streak:', streak);
+                    return streak >= 5;
+                }
+            },
+            accurateShooter: { 
+                id: 'accurateShooter', 
+                name: 'Sharp Shooter', 
+                description: 'Maintained 80%+ accuracy!', 
+                icon: '🎯', 
+                color: '#06b6d4', 
+                coinReward: 40, 
+                condition: () => {
+                    const accuracy = currentUser?.accuracy || 0;
+                    console.log('accurateShooter check:', accuracy >= 80, 'accuracy:', accuracy);
+                    return accuracy >= 80;
+                }
+            },
+            centurion: { 
+                id: 'centurion', 
+                name: 'Centurion', 
+                description: 'Reached 100 points!', 
+                icon: '💯', 
+                color: '#ec4899', 
+                coinReward: 25, 
+                condition: () => {
+                    const score = currentUser?.score || 0;
+                    console.log('centurion check:', score >= 100, 'score:', score);
+                    return score >= 100;
+                }
+            }
         };
 
+const ACHIEVEMENTS = ACHIEVEMENTS_FIXED;
+
+// 🔧 TEST FUNCTIONS for debugging
+        function testAchievements() {
+            console.log('=== TESTING ACHIEVEMENTS SYSTEM ===');
+            
+            if (!currentUser) {
+                console.log('❌ Please login first');
+                return;
+            }
+            
+            console.log('Current user:', currentUser);
+            console.log('User achievements:', userAchievements);
+            console.log('Total picks made:', totalPicksMade);
+            console.log('Community picks from user:', communityPicks.filter(p => p.username === currentUser.username));
+            
+            // Test each achievement condition
+            Object.values(ACHIEVEMENTS_FIXED).forEach(achievement => {
+                const canUnlock = achievement.condition();
+                console.log(`${achievement.name}: ${canUnlock ? '✅ CAN UNLOCK' : '❌ Cannot unlock yet'}`);
+            });
+            
+            // Force check achievements
+            checkAchievements();
+            
+            // Update modal
+            updateAchievementsModal();
+        }
+
+        function unlockTestAchievement() {
+            if (!currentUser) {
+                console.log('❌ Please login first');
+                return;
+            }
+            
+            // Simulate conditions for testing
+            totalPicksMade = 5; // This should unlock firstPick and quickStarter
+            
+            // Add a test community pick
+            communityPicks.unshift({
+                id: Date.now(),
+                username: currentUser.username,
+                gameTitle: 'Test Game',
+                pickType: 'winner',
+                selection: 'Test Team',
+                pickDisplay: 'Test Team',
+                reasoning: 'This is a test reasoning for achievement',
+                confidence: 5,
+                timestamp: new Date().toLocaleString(),
+                likes: 0
+            });
+            
+            console.log('🧪 Test conditions set up - checking achievements...');
+            checkAchievements();
+        }
+
+        // Replace the global ACHIEVEMENTS with the fixed version
+        if (typeof ACHIEVEMENTS !== 'undefined') {
+            Object.assign(ACHIEVEMENTS, ACHIEVEMENTS_FIXED);
+        }
+
+        console.log('🏆 Achievements system fixed and ready!');
+        
+        // Auto-test if user is logged in
+        if (typeof currentUser !== 'undefined' && currentUser) {
+            setTimeout(() => {
+                console.log('🔍 Auto-checking achievements for logged in user...');
+                checkAchievements();
+            }, 2000);
+        }
+
+       // 🔧 STEP 8: Update initializeApp to load community picks
         function initializeApp() {
             console.log('Initializing FinalScore Platform...');
             loadUsers();
             loadTodaysGames();
-            loadCommunityPicks();
+            loadCommunityPicks(); // Load from Google Sheets instead of demo data
             updateLeaderboard();
+        }
+// 🔧 STEP 9: Load liked picks from localStorage (optional enhancement)
+        function loadLikedPicks() {
+            if (currentUser) {
+                const savedLikes = localStorage.getItem(`likedPicks_${currentUser.username}`);
+                if (savedLikes) {
+                    likedPicks = new Set(JSON.parse(savedLikes));
+                }
+            }
+        }
+// 🔧 STEP 10: Save liked picks to localStorage (optional enhancement)
+        function saveLikedPicks() {
+            if (currentUser) {
+                localStorage.setItem(`likedPicks_${currentUser.username}`, JSON.stringify([...likedPicks]));
+            }
         }
 
         function loadExistingPicks() {
@@ -738,6 +1169,7 @@ function selectPick(gameId, pickType, selection) {
             document.getElementById('confidenceLabel').textContent = labels[level] || 'Click stars to set confidence';
         }
 
+         // 🔧 STEP 1: Enhanced confirmPick function - saves to Google Sheets
         function confirmPick() {
             if (!currentPickDetails.confidence) {
                 showNotification('Please set a confidence level!', 'warning');
@@ -753,6 +1185,7 @@ function selectPick(gameId, pickType, selection) {
             userPicks[currentPickDetails.gameId][currentPickDetails.pickType] = currentPickDetails.selection;
             totalPicksMade = Object.values(userPicks).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
             
+            // If user shared reasoning, save to Google Sheets
             if (reasoning) {
                 const communityPick = {
                     id: Date.now(),
@@ -763,12 +1196,18 @@ function selectPick(gameId, pickType, selection) {
                     pickDisplay: currentPickDetails.pickDisplay,
                     reasoning: reasoning,
                     confidence: currentPickDetails.confidence,
-                    timestamp: new Date().toLocaleString(),
-                    likes: 0
+                    timestamp: new Date().toISOString(), // Use ISO format for consistency
+                    likes: 0,
+                    likedBy: '' // Comma-separated list of usernames who liked
                 };
                 
+                // Add to local array first (for immediate display)
                 communityPicks.unshift(communityPick);
                 updateCommunityFeed();
+                
+                // Save to Google Sheets
+                saveCommunityPickToSheets(communityPick);
+                
                 awardCoins(5, 'Shared pick reasoning!');
             }
             
@@ -782,6 +1221,47 @@ function selectPick(gameId, pickType, selection) {
             checkAchievements();
             hidePickDetails();
         }
+
+async function saveCommunityPickToSheets(communityPick) {
+            try {
+                console.log('💾 Saving community pick to Google Sheets...', communityPick);
+                
+                const formData = new URLSearchParams({
+                    action: 'saveCommunityPick',
+                    id: communityPick.id,
+                    username: communityPick.username,
+                    gameTitle: communityPick.gameTitle,
+                    pickType: communityPick.pickType,
+                    selection: communityPick.selection,
+                    pickDisplay: communityPick.pickDisplay,
+                    reasoning: communityPick.reasoning,
+                    confidence: communityPick.confidence,
+                    timestamp: communityPick.timestamp,
+                    likes: communityPick.likes,
+                    likedBy: communityPick.likedBy
+                });
+                
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const result = await response.text();
+                    console.log('✅ Community pick saved to Google Sheets:', result);
+                } else {
+                    throw new Error('Failed to save community pick');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error saving community pick to Google Sheets:', error);
+                showNotification('Community pick saved locally only (Google Sheets unavailable)', 'warning', 3000);
+            }
+        }
+
 
         function updatePickVisual(gameId, pickType, selection) {
             const allButtons = document.querySelectorAll(`[id^="pick_${gameId}_${pickType}_"]`);
@@ -800,21 +1280,121 @@ function selectPick(gameId, pickType, selection) {
             }
         }
 
-        function loadCommunityPicks() {
+      function loadDemoCommunityPicks() {
             communityPicks = [
                 {
-                    id: 1, username: 'ProBettor', gameTitle: 'Lakers vs Warriors', pickType: 'winner', selection: 'Lakers', pickDisplay: 'Lakers',
+                    id: 1, 
+                    username: 'ProBettor', 
+                    gameTitle: 'Lakers vs Warriors', 
+                    pickType: 'winner', 
+                    selection: 'Lakers', 
+                    pickDisplay: 'Lakers',
                     reasoning: 'LeBron is back from injury and the Lakers have been dominating at home. Warriors missing key players.',
-                    confidence: 4, timestamp: '2 hours ago', likes: 12
+                    confidence: 4, 
+                    timestamp: '2 hours ago', 
+                    likes: 12,
+                    likedBy: 'demo,test,user1'
                 },
                 {
-                    id: 2, username: 'SportsAnalyst', gameTitle: 'Chiefs vs Bills', pickType: 'total', selection: 'Over', pickDisplay: 'Over 45.5',
+                    id: 2, 
+                    username: 'SportsAnalyst', 
+                    gameTitle: 'Chiefs vs Bills', 
+                    pickType: 'total', 
+                    selection: 'Over', 
+                    pickDisplay: 'Over 45.5',
                     reasoning: 'Both teams have explosive offenses. Weather looks good for passing. I expect a shootout!',
-                    confidence: 5, timestamp: '4 hours ago', likes: 8
+                    confidence: 5, 
+                    timestamp: '4 hours ago', 
+                    likes: 8,
+                    likedBy: 'demo,challenge'
                 }
             ];
             updateCommunityFeed();
         }
+ async function loadCommunityPicks() {
+            try {
+                console.log('📥 Loading community picks from Google Sheets...');
+                
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getCommunityPicks&cacheBust=${Date.now()}`);
+                const csvData = await response.text();
+                
+                console.log('Community picks CSV:', csvData);
+                
+                if (!csvData || csvData.includes('Error') || csvData.trim() === '') {
+                    console.log('No community picks found, using demo data');
+                    loadDemoCommunityPicks();
+                    return;
+                }
+                
+                // Parse CSV data
+                const lines = csvData.trim().split('\n');
+                const headers = lines[0].split(',');
+                
+                communityPicks = [];
+                
+                for (let i = 1; i < lines.length; i++) {
+                    if (lines[i].trim()) {
+                        const values = parseCSVLine(lines[i]);
+                        const pick = {};
+                        
+                        headers.forEach((header, index) => {
+                            const value = values[index] ? values[index].trim().replace(/"/g, '') : '';
+                            pick[header.trim().toLowerCase()] = value;
+                        });
+                        
+                        // Convert to proper format
+                        const communityPick = {
+                            id: parseInt(pick.id) || Date.now(),
+                            username: pick.username || '',
+                            gameTitle: pick.gametitle || '',
+                            pickType: pick.picktype || '',
+                            selection: pick.selection || '',
+                            pickDisplay: pick.pickdisplay || '',
+                            reasoning: pick.reasoning || '',
+                            confidence: parseInt(pick.confidence) || 3,
+                            timestamp: formatTimestamp(pick.timestamp),
+                            likes: parseInt(pick.likes) || 0,
+                            likedBy: pick.likedby || ''
+                        };
+                        
+                        communityPicks.push(communityPick);
+                    }
+                }
+                
+                // Sort by timestamp (newest first)
+                communityPicks.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                console.log(`✅ Loaded ${communityPicks.length} community picks from Google Sheets`);
+                updateCommunityFeed();
+                
+            } catch (error) {
+                console.error('❌ Error loading community picks:', error);
+                loadDemoCommunityPicks();
+            }
+        }
+
+function formatTimestamp(timestamp) {
+            if (!timestamp) return 'Unknown time';
+            
+            try {
+                const date = new Date(timestamp);
+                const now = new Date();
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMs / 3600000);
+                const diffDays = Math.floor(diffMs / 86400000);
+                
+                if (diffMins < 1) return 'Just now';
+                if (diffMins < 60) return `${diffMins} minute${diffMins === 1 ? '' : 's'} ago`;
+                if (diffHours < 24) return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+                if (diffDays < 7) return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+                
+                return date.toLocaleDateString();
+            } catch (e) {
+                return timestamp;
+            }
+        }
+
 
         function updateCommunityFeed() {
             const communityContent = document.getElementById('communityContent');
@@ -832,10 +1412,20 @@ function selectPick(gameId, pickType, selection) {
         }
 
         function createCommunityPickHTML(pick) {
-            const isLiked = likedPicks.has(pick.id);
+            const isLiked = likedPicks.has(pick.id) || 
+                           (pick.likedBy && pick.likedBy.split(',').includes(currentUser?.username));
+            
             return `<div style="background: white !important; border: 2px solid #e5e7eb !important; border-radius: 12px !important; padding: 20px !important; margin-bottom: 15px !important; transition: all 0.3s ease !important;" onmouseover="this.style.borderColor='#667eea'" onmouseout="this.style.borderColor='#e5e7eb'">
                 <div style="display: flex !important; justify-content: space-between !important; align-items: flex-start !important; margin-bottom: 15px !important; flex-wrap: wrap !important; gap: 10px !important;">
-                    <div><div style="display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 5px !important;"><span style="font-weight: bold !important; color: #667eea !important;">${pick.username}</span><div style="display: flex !important; gap: 2px !important;">${Array(pick.confidence).fill('★').join('')}${Array(5 - pick.confidence).fill('☆').join('')}</div></div><div style="font-size: 14px !important; color: #666 !important;">${pick.timestamp}</div></div>
+                    <div>
+                        <div style="display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 5px !important;">
+                            <span style="font-weight: bold !important; color: #667eea !important;">${pick.username}</span>
+                            <div style="display: flex !important; gap: 2px !important;">
+                                ${Array(pick.confidence).fill('★').join('')}${Array(5 - pick.confidence).fill('☆').join('')}
+                            </div>
+                        </div>
+                        <div style="font-size: 14px !important; color: #666 !important;">${pick.timestamp}</div>
+                    </div>
                     <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: white !important; padding: 6px 12px !important; border-radius: 20px !important; font-size: 12px !important; font-weight: bold !important;">${pick.pickDisplay}</div>
                 </div>
                 <div style="background: #f8fafc !important; padding: 15px !important; border-radius: 8px !important; margin-bottom: 15px !important; border-left: 4px solid #667eea !important;">
@@ -849,21 +1439,68 @@ function selectPick(gameId, pickType, selection) {
             </div>`;
         }
 
-        function likePick(pickId) {
+       async function likePick(pickId) {
+            if (!currentUser) {
+                showNotification('Please login to like picks!', 'warning');
+                return;
+            }
+            
             if (likedPicks.has(pickId)) {
                 showNotification('You already liked this pick!', 'warning', 2000);
                 return;
             }
             
             const pick = communityPicks.find(p => p.id === pickId);
-            if (pick) {
-                pick.likes++;
-                likedPicks.add(pickId);
-                awardCoins(1, 'Liked a community pick!');
-                updateCommunityFeed();
-                showNotification('Thanks for the feedback! +1 coin', 'success', 2000);
+            if (!pick) {
+                showNotification('Pick not found!', 'error');
+                return;
+            }
+            
+            // Update locally first
+            pick.likes++;
+            likedPicks.add(pickId);
+            
+            // Update likedBy list
+            const likedByList = pick.likedBy ? pick.likedBy.split(',') : [];
+            if (!likedByList.includes(currentUser.username)) {
+                likedByList.push(currentUser.username);
+                pick.likedBy = likedByList.join(',');
+            }
+            
+            // Update UI immediately
+            updateCommunityFeed();
+            awardCoins(1, 'Liked a community pick!');
+            showNotification('Thanks for the feedback! +1 coin', 'success', 2000);
+            
+            // Save to Google Sheets
+            try {
+                const formData = new URLSearchParams({
+                    action: 'likeCommunityPick',
+                    pickId: pickId,
+                    username: currentUser.username,
+                    newLikeCount: pick.likes,
+                    likedBy: pick.likedBy
+                });
+                
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    console.log('✅ Like saved to Google Sheets');
+                } else {
+                    console.log('⚠️ Like saved locally only');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error saving like to Google Sheets:', error);
             }
         }
+
 
         function awardCoins(amount, reason) {
             userCoins += amount;
@@ -890,26 +1527,50 @@ function selectPick(gameId, pickType, selection) {
             document.getElementById('communityModal').style.display = 'none';
         }
 
+ // 🔧 ENHANCED: Better achievement checking
         function checkAchievements() {
+            if (!currentUser) return [];
+
             let newAchievements = [];
             
+            // Update total picks made from actual user picks
+            totalPicksMade = Object.values(userPicks).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
+            
+            console.log('🔍 Checking achievements...', {
+                user: currentUser.username,
+                totalPicks: totalPicksMade,
+                userScore: currentUser.score,
+                userStreak: currentUser.streak,
+                userAccuracy: currentUser.accuracy,
+                communityPicks: communityPicks.filter(p => p.username === currentUser.username).length
+            });
+            
             for (const [key, achievement] of Object.entries(ACHIEVEMENTS)) {
-                if (!userAchievements.includes(achievement.id) && achievement.condition()) {
+                const wasUnlocked = userAchievements.includes(achievement.id);
+                const isNowUnlocked = achievement.condition();
+                
+                console.log(`Checking ${achievement.name}: was=${wasUnlocked}, now=${isNowUnlocked}`);
+                
+                if (!wasUnlocked && isNowUnlocked) {
                     userAchievements.push(achievement.id);
                     newAchievements.push(achievement);
                     
                     if (achievement.coinReward) {
                         awardCoins(achievement.coinReward, `Achievement: ${achievement.name}!`);
                     }
+                    
+                    console.log(`🏆 NEW ACHIEVEMENT UNLOCKED: ${achievement.name}`);
                 }
             }
             
+            // Show notifications for new achievements
             newAchievements.forEach((achievement, index) => {
                 setTimeout(() => {
-                    showNotification(`🏆 Achievement Unlocked: ${achievement.name}!`, 'success', 4000);
+                    showNotification(`🏆 Achievement Unlocked: ${achievement.name}! +${achievement.coinReward} coins`, 'success', 4000);
                 }, 500 * (index + 1));
             });
             
+            console.log(`✅ Achievement check complete: ${userAchievements.length} total unlocked`);
             return newAchievements;
         }
 
@@ -937,6 +1598,167 @@ function parseCSVLine(line) {
     result.push(current); // Add the last field
     return result;
 }
+
+function updateAchievementsModal() {
+            console.log('🏆 Updating achievements modal...');
+            
+            if (!currentUser) {
+                console.log('❌ No current user for achievements');
+                return;
+            }
+
+            const achievementsGrid = document.getElementById('achievementsGrid');
+            if (!achievementsGrid) {
+                console.error('❌ Achievements grid not found');
+                return;
+            }
+
+            // Force check achievements first
+            checkAchievements();
+
+            let achievementsHTML = '';
+            let unlockedCount = 0;
+
+            // Create achievement cards for each achievement
+            Object.values(ACHIEVEMENTS).forEach(achievement => {
+                const isUnlocked = userAchievements.includes(achievement.id);
+                
+                if (isUnlocked) {
+                    unlockedCount++;
+                }
+
+                // Get progress towards achievement
+                const progress = getAchievementProgress(achievement);
+                
+                achievementsHTML += `
+                    <div style="
+                        background: ${isUnlocked ? 'linear-gradient(135deg, ' + achievement.color + '20 0%, ' + achievement.color + '10 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'} !important;
+                        border: 2px solid ${isUnlocked ? achievement.color : '#e2e8f0'} !important;
+                        border-radius: 12px !important;
+                        padding: 20px !important;
+                        text-align: center !important;
+                        transition: all 0.3s ease !important;
+                        opacity: ${isUnlocked ? '1' : '0.7'} !important;
+                        transform: ${isUnlocked ? 'scale(1)' : 'scale(0.95)'} !important;
+                    ">
+                        <div style="
+                            font-size: 32px !important;
+                            margin-bottom: 10px !important;
+                            filter: ${isUnlocked ? 'none' : 'grayscale(100%)'} !important;
+                        ">${achievement.icon}</div>
+                        
+                        <h4 style="
+                            color: ${isUnlocked ? achievement.color : '#64748b'} !important;
+                            margin: 0 0 8px 0 !important;
+                            font-size: 16px !important;
+                            font-weight: bold !important;
+                        ">${achievement.name}</h4>
+                        
+                        <p style="
+                            color: #64748b !important;
+                            font-size: 12px !important;
+                            margin: 0 0 10px 0 !important;
+                            line-height: 1.4 !important;
+                        ">${achievement.description}</p>
+                        
+                        ${isUnlocked ? `
+                            <div style="
+                                background: ${achievement.color} !important;
+                                color: white !important;
+                                padding: 6px 12px !important;
+                                border-radius: 15px !important;
+                                font-size: 11px !important;
+                                font-weight: bold !important;
+                                display: inline-block !important;
+                            ">
+                                ✅ UNLOCKED • +${achievement.coinReward} coins
+                            </div>
+                        ` : `
+                            <div style="
+                                background: #e2e8f0 !important;
+                                color: #64748b !important;
+                                padding: 6px 12px !important;
+                                border-radius: 15px !important;
+                                font-size: 11px !important;
+                                font-weight: bold !important;
+                                display: inline-block !important;
+                            ">
+                                🔒 ${progress}
+                            </div>
+                        `}
+                    </div>
+                `;
+            });
+
+            // Add summary header
+            const totalAchievements = Object.keys(ACHIEVEMENTS).length;
+            const summaryHTML = `
+                <div style="
+                    grid-column: 1 / -1 !important;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                    color: white !important;
+                    padding: 20px !important;
+                    border-radius: 12px !important;
+                    text-align: center !important;
+                    margin-bottom: 20px !important;
+                ">
+                    <h3 style="margin: 0 0 10px 0 !important;">🏆 Achievement Progress</h3>
+                    <div style="font-size: 24px !important; font-weight: bold !important;">
+                        ${unlockedCount} / ${totalAchievements} Unlocked
+                    </div>
+                    <div style="font-size: 14px !important; margin-top: 5px !important; opacity: 0.9 !important;">
+                        Keep playing to unlock more achievements!
+                    </div>
+                </div>
+            `;
+
+            achievementsGrid.innerHTML = summaryHTML + achievementsHTML;
+            
+            console.log(`✅ Achievements modal updated: ${unlockedCount}/${totalAchievements} unlocked`);
+        }
+
+        // 🔧 NEW FUNCTION: Get achievement progress
+        function getAchievementProgress(achievement) {
+            if (!currentUser) return 'Login required';
+
+            switch (achievement.id) {
+                case 'firstPick':
+                    return totalPicksMade >= 1 ? 'Ready to unlock!' : `Make your first pick (${totalPicksMade}/1)`;
+                    
+                case 'quickStarter':
+                    return totalPicksMade >= 5 ? 'Ready to unlock!' : `Make 5 picks (${totalPicksMade}/5)`;
+                    
+                case 'pickMaster':
+                    return totalPicksMade >= 10 ? 'Ready to unlock!' : `Make 10 picks (${totalPicksMade}/10)`;
+                    
+                case 'firstShare':
+                    const sharedCount = communityPicks.filter(p => p.username === currentUser.username && p.reasoning).length;
+                    return sharedCount >= 1 ? 'Ready to unlock!' : `Share reasoning for 1 pick (${sharedCount}/1)`;
+                    
+                case 'socialButterfly':
+                    const socialCount = communityPicks.filter(p => p.username === currentUser.username && p.reasoning).length;
+                    return socialCount >= 5 ? 'Ready to unlock!' : `Share reasoning for 5 picks (${socialCount}/5)`;
+                    
+                case 'confident':
+                    const confidentCount = communityPicks.filter(p => p.username === currentUser.username && p.confidence === 5).length;
+                    return confidentCount >= 1 ? 'Ready to unlock!' : `Make a 5-star pick (${confidentCount}/1)`;
+                    
+                case 'streakStarter':
+                    return currentUser.streak >= 3 ? 'Ready to unlock!' : `Reach 3 win streak (${currentUser.streak}/3)`;
+                    
+                case 'streakMaster':
+                    return currentUser.streak >= 5 ? 'Ready to unlock!' : `Reach 5 win streak (${currentUser.streak}/5)`;
+                    
+                case 'accurateShooter':
+                    return currentUser.accuracy >= 80 ? 'Ready to unlock!' : `Reach 80% accuracy (${currentUser.accuracy}%/80%)`;
+                    
+                case 'centurion':
+                    return currentUser.score >= 100 ? 'Ready to unlock!' : `Reach 100 points (${currentUser.score}/100)`;
+                    
+                default:
+                    return 'Progress unknown';
+            }
+        }
 
 // UPDATED: Fixed renderGames function with better debugging
 function renderGames() {
@@ -1319,8 +2141,41 @@ function renderGames() {
             document.getElementById('achievementsModal').style.display = 'flex';
         }
 
+        // 🔧 FIXED: Better hideAchievements function
         function hideAchievements() {
-            document.getElementById('achievementsModal').style.display = 'none';
+            const modal = document.getElementById('achievementsModal');
+            const backdrop = document.getElementById('achievementsBackdrop');
+            
+            if (modal) {
+                // Try different methods to hide
+                try {
+                    // Bootstrap methods
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        const bsModal = bootstrap.Modal.getInstance(modal);
+                        if (bsModal) {
+                            bsModal.hide();
+                            return;
+                        }
+                    }
+                    
+                    if (typeof $ !== 'undefined') {
+                        $(modal).modal('hide');
+                        return;
+                    }
+                    
+                    // Manual hide
+                    modal.style.display = 'none';
+                    modal.classList.remove('show');
+                    document.body.classList.remove('modal-open');
+                    
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                    
+                } catch (error) {
+                    console.error('Error hiding modal:', error);
+                }
+            }
         }
 
         function switchToLogin() {
@@ -2135,59 +2990,372 @@ function checkPicksAfterProcessing() {
         });
 }
 
-// ADD THESE FIXES TO YOUR HTML JAVASCRIPT SECTION:
+// Load tournament data
+async function loadTournamentData() {
+    try {
+        console.log('🏆 Loading tournament data...');
+        
+        // Get tournaments
+        const tournamentsResponse = await fetch(APPS_SCRIPT_URL + '?action=getTournaments');
+        const tournamentsCSV = await tournamentsResponse.text();
+        
+        if (tournamentsCSV.includes('Error:') || tournamentsCSV.includes('Unknown action:')) {
+            console.error('Tournament error:', tournamentsCSV);
+            return;
+        }
+        
+        const tournaments = parseCSV(tournamentsCSV);
+        console.log('Tournaments loaded:', tournaments);
+        
+        // Find active tournament
+        currentTournament = tournaments.find(t => t.Status === 'active');
+        
+        if (currentTournament) {
+            console.log('🎯 Active tournament found:', currentTournament.Name);
+            await loadTournamentUsers();
+            await loadTournamentPicks();
+            displayTournamentBanner();
+        } else {
+            console.log('No active tournaments found');
+            hideTournamentBanner();
+        }
+        
+    } catch (error) {
+        console.error('Error loading tournament data:', error);
+    }
+}
 
-// ==================== ACHIEVEMENTS MODAL FIX ====================
+// Load tournament users
+async function loadTournamentUsers() {
+    try {
+        const response = await fetch(APPS_SCRIPT_URL + '?action=getTournamentUsers');
+        const csv = await response.text();
+        
+        if (!csv.includes('Error:')) {
+            const users = parseCSV(csv);
+            
+            // Find current user's tournament data
+            if (currentUser) {
+                userTournamentData = users.find(u => 
+                    u.TournamentID == currentTournament.ID && 
+                    u.Username === currentUser.username
+                );
+            }
+            
+            // Create leaderboard
+            tournamentLeaderboard = users
+                .filter(u => u.TournamentID == currentTournament.ID)
+                .sort((a, b) => parseInt(b.TotalScore || 0) - parseInt(a.TotalScore || 0))
+                .slice(0, 10); // Top 10
+                
+            console.log('Tournament users loaded:', users.length);
+        }
+    } catch (error) {
+        console.error('Error loading tournament users:', error);
+    }
+}
 
-// Enhanced function to show achievements modal
-function showAchievements() {
-    console.log('🏆 Opening achievements modal...');
+// Load tournament picks
+async function loadTournamentPicks() {
+    try {
+        const response = await fetch(APPS_SCRIPT_URL + '?action=getTournamentPicks');
+        const csv = await response.text();
+        
+        if (!csv.includes('Error:')) {
+            const picks = parseCSV(csv);
+            console.log('Tournament picks loaded:', picks.length);
+        }
+    } catch (error) {
+        console.error('Error loading tournament picks:', error);
+    }
+}
+
+// Display tournament banner
+function displayTournamentBanner() {
+    if (!currentTournament) return;
     
+    console.log('🎨 Displaying tournament banner');
+    
+    const banner = document.getElementById('tournamentBanner');
+    const nameEl = document.getElementById('tournamentName');
+    const prizePoolEl = document.getElementById('tournamentPrizePool');
+    const participantsEl = document.getElementById('tournamentParticipants');
+    const timeLeftEl = document.getElementById('tournamentTimeLeft');
+    const userRankEl = document.getElementById('tournamentUserRank');
+    const joinBtn = document.getElementById('joinTournamentBtn');
+    
+    // Update banner content
+    nameEl.textContent = currentTournament.Name;
+    prizePoolEl.textContent = `${currentTournament.PrizePool || 500} coins`;
+    participantsEl.textContent = `${currentTournament.CurrentParticipants || 0} / ${currentTournament.MaxParticipants || 1000}`;
+    
+    // Calculate time left
+    const endDate = new Date(currentTournament.EndDate);
+    const timeLeft = calculateTimeLeft(endDate);
+    timeLeftEl.textContent = timeLeft;
+    
+    // Update user rank
+    if (userTournamentData) {
+        userRankEl.textContent = `#${userTournamentData.Rank || 'Unranked'} (${userTournamentData.TotalScore || 0} pts)`;
+        joinBtn.textContent = '✅ Tournament Joined!';
+        joinBtn.disabled = true;
+    } else {
+        userRankEl.textContent = 'Not Joined';
+        joinBtn.textContent = '🚀 Join Tournament (FREE!)';
+        joinBtn.disabled = false;
+    }
+    
+    // Show banner
+    banner.classList.add('active');
+    
+    // Update tournament leaderboard
+    updateTournamentLeaderboard();
+}
+
+// Hide tournament banner
+function hideTournamentBanner() {
+    const banner = document.getElementById('tournamentBanner');
+    banner.classList.remove('active');
+}
+
+// Calculate time left
+function calculateTimeLeft(endDate) {
+    const now = new Date();
+    const diff = endDate - now;
+    
+    if (diff <= 0) return 'Ended';
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (days > 0) return `${days}d ${hours}h`;
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes}m`;
+}
+
+// Join tournament
+async function joinTournament() {
     if (!currentUser) {
-        console.log('❌ Please login first');
+        alert('Please log in to join tournaments!');
+        return;
+    }
+    
+    if (!currentTournament) {
+        alert('No active tournament found!');
         return;
     }
     
     try {
-        // Try multiple methods to open the modal
-        const modal = document.getElementById('achievementsModal');
+        console.log('🚀 Joining tournament:', currentTournament.Name);
         
-        if (modal) {
-            // Method 1: Bootstrap 5 style
-            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                const bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-                console.log('✅ Modal opened with Bootstrap 5');
-                return;
-            }
+        const joinData = new URLSearchParams({
+            action: 'joinTournament',
+            tournamentId: currentTournament.ID,
+            userId: currentUser.id,
+            username: currentUser.username
+        });
+        
+        const response = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: joinData
+        });
+        
+        const result = await response.text();
+        console.log('Join tournament result:', result);
+        
+        if (result.includes('Successfully joined') || result.includes('Already joined')) {
+            // Reload tournament data
+            await loadTournamentData();
             
-            // Method 2: Bootstrap 4 style (jQuery)
-            if (typeof $ !== 'undefined') {
-                $(modal).modal('show');
-                console.log('✅ Modal opened with Bootstrap 4/jQuery');
-                return;
-            }
-            
-            // Method 3: Manual show
-            modal.style.display = 'block';
-            modal.classList.add('show');
-            document.body.classList.add('modal-open');
-            
-            // Add backdrop
-            const backdrop = document.createElement('div');
-            backdrop.className = 'modal-backdrop fade show';
-            backdrop.id = 'achievementsBackdrop';
-            document.body.appendChild(backdrop);
-            
-            console.log('✅ Modal opened manually');
+            // Show success message
+            alert('🎉 Successfully joined the tournament! Good luck!');
         } else {
-            console.error('❌ Achievements modal not found in DOM');
+            alert('Error joining tournament: ' + result);
         }
         
     } catch (error) {
-        console.error('Error opening achievements modal:', error);
+        console.error('Error joining tournament:', error);
+        alert('Error joining tournament. Please try again.');
     }
 }
+
+// Toggle tournament leaderboard
+function toggleTournamentLeaderboard() {
+    const leaderboard = document.getElementById('miniTournamentLeaderboard');
+    leaderboard.classList.toggle('active');
+}
+
+// Update tournament leaderboard display
+function updateTournamentLeaderboard() {
+    const rankingsContainer = document.getElementById('tournamentRankings');
+    
+    if (!tournamentLeaderboard.length) {
+        rankingsContainer.innerHTML = '<p>No tournament participants yet. Be the first to join!</p>';
+        return;
+    }
+    
+    let html = '';
+    
+    tournamentLeaderboard.forEach((user, index) => {
+        const isCurrentUser = currentUser && user.Username === currentUser.username;
+        const rankClass = index === 0 ? 'first' : index === 1 ? 'second' : index === 2 ? 'third' : '';
+        
+        html += `
+            <div class="tournament-ranking ${isCurrentUser ? 'user-rank' : ''}">
+                <div class="rank-info">
+                    <div class="rank-number ${rankClass}">${index + 1}</div>
+                    <span>${user.Username}</span>
+                </div>
+                <div class="tournament-points">${user.TotalScore || 0} pts</div>
+            </div>
+        `;
+    });
+    
+    // Add current user if not in top 10
+    if (currentUser && userTournamentData && !tournamentLeaderboard.some(u => u.Username === currentUser.username)) {
+        html += `
+            <div class="tournament-ranking user-rank">
+                <div class="rank-info">
+                    <div class="rank-number">${userTournamentData.Rank || '?'}</div>
+                    <span>${currentUser.username} (You)</span>
+                </div>
+                <div class="tournament-points">${userTournamentData.TotalScore || 0} pts</div>
+            </div>
+        `;
+    }
+    
+    rankingsContainer.innerHTML = html;
+}
+
+// Add tournament badge to weekend games
+function addTournamentBadges() {
+    if (!currentTournament) return;
+    
+    const gameCards = document.querySelectorAll('.game-card');
+    
+    gameCards.forEach(card => {
+        const gameTitle = card.querySelector('.game-title');
+        if (gameTitle && !gameTitle.querySelector('.tournament-game-badge')) {
+            const gameTimeText = card.querySelector('.game-time')?.textContent || '';
+            
+            // Check if it's a weekend game (Friday, Saturday, Sunday)
+            const gameDate = new Date(gameTimeText);
+            const dayOfWeek = gameDate.getDay();
+            
+            if (dayOfWeek === 0 || dayOfWeek === 5 || dayOfWeek === 6) { // Sunday, Friday, Saturday
+                const badge = document.createElement('span');
+                badge.className = 'tournament-game-badge';
+                badge.textContent = '🏆 TOURNAMENT';
+                gameTitle.appendChild(badge);
+                
+                // Add Friday night bonus indicator
+                if (dayOfWeek === 5) {
+                    badge.textContent = '🏆 TOURNAMENT +5 BONUS';
+                    badge.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)';
+                }
+            }
+        }
+    });
+}
+
+// Initialize tournament system
+async function initializeTournamentSystem() {
+    console.log('🏆 Initializing tournament system...');
+    await loadTournamentData();
+    
+    // Refresh tournament data every 30 seconds
+    setInterval(async () => {
+        await loadTournamentData();
+        addTournamentBadges();
+    }, 30000);
+}
+
+// Add to your existing initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Your existing initialization code...
+    
+    // Initialize tournament system
+    setTimeout(initializeTournamentSystem, 2000);
+});
+
+// Update the renderGames function to include tournament badges
+const originalRenderGames = window.renderGames;
+window.renderGames = function() {
+    if (originalRenderGames) {
+        originalRenderGames();
+    }
+    
+    // Add tournament badges after games are rendered
+    setTimeout(addTournamentBadges, 500);
+};
+
+console.log('🏆 Tournament UI System Loaded!');
+
+// ADD THESE FIXES TO YOUR HTML JAVASCRIPT SECTION:
+
+// ==================== ACHIEVEMENTS MODAL FIX ====================
+
+// 🔧 FIXED: Better showAchievements function
+        function showAchievements() {
+            console.log('🏆 Opening achievements modal...');
+            
+            if (!currentUser) {
+                showNotification('Please login to view achievements!', 'warning');
+                return;
+            }
+            
+            // Update the modal content before showing
+            updateAchievementsModal();
+            
+            // Show the modal
+            const modal = document.getElementById('achievementsModal');
+            
+            if (modal) {
+                // Try multiple methods to ensure modal shows
+                try {
+                    // Method 1: Bootstrap 5
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        const bsModal = new bootstrap.Modal(modal);
+                        bsModal.show();
+                        console.log('✅ Modal opened with Bootstrap 5');
+                        return;
+                    }
+                    
+                    // Method 2: Bootstrap 4 (jQuery)
+                    if (typeof $ !== 'undefined') {
+                        $(modal).modal('show');
+                        console.log('✅ Modal opened with Bootstrap 4/jQuery');
+                        return;
+                    }
+                    
+                    // Method 3: Manual show
+                    modal.style.display = 'flex';
+                    modal.style.zIndex = '1000';
+                    modal.classList.add('show');
+                    document.body.classList.add('modal-open');
+                    
+                    // Add backdrop
+                    let backdrop = document.getElementById('achievementsBackdrop');
+                    if (!backdrop) {
+                        backdrop = document.createElement('div');
+                        backdrop.className = 'modal-backdrop fade show';
+                        backdrop.id = 'achievementsBackdrop';
+                        backdrop.style.zIndex = '999';
+                        document.body.appendChild(backdrop);
+                    }
+                    
+                    console.log('✅ Modal opened manually');
+                    
+                } catch (error) {
+                    console.error('Error opening modal:', error);
+                }
+            } else {
+                console.error('❌ Achievements modal not found');
+            }
+        }
+
 
 // Function to close achievements modal manually
 function closeAchievementsModal() {
@@ -3024,8 +4192,352 @@ window.addEventListener('beforeunload', function() {
 });
 
 console.log('FinalScore Pick\'em Platform - Enhanced with Countdown & Filtering!');
+// 🔍 STEP 1: Test Google Apps Script Connection
+        async function testGoogleSheetsConnection() {
+            console.log('=== TESTING GOOGLE SHEETS CONNECTION ===');
+            
+            try {
+                // Test basic connection
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getUsers&cacheBust=${Date.now()}`);
+                const result = await response.text();
+                
+                console.log('✅ Basic connection works:', response.ok);
+                console.log('Response preview:', result.substring(0, 100));
+                
+                // Test community picks specifically
+                const communityResponse = await fetch(`${APPS_SCRIPT_URL}?action=getCommunityPicks&cacheBust=${Date.now()}`);
+                const communityResult = await communityResponse.text();
+                
+                console.log('✅ Community picks connection:', communityResponse.ok);
+                console.log('Community response:', communityResult);
+                
+                if (communityResult.includes('Error') || !communityResponse.ok) {
+                    console.log('❌ Community picks action not working properly');
+                    console.log('Make sure your Google Apps Script has the getCommunityPicks function');
+                }
+                
+            } catch (error) {
+                console.error('❌ Connection failed:', error);
+            }
+        }
+
+        // 🔍 STEP 2: Test Community Pick Save Function
+        async function testSaveCommunityPick() {
+            console.log('=== TESTING COMMUNITY PICK SAVE ===');
+            
+            if (!currentUser) {
+                console.log('❌ Please login first');
+                return;
+            }
+            
+            const testPick = {
+                id: Date.now(),
+                username: currentUser.username,
+                gameTitle: 'Test Game A vs Test Game B',
+                pickType: 'winner',
+                selection: 'Test Game A',
+                pickDisplay: 'Test Game A',
+                reasoning: 'This is a test reasoning to check if community picks are saving properly.',
+                confidence: 4,
+                timestamp: new Date().toISOString(),
+                likes: 0,
+                likedBy: ''
+            };
+            
+            console.log('📤 Sending test community pick:', testPick);
+            
+            try {
+                const formData = new URLSearchParams({
+                    action: 'saveCommunityPick',
+                    id: testPick.id,
+                    username: testPick.username,
+                    gameTitle: testPick.gameTitle,
+                    pickType: testPick.pickType,
+                    selection: testPick.selection,
+                    pickDisplay: testPick.pickDisplay,
+                    reasoning: testPick.reasoning,
+                    confidence: testPick.confidence,
+                    timestamp: testPick.timestamp,
+                    likes: testPick.likes,
+                    likedBy: testPick.likedBy
+                });
+                
+                console.log('📤 Form data being sent:', [...formData.entries()]);
+                
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+                
+                const result = await response.text();
+                console.log('📥 Save response:', result);
+                
+                if (response.ok && result.includes('successfully')) {
+                    console.log('✅ Community pick saved successfully!');
+                    
+                    // Wait a moment then check if it appears
+                    setTimeout(async () => {
+                        console.log('🔍 Checking if pick appears in Google Sheets...');
+                        await loadCommunityPicks();
+                    }, 2000);
+                } else {
+                    console.log('❌ Community pick save failed:', result);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error testing community pick save:', error);
+            }
+        }
+
+        // 🔍 STEP 3: Enhanced Debug Version of loadCommunityPicks
+        async function debugLoadCommunityPicks() {
+            console.log('=== DEBUG: LOADING COMMUNITY PICKS ===');
+            
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getCommunityPicks&cacheBust=${Date.now()}`);
+                const csvData = await response.text();
+                
+                console.log('📥 Raw CSV response:', csvData);
+                console.log('📊 Response length:', csvData.length);
+                console.log('📊 Response status:', response.ok);
+                
+                if (!csvData || csvData.includes('Error') || csvData.trim() === '') {
+                    console.log('❌ No community picks data received');
+                    console.log('This usually means:');
+                    console.log('1. CommunityPicks sheet doesn\'t exist');
+                    console.log('2. getCommunityPicks function missing from Google Apps Script');
+                    console.log('3. Permission issues');
+                    return;
+                }
+                
+                // Parse CSV data with detailed logging
+                const lines = csvData.trim().split('\n');
+                console.log('📋 Number of lines:', lines.length);
+                console.log('📋 Headers:', lines[0]);
+                
+                if (lines.length <= 1) {
+                    console.log('⚠️ Only headers found, no actual community picks');
+                    return;
+                }
+                
+                // Parse each line
+                for (let i = 1; i < lines.length; i++) {
+                    console.log(`📝 Line ${i}:`, lines[i]);
+                    
+                    const values = parseCSVLine(lines[i]);
+                    console.log(`📝 Parsed values:`, values);
+                }
+                
+                console.log('✅ Community picks parsing completed');
+                
+            } catch (error) {
+                console.error('❌ Error in debug load:', error);
+            }
+        }
+
+        // 🔍 STEP 4: Check Google Apps Script Deployment
+        function checkGoogleAppsScriptDeployment() {
+            console.log('=== CHECKING GOOGLE APPS SCRIPT DEPLOYMENT ===');
+            console.log('📍 Apps Script URL:', APPS_SCRIPT_URL);
+            
+            // Check if URL looks correct
+            if (!APPS_SCRIPT_URL.includes('https://script.google.com')) {
+                console.log('❌ Apps Script URL doesn\'t look correct');
+                console.log('Make sure you have the deployed web app URL, not the editor URL');
+                return;
+            }
+            
+            if (!APPS_SCRIPT_URL.includes('/exec')) {
+                console.log('⚠️ URL should end with /exec for deployed web app');
+                console.log('Make sure you deployed as web app and copied the correct URL');
+            }
+            
+            console.log('✅ Apps Script URL looks correct');
+            
+            // Test different actions
+            const actionsToTest = ['getUsers', 'getGames', 'getCommunityPicks'];
+            
+            actionsToTest.forEach(async (action) => {
+                try {
+                    const response = await fetch(`${APPS_SCRIPT_URL}?action=${action}&test=true`);
+                    const result = await response.text();
+                    
+                    console.log(`📊 ${action}:`, response.ok ? '✅ Working' : '❌ Failed');
+                    if (!response.ok) {
+                        console.log(`   Error: ${result}`);
+                    }
+                } catch (error) {
+                    console.log(`📊 ${action}: ❌ Failed -`, error.message);
+                }
+            });
+        }
+
+        // 🔍 STEP 5: Test the parseCSVLine function
+        function testCSVParsing() {
+            console.log('=== TESTING CSV PARSING ===');
+            
+            // Test with sample community pick data
+            const sampleCSVLine = '1,ProBettor,"Lakers vs Warriors",winner,Lakers,Lakers,"LeBron is back, strong at home",4,2024-06-25T10:30:00.000Z,12,"demo,test"';
+            
+            console.log('📝 Sample CSV line:', sampleCSVLine);
+            
+            const parsed = parseCSVLine(sampleCSVLine);
+            console.log('📝 Parsed result:', parsed);
+            
+            // Check if parseCSVLine function exists
+            if (typeof parseCSVLine === 'undefined') {
+                console.log('❌ parseCSVLine function is missing!');
+                console.log('Add this function to your code:');
+                console.log(`
+function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(current);
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    
+    result.push(current);
+    return result;
+}
+                `);
+            } else {
+                console.log('✅ parseCSVLine function exists and working');
+            }
+        }
+
+        // 🔍 STEP 6: Complete Debug Run
+        async function runCompleteDebug() {
+            console.log('🚀 STARTING COMPLETE COMMUNITY PICKS DEBUG');
+            console.log('=======================================');
+            
+            // Step 1: Check basic setup
+            console.log('👤 Current user:', currentUser);
+            console.log('🌐 Apps Script URL:', APPS_SCRIPT_URL);
+            
+            if (!currentUser) {
+                console.log('❌ Please login first, then run this debug again');
+                return;
+            }
+            
+            // Step 2: Test connection
+            await testGoogleSheetsConnection();
+            
+            // Step 3: Check deployment
+            checkGoogleAppsScriptDeployment();
+            
+            // Step 4: Test CSV parsing
+            testCSVParsing();
+            
+            // Step 5: Test loading community picks
+            await debugLoadCommunityPicks();
+            
+            // Step 6: Test saving a community pick
+            await testSaveCommunityPick();
+            
+            console.log('=======================================');
+            console.log('🏁 COMPLETE DEBUG FINISHED');
+            console.log('Check the results above to identify the issue');
+        }
+
+        // 🔍 STEP 7: Quick Fix Functions
+        
+        // Fix 1: Ensure parseCSVLine exists
+        function ensureParseCSVLine() {
+            if (typeof parseCSVLine === 'undefined') {
+                console.log('🔧 Adding missing parseCSVLine function...');
+                
+                window.parseCSVLine = function(line) {
+                    const result = [];
+                    let current = '';
+                    let inQuotes = false;
+                    
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        
+                        if (char === '"') {
+                            inQuotes = !inQuotes;
+                        } else if (char === ',' && !inQuotes) {
+                            result.push(current);
+                            current = '';
+                        } else {
+                            current += char;
+                        }
+                    }
+                    
+                    result.push(current);
+                    return result;
+                };
+                
+                console.log('✅ parseCSVLine function added');
+            }
+        }
+
+        // Fix 2: Force refresh community picks
+        async function forceRefreshCommunityPicks() {
+            console.log('🔄 Force refreshing community picks...');
+            
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getCommunityPicks&forceClear=true&cacheBust=${Date.now()}`);
+                const result = await response.text();
+                
+                console.log('📥 Forced refresh result:', result);
+                
+                if (result && !result.includes('Error')) {
+                    // Try to parse and display
+                    const lines = result.trim().split('\n');
+                    if (lines.length > 1) {
+                        console.log('✅ Found community picks data!');
+                        console.log('📊 Number of picks:', lines.length - 1);
+                        
+                        // Update the communityPicks array
+                        loadCommunityPicks();
+                    } else {
+                        console.log('⚠️ CommunityPicks sheet exists but is empty');
+                    }
+                } else {
+                    console.log('❌ No valid community picks data');
+                }
+                
+            } catch (error) {
+                console.error('❌ Force refresh failed:', error);
+            }
+        }
+
+        // 🔍 STEP 8: Auto-run basic checks when this script loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure required functions exist
+            ensureParseCSVLine();
+            
+            // Log debug tools availability
+            console.log('🔧 Community Picks Debug Tools Loaded!');
+            console.log('Available debug functions:');
+            console.log('- runCompleteDebug() - Run full debug');
+            console.log('- testGoogleSheetsConnection() - Test connection');
+            console.log('- testSaveCommunityPick() - Test saving');
+            console.log('- debugLoadCommunityPicks() - Test loading');
+            console.log('- forceRefreshCommunityPicks() - Force refresh');
+        });
+
+        console.log('🔍 Community Picks Debug Tools Ready!');
+        console.log('Run runCompleteDebug() in console to start debugging');
 console.log('Google Apps Script URL:', APPS_SCRIPT_URL);
 console.log('Features: Google Sheets Integration, Real-time Pick Submission, Community Features, Live Countdowns');
+
+
 
     </script>
 </body>
