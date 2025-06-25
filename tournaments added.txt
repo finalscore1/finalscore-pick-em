@@ -589,21 +589,7 @@
         let likedPicks = new Set();
         let submittedGames = new Set();
 
-        // Achievement definitions with coin rewards
-        const ACHIEVEMENTS = {
-            firstShare: { id: 'firstShare', name: 'First Insight', description: 'Shared your first pick reasoning!', icon: '💭', color: '#10b981', coinReward: 10, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 1 },
-            socialButterfly: { id: 'socialButterfly', name: 'Social Butterfly', description: 'Shared reasoning for 5 picks!', icon: '🦋', color: '#ec4899', coinReward: 25, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 5 },
-            confident: { id: 'confident', name: 'Supremely Confident', description: 'Made a 5-star confidence pick!', icon: '⭐', color: '#f59e0b', coinReward: 15, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.confidence === 5).length >= 1 },
-            firstPick: { id: 'firstPick', name: 'First Steps', description: 'Made your first pick!', icon: '🎯', color: '#10b981', coinReward: 5, condition: () => totalPicksMade >= 1 },
-            quickStarter: { id: 'quickStarter', name: 'Quick Starter', description: 'Made 5 picks in one session!', icon: '⚡', color: '#f59e0b', coinReward: 15, condition: () => totalPicksMade >= 5 },
-            pickMaster: { id: 'pickMaster', name: 'Pick Master', description: 'Made 10 picks total!', icon: '🏆', color: '#8b5cf6', coinReward: 30, condition: () => totalPicksMade >= 10 },
-            streakStarter: { id: 'streakStarter', name: 'On Fire', description: 'Reached a 3-game win streak!', icon: '🔥', color: '#ef4444', coinReward: 20, condition: () => currentUser && currentUser.streak >= 3 },
-            streakMaster: { id: 'streakMaster', name: 'Unstoppable', description: 'Reached a 5-game win streak!', icon: '🌟', color: '#fbbf24', coinReward: 50, condition: () => currentUser && currentUser.streak >= 5 },
-            accurateShooter: { id: 'accurateShooter', name: 'Sharp Shooter', description: 'Maintained 80%+ accuracy!', icon: '🎯', color: '#06b6d4', coinReward: 40, condition: () => currentUser && currentUser.accuracy >= 80 },
-            centurion: { id: 'centurion', name: 'Centurion', description: 'Reached 100 points!', icon: '💯', color: '#ec4899', coinReward: 25, condition: () => currentUser && currentUser.score >= 100 }
-        };
-
-        function initializeApp() {
+                function initializeApp() {
             console.log('Initializing FinalScore Platform...');
             loadUsers();
             loadTodaysGames();
@@ -890,28 +876,7 @@ function selectPick(gameId, pickType, selection) {
             document.getElementById('communityModal').style.display = 'none';
         }
 
-        function checkAchievements() {
-            let newAchievements = [];
-            
-            for (const [key, achievement] of Object.entries(ACHIEVEMENTS)) {
-                if (!userAchievements.includes(achievement.id) && achievement.condition()) {
-                    userAchievements.push(achievement.id);
-                    newAchievements.push(achievement);
-                    
-                    if (achievement.coinReward) {
-                        awardCoins(achievement.coinReward, `Achievement: ${achievement.name}!`);
-                    }
-                }
-            }
-            
-            newAchievements.forEach((achievement, index) => {
-                setTimeout(() => {
-                    showNotification(`🏆 Achievement Unlocked: ${achievement.name}!`, 'success', 4000);
-                }, 500 * (index + 1));
-            });
-            
-            return newAchievements;
-        }
+
 
        // FIXED VERSION - Replace your renderGames() function with this:
 
@@ -1312,15 +1277,6 @@ function renderGames() {
         function hideLogin() {
             document.getElementById('loginModal').style.display = 'none';
             clearMessage();
-        }
-
-        function showAchievements() {
-            updateAchievementsModal();
-            document.getElementById('achievementsModal').style.display = 'flex';
-        }
-
-        function hideAchievements() {
-            document.getElementById('achievementsModal').style.display = 'none';
         }
 
         function switchToLogin() {
@@ -2133,6 +2089,935 @@ function checkPicksAfterProcessing() {
                 console.log('❌ STILL NO SCORING - There may be a deeper issue');
             }
         });
+}
+
+// ADD THESE FIXES TO YOUR HTML JAVASCRIPT SECTION:
+
+// ==================== ACHIEVEMENTS MODAL FIX ====================
+
+// ==================== CLEAN ACHIEVEMENTS SYSTEM ====================
+// IMPORTANT: Only include this ONCE in your code!
+
+// Remove any existing ACHIEVEMENTS constants first!
+if (typeof window.ACHIEVEMENTS !== 'undefined') {
+    delete window.ACHIEVEMENTS;
+}
+
+// Define achievements data
+window.ACHIEVEMENTS = {
+    // Scoring achievements
+    first_win: {
+        id: 'first_win',
+        name: 'First Victory',
+        description: 'Make your first correct prediction',
+        icon: '🎯',
+        type: 'milestone',
+        requirement: 1,
+        checkFunction: (user) => user.correctPicks >= 1
+    },
+    
+    perfect_game: {
+        id: 'perfect_game',
+        name: 'Perfect Game',
+        description: 'Get all picks correct in a single game (3/3)',
+        icon: '💯',
+        type: 'special',
+        requirement: 1,
+        checkFunction: (user) => user.perfectGames >= 1
+    },
+    
+    century_club: {
+        id: 'century_club',
+        name: 'Century Club',
+        description: 'Reach 100 total points',
+        icon: '💰',
+        type: 'milestone',
+        requirement: 100,
+        checkFunction: (user) => user.score >= 100
+    },
+    
+    streak_master: {
+        id: 'streak_master',
+        name: 'Streak Master',
+        description: 'Get 5 predictions in a row correct',
+        icon: '🔥',
+        type: 'streak',
+        requirement: 5,
+        checkFunction: (user) => user.maxStreak >= 5
+    },
+    
+    high_roller: {
+        id: 'high_roller',
+        name: 'High Roller',
+        description: 'Reach 500 total points',
+        icon: '💎',
+        type: 'milestone',
+        requirement: 500,
+        checkFunction: (user) => user.score >= 500
+    },
+    
+    // Accuracy achievements
+    sharpshooter: {
+        id: 'sharpshooter',
+        name: 'Sharpshooter',
+        description: 'Maintain 80% accuracy with at least 10 picks',
+        icon: '🎯',
+        type: 'accuracy',
+        requirement: 80,
+        checkFunction: (user) => user.accuracy >= 80 && user.totalPicks >= 10
+    },
+    
+    consistency_king: {
+        id: 'consistency_king',
+        name: 'Consistency King',
+        description: 'Maintain 70% accuracy with at least 25 picks',
+        icon: '👑',
+        type: 'accuracy',
+        requirement: 70,
+        checkFunction: (user) => user.accuracy >= 70 && user.totalPicks >= 25
+    },
+    
+    // Participation achievements
+    early_bird: {
+        id: 'early_bird',
+        name: 'Early Bird',
+        description: 'Make picks on your first day',
+        icon: '🐦',
+        type: 'special',
+        requirement: 1,
+        checkFunction: (user) => user.totalPicks >= 1
+    },
+    
+    dedicated_player: {
+        id: 'dedicated_player',
+        name: 'Dedicated Player',
+        description: 'Make picks on 5 different games',
+        icon: '🏆',
+        type: 'participation',
+        requirement: 5,
+        checkFunction: (user) => user.gamesPlayed >= 5
+    },
+    
+    veteran_picker: {
+        id: 'veteran_picker',
+        name: 'Veteran Picker',
+        description: 'Make 50 total predictions',
+        icon: '🥇',
+        type: 'participation',
+        requirement: 50,
+        checkFunction: (user) => user.totalPicks >= 50
+    }
+};
+
+// Calculate user achievements
+async function calculateUserAchievements(username) {
+    try {
+        console.log(`🏆 Calculating achievements for ${username}...`);
+        
+        // Get user picks data
+        const picksResponse = await fetch(`${APPS_SCRIPT_URL}?action=getPicks&cacheBust=${Date.now()}`);
+        const picksCSV = await picksResponse.text();
+        
+        if (!picksCSV || picksCSV.includes('Error')) {
+            console.error('❌ Error loading picks data');
+            return { earned: [], progress: {}, stats: {} };
+        }
+        
+        // Parse picks
+        const picksLines = picksCSV.trim().split('\n');
+        const picksHeaders = parseCSVLine(picksLines[0]);
+        
+        let userStats = {
+            totalPicks: 0,
+            correctPicks: 0,
+            score: currentUser ? currentUser.score : 0,
+            accuracy: currentUser ? currentUser.accuracy : 0,
+            maxStreak: 0,
+            currentStreak: 0,
+            gamesPlayed: new Set(),
+            perfectGames: 0
+        };
+        
+        // Process user picks
+        let consecutiveCorrect = 0;
+        let maxStreak = 0;
+        const gamePickResults = {};
+        
+        for (let i = 1; i < picksLines.length; i++) {
+            const values = parseCSVLine(picksLines[i]);
+            const pick = {};
+            picksHeaders.forEach((header, index) => {
+                pick[header] = values[index];
+            });
+            
+            if (pick.Username === username && pick.IsCorrect !== '' && pick.IsCorrect !== null) {
+                userStats.totalPicks++;
+                userStats.gamesPlayed.add(pick.GameID);
+                
+                // Track game-level results for perfect games
+                if (!gamePickResults[pick.GameID]) {
+                    gamePickResults[pick.GameID] = { total: 0, correct: 0 };
+                }
+                gamePickResults[pick.GameID].total++;
+                
+                const isCorrect = pick.IsCorrect === 'true' || pick.IsCorrect === true || pick.IsCorrect === 'TRUE';
+                if (isCorrect) {
+                    userStats.correctPicks++;
+                    gamePickResults[pick.GameID].correct++;
+                    consecutiveCorrect++;
+                    maxStreak = Math.max(maxStreak, consecutiveCorrect);
+                } else {
+                    consecutiveCorrect = 0;
+                }
+            }
+        }
+        
+        // Check for perfect games (3/3 correct picks in a single game)
+        Object.values(gamePickResults).forEach(game => {
+            if (game.total >= 3 && game.correct === game.total) {
+                userStats.perfectGames++;
+            }
+        });
+        
+        userStats.maxStreak = maxStreak;
+        userStats.gamesPlayed = userStats.gamesPlayed.size;
+        
+        console.log('📊 User stats:', userStats);
+        
+        // Check achievements
+        const earnedAchievements = [];
+        const progressData = {};
+        
+        Object.values(window.ACHIEVEMENTS).forEach(achievement => {
+            const isEarned = achievement.checkFunction(userStats);
+            
+            if (isEarned) {
+                earnedAchievements.push(achievement);
+            }
+            
+            // Calculate progress for milestone achievements
+            if (achievement.type === 'milestone' || achievement.type === 'participation') {
+                let currentValue = 0;
+                if (achievement.id.includes('score') || achievement.id.includes('points') || achievement.id.includes('club') || achievement.id.includes('roller')) {
+                    currentValue = userStats.score;
+                } else if (achievement.id.includes('streak')) {
+                    currentValue = userStats.maxStreak;
+                } else if (achievement.id.includes('accuracy')) {
+                    currentValue = userStats.accuracy;
+                } else if (achievement.id.includes('picks') || achievement.id.includes('picker')) {
+                    currentValue = userStats.totalPicks;
+                } else if (achievement.id.includes('games') || achievement.id.includes('player')) {
+                    currentValue = userStats.gamesPlayed;
+                }
+                
+                progressData[achievement.id] = {
+                    current: currentValue,
+                    required: achievement.requirement,
+                    percentage: Math.min(100, Math.round((currentValue / achievement.requirement) * 100))
+                };
+            }
+        });
+        
+        console.log(`✅ Found ${earnedAchievements.length} earned achievements`);
+        return { earned: earnedAchievements, progress: progressData, stats: userStats };
+        
+    } catch (error) {
+        console.error('Error calculating achievements:', error);
+        return { earned: [], progress: {}, stats: {} };
+    }
+}
+
+// Display achievements in modal
+function displayAchievements(data) {
+    const modalBody = document.querySelector('#achievementsModal .modal-body');
+    if (!modalBody) return;
+    
+    const { earned, progress, stats } = data;
+    
+    let html = `
+        <div class="achievements-container">
+            <div class="text-center mb-4">
+                <h3>🏆 Your Achievements</h3>
+                <p class="text-muted">
+                    ${earned.length} earned • ${Object.keys(window.ACHIEVEMENTS).length - earned.length} remaining
+                </p>
+            </div>
+    `;
+    
+    // User stats summary
+    html += `
+        <div class="stats-summary mb-4 p-3" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 8px;">
+            <h5>📊 Your Stats</h5>
+            <div class="row">
+                <div class="col-6 col-md-3 text-center">
+                    <div style="font-size: 1.5em; font-weight: bold; color: #059669;">${stats.score || 0}</div>
+                    <small class="text-muted">Total Points</small>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                    <div style="font-size: 1.5em; font-weight: bold; color: #dc2626;">${stats.correctPicks || 0}/${stats.totalPicks || 0}</div>
+                    <small class="text-muted">Correct Picks</small>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                    <div style="font-size: 1.5em; font-weight: bold; color: #ea580c;">${stats.maxStreak || 0}</div>
+                    <small class="text-muted">Best Streak</small>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                    <div style="font-size: 1.5em; font-weight: bold; color: #7c3aed;">${stats.gamesPlayed || 0}</div>
+                    <small class="text-muted">Games Played</small>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Earned achievements
+    if (earned.length > 0) {
+        html += `<div class="earned-achievements mb-4">
+            <h5>✅ Earned Achievements</h5>
+            <div class="row">`;
+        
+        earned.forEach(achievement => {
+            html += `
+                <div class="col-md-6 mb-3">
+                    <div class="achievement-card earned p-3" style="
+                        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+                        border: 2px solid #10b981;
+                        border-radius: 8px;
+                        position: relative;
+                    ">
+                        <div style="position: absolute; top: 8px; right: 8px; font-size: 1.2em;">✅</div>
+                        <div style="font-size: 2em; margin-bottom: 8px;">${achievement.icon}</div>
+                        <h6 style="margin-bottom: 4px; color: #065f46;">${achievement.name}</h6>
+                        <p style="margin: 0; font-size: 0.9em; color: #047857;">${achievement.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `</div></div>`;
+    }
+    
+    // Unearned achievements with progress
+    const unearnedAchievements = Object.values(window.ACHIEVEMENTS).filter(a => 
+        !earned.some(e => e.id === a.id)
+    );
+    
+    if (unearnedAchievements.length > 0) {
+        html += `<div class="unearned-achievements">
+            <h5>🎯 Goals to Achieve</h5>
+            <div class="row">`;
+        
+        unearnedAchievements.forEach(achievement => {
+            const progressInfo = progress[achievement.id];
+            const progressPercent = progressInfo ? progressInfo.percentage : 0;
+            const progressText = progressInfo ? `${progressInfo.current}/${progressInfo.required}` : '';
+            
+            html += `
+                <div class="col-md-6 mb-3">
+                    <div class="achievement-card unearned p-3" style="
+                        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+                        border: 2px solid #cbd5e1;
+                        border-radius: 8px;
+                        opacity: 0.8;
+                    ">
+                        <div style="font-size: 2em; margin-bottom: 8px; filter: grayscale(50%);">${achievement.icon}</div>
+                        <h6 style="margin-bottom: 4px; color: #475569;">${achievement.name}</h6>
+                        <p style="margin-bottom: 8px; font-size: 0.9em; color: #64748b;">${achievement.description}</p>
+                        ${progressInfo ? `
+                            <div class="progress" style="height: 8px; margin-bottom: 4px;">
+                                <div class="progress-bar" style="width: ${progressPercent}%; background: #3b82f6;"></div>
+                            </div>
+                            <small class="text-muted">${progressText} (${progressPercent}%)</small>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `</div></div>`;
+    }
+    
+    html += `</div>`;
+    
+    modalBody.innerHTML = html;
+    console.log(`✅ Displayed ${earned.length} earned and ${unearnedAchievements.length} unearned achievements`);
+}
+
+// Load achievements content
+async function loadAchievementsContent() {
+    const modalBody = document.querySelector('#achievementsModal .modal-body');
+    if (!modalBody) {
+        console.error('❌ Modal body not found');
+        return;
+    }
+    
+    // Show loading
+    modalBody.innerHTML = `
+        <div class="text-center p-4">
+            <h4>🏆 Loading Achievements...</h4>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    `;
+    
+    try {
+        // Calculate achievements
+        const achievementData = await calculateUserAchievements(currentUser.username);
+        
+        // Display achievements
+        displayAchievements(achievementData);
+        
+    } catch (error) {
+        console.error('Error loading achievements:', error);
+        modalBody.innerHTML = `
+            <div class="alert alert-danger">
+                <h4>⚠️ Error Loading Achievements</h4>
+                <p>Unable to load achievement data. Please try again.</p>
+                <button onclick="loadAchievementsContent()" class="btn btn-primary btn-sm">🔄 Retry</button>
+            </div>
+        `;
+    }
+}
+
+// Enhanced showAchievements function (replace the old one)
+function showAchievements() {
+    console.log('🏆 Opening achievements modal...');
+    
+    if (!currentUser) {
+        console.log('❌ Please login first');
+        return;
+    }
+    
+    try {
+        // Open the modal manually
+        const modal = document.getElementById('achievementsModal');
+        if (!modal) {
+            console.error('❌ Achievements modal not found');
+            return;
+        }
+        
+        // Show modal manually
+        modal.style.display = 'block';
+        modal.style.zIndex = '9999';
+        modal.classList.add('show');
+        modal.style.opacity = '1';
+        modal.style.visibility = 'visible';
+        
+        // Add backdrop
+        let backdrop = document.getElementById('achievementsBackdrop');
+        if (!backdrop) {
+            backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop fade show';
+            backdrop.id = 'achievementsBackdrop';
+            backdrop.style.zIndex = '9998';
+            document.body.appendChild(backdrop);
+        }
+        
+        document.body.classList.add('modal-open');
+        
+        console.log('✅ Modal opened, loading achievements...');
+        
+        // Load achievements content
+        setTimeout(() => {
+            loadAchievementsContent();
+        }, 100);
+        
+    } catch (error) {
+        console.error('Error opening achievements modal:', error);
+    }
+}
+
+// Enhanced modal close function
+function closeAchievementsModal() {
+    const modal = document.getElementById('achievementsModal');
+    const backdrop = document.getElementById('achievementsBackdrop');
+    
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+        modal.style.opacity = '';
+        modal.style.visibility = '';
+    }
+    
+    if (backdrop) {
+        backdrop.remove();
+    }
+    
+    document.body.classList.remove('modal-open');
+}
+
+// Enhanced hideAchievements function for existing button
+function hideAchievements() {
+    closeAchievementsModal();
+}
+
+// Test function for debugging
+function debugAchievements() {
+    console.log('=== ACHIEVEMENTS DEBUG ===');
+    console.log('Available achievements:', Object.keys(window.ACHIEVEMENTS).length);
+    console.log('Current user:', currentUser);
+    
+    if (currentUser) {
+        calculateUserAchievements(currentUser.username).then(data => {
+            console.log('Achievement data:', data);
+        });
+    }
+}
+
+console.log('✅ Clean Achievements System loaded successfully!'); 
+
+// ==================== LEADERBOARD FIX ====================
+
+// Enhanced leaderboard loading function
+async function loadLeaderboard() {
+    console.log('🏆 Loading leaderboard...');
+    
+    try {
+        const response = await fetch(`${APPS_SCRIPT_URL}?action=getUsers&cacheBust=${Date.now()}`);
+        const csvData = await response.text();
+        
+        console.log('Raw leaderboard data:', csvData);
+        
+        if (!csvData || csvData.includes('Error')) {
+            console.error('❌ Error loading leaderboard data:', csvData);
+            return;
+        }
+        
+        const lines = csvData.trim().split('\n');
+        const headers = parseCSVLine(lines[0]);
+        
+        console.log('Leaderboard headers:', headers);
+        console.log('Total users found:', lines.length - 1);
+        
+        const users = [];
+        
+        // Parse each user
+        for (let i = 1; i < lines.length; i++) {
+            const values = parseCSVLine(lines[i]);
+            const user = {
+                id: values[0],
+                username: values[1],
+                email: values[2],
+                score: parseInt(values[4]) || 0,
+                streak: parseInt(values[5]) || 0,
+                accuracy: parseInt(values[6]) || 0
+            };
+            
+            // Only include users with activity (score > 0 or made picks)
+            if (user.score > 0 || user.streak > 0 || user.accuracy > 0) {
+                users.push(user);
+            }
+        }
+        
+        console.log('Active users for leaderboard:', users);
+        
+        // Sort by score (descending)
+        users.sort((a, b) => b.score - a.score);
+        
+        // Update leaderboard display
+        displayLeaderboard(users);
+        
+    } catch (error) {
+        console.error('Error loading leaderboard:', error);
+        
+        // Show error in leaderboard
+        const container = document.getElementById('leaderboardContainer');
+        if (container) {
+            container.innerHTML = `
+                <div class="alert alert-danger">
+                    <h4>⚠️ Error Loading Leaderboard</h4>
+                    <p>Unable to load player data. Please try again.</p>
+                    <button onclick="loadLeaderboard()" class="btn btn-primary btn-sm">🔄 Retry</button>
+                </div>
+            `;
+        }
+    }
+}
+
+// Enhanced leaderboard display function
+function displayLeaderboard(users) {
+    const container = document.getElementById('leaderboardContainer');
+    
+    if (!container) {
+        console.error('❌ Leaderboard container not found');
+        return;
+    }
+    
+    if (!users || users.length === 0) {
+        container.innerHTML = `
+            <div class="text-center p-4">
+                <h3>🏆 Leaderboard</h3>
+                <div class="alert alert-info">
+                    <h5>📊 No Active Players Yet!</h5>
+                    <p>Be the first to make picks and score points!</p>
+                    <p class="mb-0"><strong>How to get on the leaderboard:</strong></p>
+                    <ol class="text-left mt-2 mb-0">
+                        <li>Make picks on available games</li>
+                        <li>Wait for games to be completed</li>
+                        <li>Earn points for correct predictions</li>
+                    </ol>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    console.log(`✅ Displaying ${users.length} users on leaderboard`);
+    
+    let leaderboardHTML = `
+        <div class="leaderboard-header text-center mb-4">
+            <h3>🏆 Leaderboard</h3>
+            <p class="text-muted">${users.length} active player${users.length !== 1 ? 's' : ''}</p>
+        </div>
+        
+        <div class="leaderboard-list">
+    `;
+    
+    users.forEach((user, index) => {
+        const rank = index + 1;
+        let rankIcon = '🏅';
+        let rankClass = '';
+        
+        if (rank === 1) {
+            rankIcon = '🥇';
+            rankClass = 'gold';
+        } else if (rank === 2) {
+            rankIcon = '🥈';
+            rankClass = 'silver';
+        } else if (rank === 3) {
+            rankIcon = '🥉';
+            rankClass = 'bronze';
+        }
+        
+        const isCurrentUser = currentUser && currentUser.username === user.username;
+        
+        leaderboardHTML += `
+            <div class="leaderboard-item ${rankClass} ${isCurrentUser ? 'current-user' : ''}" style="
+                display: flex;
+                align-items: center;
+                padding: 12px 16px;
+                margin-bottom: 8px;
+                border-radius: 8px;
+                background: ${isCurrentUser ? 'linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'};
+                border: ${isCurrentUser ? '2px solid #0277bd' : '1px solid #cbd5e1'};
+                transition: all 0.2s ease;
+            ">
+                <div style="font-size: 1.5em; margin-right: 12px;">
+                    ${rankIcon}
+                </div>
+                
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; color: #1e293b; font-size: 1.1em;">
+                        #${rank} ${user.username}
+                        ${isCurrentUser ? '<span style="color: #0277bd; font-size: 0.8em; margin-left: 8px;">(You)</span>' : ''}
+                    </div>
+                    
+                    <div style="color: #64748b; font-size: 0.9em; margin-top: 2px;">
+                        ${user.score} points • ${user.streak} streak • ${user.accuracy}% accuracy
+                    </div>
+                </div>
+                
+                <div style="text-align: right; font-weight: 600; color: #059669; font-size: 1.2em;">
+                    ${user.score}
+                </div>
+            </div>
+        `;
+    });
+    
+    leaderboardHTML += `
+        </div>
+        
+        <div class="text-center mt-4">
+            <button onclick="loadLeaderboard()" class="btn btn-outline-primary btn-sm">
+                🔄 Refresh Leaderboard
+            </button>
+        </div>
+    `;
+    
+    container.innerHTML = leaderboardHTML;
+}
+
+// ==================== MODAL EVENT HANDLERS ====================
+
+// Enhanced modal event setup
+function setupModalEvents() {
+    // Setup achievements modal close events
+    const achievementsModal = document.getElementById('achievementsModal');
+    if (achievementsModal) {
+        // Close button
+        const closeButtons = achievementsModal.querySelectorAll('[data-dismiss="modal"], .btn-close, .close');
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', closeAchievementsModal);
+        });
+        
+        // Backdrop click
+        achievementsModal.addEventListener('click', (e) => {
+            if (e.target === achievementsModal) {
+                closeAchievementsModal();
+            }
+        });
+    }
+    
+    // Setup achievement button clicks
+    const achievementButtons = document.querySelectorAll('[onclick*="showAchievements"]');
+    achievementButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAchievements();
+        });
+    });
+}
+
+// ==================== INITIALIZATION ====================
+
+// Enhanced initialization
+function initializeUI() {
+    console.log('🚀 Initializing UI components...');
+    
+    // Setup modal events
+    setupModalEvents();
+    
+    // Load leaderboard
+    loadLeaderboard();
+    
+    // Setup periodic leaderboard refresh
+    setInterval(loadLeaderboard, 30000); // Refresh every 30 seconds
+    
+    console.log('✅ UI initialization complete');
+}
+
+// Call initialization when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeUI);
+
+// Also call when page loads (backup)
+window.addEventListener('load', initializeUI);
+
+// ADD THESE DEBUG FUNCTIONS TO YOUR HTML JAVASCRIPT SECTION:
+
+// ==================== DEBUG FUNCTIONS ====================
+
+function debugAchievementsModal() {
+    console.log('=== ACHIEVEMENTS MODAL DEBUG ===');
+    
+    // Check if modal exists
+    const modal = document.getElementById('achievementsModal');
+    console.log('Modal element found:', !!modal);
+    
+    if (modal) {
+        console.log('Modal display style:', modal.style.display);
+        console.log('Modal classes:', modal.className);
+        console.log('Modal HTML preview:', modal.outerHTML.substring(0, 200) + '...');
+    }
+    
+    // Check for Bootstrap
+    console.log('Bootstrap 5 available:', typeof bootstrap !== 'undefined');
+    console.log('jQuery available:', typeof $ !== 'undefined');
+    
+    // Check current user
+    console.log('Current user:', currentUser);
+    
+    // Try to find all achievement buttons
+    const buttons = document.querySelectorAll('button, a, [onclick*="achievement"], [onclick*="Achievement"]');
+    console.log('Potential achievement buttons found:', buttons.length);
+    
+    buttons.forEach((btn, i) => {
+        if (btn.textContent.includes('Achievement') || btn.onclick) {
+            console.log(`Button ${i}:`, btn.textContent, btn.onclick);
+        }
+    });
+}
+
+function debugLeaderboard() {
+    console.log('=== LEADERBOARD DEBUG ===');
+    
+    // Check if container exists
+    const container = document.getElementById('leaderboardContainer');
+    console.log('Leaderboard container found:', !!container);
+    
+    if (container) {
+        console.log('Container content:', container.innerHTML.substring(0, 200));
+    }
+    
+    // Check APPS_SCRIPT_URL
+    console.log('APPS_SCRIPT_URL:', APPS_SCRIPT_URL);
+    
+    // Test user data fetch
+    console.log('Testing user data fetch...');
+    fetch(`${APPS_SCRIPT_URL}?action=getUsers&cacheBust=${Date.now()}`)
+        .then(response => response.text())
+        .then(data => {
+            console.log('Raw user data:', data);
+            
+            const lines = data.trim().split('\n');
+            console.log('Number of data lines:', lines.length);
+            
+            if (lines.length > 1) {
+                console.log('Headers:', lines[0]);
+                console.log('First user:', lines[1]);
+                
+                // Parse first user
+                const values = parseCSVLine(lines[1]);
+                console.log('Parsed user values:', values);
+                console.log('User score:', parseInt(values[4]) || 0);
+            }
+        })
+        .catch(error => {
+            console.error('❌ Error fetching user data:', error);
+        });
+}
+
+function debugAllUI() {
+    console.log('=== FULL UI DEBUG ===');
+    
+    debugAchievementsModal();
+    console.log('---');
+    debugLeaderboard();
+    
+    // Check overall page state
+    console.log('Current user logged in:', !!currentUser);
+    console.log('Page loaded:', document.readyState);
+    console.log('All users loaded:', !!window.allUsers);
+    console.log('Games loaded:', !!window.allGames);
+}
+
+// ==================== QUICK FIXES ====================
+
+function forceOpenAchievementsModal() {
+    console.log('🔧 Force opening achievements modal...');
+    
+    const modal = document.getElementById('achievementsModal');
+    if (modal) {
+        modal.style.display = 'block';
+        modal.style.zIndex = '9999';
+        modal.classList.add('show');
+        
+        // Remove any conflicting styles
+        modal.style.opacity = '1';
+        modal.style.visibility = 'visible';
+        
+        console.log('✅ Modal forced open');
+    } else {
+        console.error('❌ Modal not found');
+    }
+}
+
+function forceLoadLeaderboard() {
+    console.log('🔧 Force loading leaderboard...');
+    
+    // Clear existing content
+    const container = document.getElementById('leaderboardContainer');
+    if (container) {
+        container.innerHTML = '<div class="text-center"><h3>🔄 Loading...</h3></div>';
+    }
+    
+    // Force load
+    setTimeout(() => {
+        loadLeaderboard();
+    }, 500);
+}
+
+function quickFixUI() {
+    console.log('🔧 Applying quick UI fixes...');
+    
+    // Fix 1: Ensure modal is properly structured
+    const modal = document.getElementById('achievementsModal');
+    if (modal) {
+        modal.setAttribute('tabindex', '-1');
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-hidden', 'true');
+    }
+    
+    // Fix 2: Force leaderboard load
+    forceLoadLeaderboard();
+    
+    // Fix 3: Re-setup event handlers
+    setupModalEvents();
+    
+    console.log('✅ Quick fixes applied');
+}
+
+// ==================== TEST FUNCTIONS ====================
+
+function testAchievementsButton() {
+    console.log('🧪 Testing achievements button click...');
+    
+    // Find all possible achievement buttons
+    const buttons = document.querySelectorAll('*');
+    
+    buttons.forEach(btn => {
+        if (btn.textContent && btn.textContent.toLowerCase().includes('achievement')) {
+            console.log('Found achievement button:', btn);
+            btn.click();
+        }
+    });
+}
+
+function testModalOpen() {
+    console.log('🧪 Testing modal open methods...');
+    
+    const modal = document.getElementById('achievementsModal');
+    if (!modal) {
+        console.error('❌ No modal found');
+        return;
+    }
+    
+    // Test different opening methods
+    console.log('Method 1: Bootstrap 5');
+    try {
+        if (typeof bootstrap !== 'undefined') {
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            console.log('✅ Bootstrap 5 worked');
+            return;
+        }
+    } catch (e) {
+        console.log('❌ Bootstrap 5 failed:', e.message);
+    }
+    
+    console.log('Method 2: jQuery/Bootstrap 4');
+    try {
+        if (typeof $ !== 'undefined') {
+            $(modal).modal('show');
+            console.log('✅ jQuery worked');
+            return;
+        }
+    } catch (e) {
+        console.log('❌ jQuery failed:', e.message);
+    }
+    
+    console.log('Method 3: Manual');
+    forceOpenAchievementsModal();
+}
+
+// Add buttons to test these functions
+function addDebugButtons() {
+    if (document.getElementById('debugButtons')) return; // Already added
+    
+    const debugPanel = document.createElement('div');
+    debugPanel.id = 'debugButtons';
+    debugPanel.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: white;
+        padding: 10px;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        z-index: 10000;
+        font-size: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    `;
+    
+    debugPanel.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 8px;">🔧 Debug Tools</div>
+        <button onclick="debugAllUI()" style="display: block; width: 100%; margin: 2px 0; padding: 4px; font-size: 11px;">Debug All</button>
+        <button onclick="testModalOpen()" style="display: block; width: 100%; margin: 2px 0; padding: 4px; font-size: 11px;">Test Modal</button>
+        <button onclick="forceLoadLeaderboard()" style="display: block; width: 100%; margin: 2px 0; padding: 4px; font-size: 11px;">Fix Leaderboard</button>
+        <button onclick="quickFixUI()" style="display: block; width: 100%; margin: 2px 0; padding: 4px; font-size: 11px;">Quick Fix</button>
+        <button onclick="this.parentElement.remove()" style="display: block; width: 100%; margin: 2px 0; padding: 4px; font-size: 11px; background: #dc3545; color: white;">Close</button>
+    `;
+    
+    document.body.appendChild(debugPanel);
 }
 
 function checkUserStatsUpdate() {
