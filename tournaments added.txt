@@ -65,29 +65,6 @@
                 </div>
                 
                 <div style="display: flex !important; gap: 15px !important; align-items: center !important;">
-                    <div id="currencyDisplay" style="
-                        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-                        color: white !important;
-                        padding: 8px 16px !important;
-                        border-radius: 20px !important;
-                        font-weight: bold !important;
-                        font-size: 14px !important;
-                        display: none !important;
-                    ">
-                        💰 <span id="userCoins">0</span> coins
-                    </div>
-                    
-                    <button id="communityBtn" onclick="showCommunity()" style="
-                        padding: 10px 20px !important;
-                        background: #8b5cf6 !important;
-                        color: white !important;
-                        border: none !important;
-                        border-radius: 8px !important;
-                        cursor: pointer !important;
-                        font-weight: bold !important;
-                        display: none !important;
-                    ">Community</button>
-                    
                     <button id="achievementsBtn" onclick="showAchievements()" style="
                         padding: 10px 20px !important;
                         background: #f59e0b !important;
@@ -99,6 +76,112 @@
                         display: none !important;
                     ">Achievements</button>
                     
+                    <!-- Account Dropdown Button -->
+                    <div id="accountDropdown" style="position: relative !important; display: none !important;">
+                        <button id="accountBtn" onclick="toggleAccountMenu()" style="
+                            padding: 10px 20px !important;
+                            background: #667eea !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            cursor: pointer !important;
+                            font-weight: bold !important;
+                            display: flex !important;
+                            align-items: center !important;
+                            gap: 8px !important;
+                        ">
+                            👤 Account <span style="font-size: 12px !important;">▼</span>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div id="accountMenu" style="
+                            position: absolute !important;
+                            top: 100% !important;
+                            right: 0 !important;
+                            background: white !important;
+                            border: 2px solid #e5e7eb !important;
+                            border-radius: 8px !important;
+                            box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+                            z-index: 1000 !important;
+                            min-width: 200px !important;
+                            display: none !important;
+                            margin-top: 5px !important;
+                        ">
+                            <!-- User Info Section -->
+                            <div style="
+                                padding: 15px !important;
+                                border-bottom: 1px solid #e5e7eb !important;
+                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                                border-radius: 6px 6px 0 0 !important;
+                            ">
+                                <div style="font-weight: bold !important; color: #333 !important; margin-bottom: 5px !important;">
+                                    <span id="accountUsername">Username</span>
+                                </div>
+                                <div style="
+                                    display: flex !important;
+                                    align-items: center !important;
+                                    gap: 8px !important;
+                                    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                                    color: white !important;
+                                    padding: 6px 12px !important;
+                                    border-radius: 15px !important;
+                                    font-weight: bold !important;
+                                    font-size: 14px !important;
+                                    width: fit-content !important;
+                                ">
+                                    💰 <span id="accountCoins">0</span> coins
+                                </div>
+                            </div>
+                            
+                            <!-- Menu Options -->
+                            <div style="padding: 8px !important;">
+                                <button onclick="showProfile()" style="
+                                    width: 100% !important;
+                                    padding: 12px 15px !important;
+                                    background: none !important;
+                                    border: none !important;
+                                    text-align: left !important;
+                                    cursor: pointer !important;
+                                    border-radius: 6px !important;
+                                    color: #333 !important;
+                                    font-weight: 500 !important;
+                                " onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">
+                                    📊 View Profile
+                                </button>
+                                
+                                <button onclick="showSettings()" style="
+                                    width: 100% !important;
+                                    padding: 12px 15px !important;
+                                    background: none !important;
+                                    border: none !important;
+                                    text-align: left !important;
+                                    cursor: pointer !important;
+                                    border-radius: 6px !important;
+                                    color: #333 !important;
+                                    font-weight: 500 !important;
+                                " onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">
+                                    ⚙️ Settings
+                                </button>
+                                
+                                <hr style="margin: 8px 0 !important; border: none !important; border-top: 1px solid #e5e7eb !important;">
+                                
+                                <button onclick="logout(); hideAccountMenu();" style="
+                                    width: 100% !important;
+                                    padding: 12px 15px !important;
+                                    background: none !important;
+                                    border: none !important;
+                                    text-align: left !important;
+                                    cursor: pointer !important;
+                                    border-radius: 6px !important;
+                                    color: #ef4444 !important;
+                                    font-weight: 500 !important;
+                                " onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">
+                                    🚪 Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <button id="loginBtn" onclick="showLogin()" style="
                         padding: 10px 20px !important;
                         background: #667eea !important;
@@ -108,17 +191,6 @@
                         cursor: pointer !important;
                         font-weight: bold !important;
                     ">Login</button>
-                    
-                    <button id="logoutBtn" onclick="logout()" style="
-                        padding: 10px 20px !important;
-                        background: #ef4444 !important;
-                        color: white !important;
-                        border: none !important;
-                        border-radius: 8px !important;
-                        cursor: pointer !important;
-                        font-weight: bold !important;
-                        display: none !important;
-                    ">Logout</button>
                 </div>
             </div>
         </header>
@@ -198,9 +270,11 @@
                         text-align: center !important;
                         cursor: pointer !important;
                         transition: all 0.3s ease !important;
-                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <div style="font-size: 24px !important; font-weight: bold !important; color: #8b5cf6 !important;">💭</div>
-                        <div style="color: #666 !important; font-weight: bold !important;">Community</div>
+                        border: 2px solid transparent !important;
+                    " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='#8b5cf6';" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='transparent';">
+                        <div style="font-size: 32px !important; font-weight: bold !important; color: #8b5cf6 !important; margin-bottom: 8px !important;">💭</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: 16px !important;">Community</div>
+                        <div style="color: #8b5cf6 !important; font-size: 12px !important; margin-top: 4px !important;">Share & discuss picks</div>
                     </div>
                 </div>
             </div>
@@ -261,6 +335,17 @@
                             font-weight: bold !important;
                             cursor: pointer !important;
                         ">Clear All</button>
+                        
+                        <button onclick="resetSubmittedGames()" style="
+                            padding: 10px 16px !important;
+                            background: #8b5cf6 !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 20px !important;
+                            font-size: 12px !important;
+                            font-weight: bold !important;
+                            cursor: pointer !important;
+                        ">Reset Submitted</button>
                     </div>
                 </div>
                 
@@ -304,453 +389,57 @@
         </main>
 
         <!-- Login Modal -->
-        <div id="loginModal" style="
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: rgba(0, 0, 0, 0.7) !important;
-            display: none !important;
-            justify-content: center !important;
-            align-items: center !important;
-            z-index: 1000 !important;
-            padding: 20px !important;
-            box-sizing: border-box !important;
-        ">
-            <div style="
-                background: white !important;
-                border-radius: 15px !important;
-                padding: 30px !important;
-                max-width: 400px !important;
-                width: 100% !important;
-                max-height: 90vh !important;
-                overflow-y: auto !important;
-                position: relative !important;
-            ">
-                <button onclick="hideLogin()" style="
-                    position: absolute !important;
-                    top: 15px !important;
-                    right: 15px !important;
-                    background: #ef4444 !important;
-                    color: white !important;
-                    border: none !important;
-                    border-radius: 50% !important;
-                    width: 30px !important;
-                    height: 30px !important;
-                    cursor: pointer !important;
-                    font-weight: bold !important;
-                ">×</button>
-                
-                <h2 style="text-align: center !important; margin-bottom: 25px !important; color: #667eea !important;">
-                    Join FinalScore
-                </h2>
-                
-                <!-- Message Area -->
-                <div id="messageArea" style="
-                    display: none !important;
-                    padding: 15px !important;
-                    border-radius: 8px !important;
-                    margin-bottom: 20px !important;
-                    text-align: center !important;
-                    font-weight: bold !important;
-                "></div>
-                
-                <!-- Tabs -->
-                <div style="
-                    display: flex !important;
-                    margin-bottom: 25px !important;
-                    background: #f0f0f0 !important;
-                    border-radius: 10px !important;
-                    padding: 5px !important;
-                ">
-                    <button id="loginTab" style="
-                        flex: 1 !important;
-                        padding: 12px !important;
-                        border: none !important;
-                        background: #667eea !important;
-                        color: white !important;
-                        border-radius: 6px !important;
-                        cursor: pointer !important;
-                        font-weight: bold !important;
-                    " onclick="switchToLogin()">Login</button>
-                    <button id="registerTab" style="
-                        flex: 1 !important;
-                        padding: 12px !important;
-                        border: none !important;
-                        background: transparent !important;
-                        color: #666 !important;
-                        border-radius: 6px !important;
-                        cursor: pointer !important;
-                        font-weight: bold !important;
-                    " onclick="switchToRegister()">Register</button>
+        <div id="loginModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important; box-sizing: border-box !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 400px !important; width: 100% !important; position: relative !important;">
+                <button onclick="hideLogin()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="text-align: center !important; margin-bottom: 25px !important; color: #667eea !important;">Join FinalScore</h2>
+                <div id="messageArea" style="display: none !important; padding: 15px !important; border-radius: 8px !important; margin-bottom: 20px !important; text-align: center !important; font-weight: bold !important;"></div>
+                <div style="display: flex !important; margin-bottom: 25px !important; background: #f0f0f0 !important; border-radius: 10px !important; padding: 5px !important;">
+                    <button id="loginTab" style="flex: 1 !important; padding: 12px !important; border: none !important; background: #667eea !important; color: white !important; border-radius: 6px !important; cursor: pointer !important; font-weight: bold !important;" onclick="switchToLogin()">Login</button>
+                    <button id="registerTab" style="flex: 1 !important; padding: 12px !important; border: none !important; background: transparent !important; color: #666 !important; border-radius: 6px !important; cursor: pointer !important; font-weight: bold !important;" onclick="switchToRegister()">Register</button>
                 </div>
-                
-                <!-- Login Form -->
                 <div id="loginForm">
-                    <div style="margin-bottom: 20px !important;">
-                        <label style="
-                            display: block !important;
-                            margin-bottom: 8px !important;
-                            font-weight: bold !important;
-                            color: #333 !important;
-                        ">Username:</label>
-                        <input type="text" id="loginUsername" style="
-                            width: 100% !important;
-                            padding: 12px !important;
-                            border: 2px solid #ddd !important;
-                            border-radius: 6px !important;
-                            font-size: 16px !important;
-                            box-sizing: border-box !important;
-                        " />
-                    </div>
-                    
-                    <div style="margin-bottom: 25px !important;">
-                        <label style="
-                            display: block !important;
-                            margin-bottom: 8px !important;
-                            font-weight: bold !important;
-                            color: #333 !important;
-                        ">Password:</label>
-                        <input type="password" id="loginPassword" style="
-                            width: 100% !important;
-                            padding: 12px !important;
-                            border: 2px solid #ddd !important;
-                            border-radius: 6px !important;
-                            font-size: 16px !important;
-                            box-sizing: border-box !important;
-                        " />
-                    </div>
-                    
-                    <button id="loginButton" onclick="attemptLogin()" style="
-                        width: 100% !important;
-                        padding: 15px !important;
-                        background: linear-gradient(135deg, #667eea, #764ba2) !important;
-                        color: white !important;
-                        border: none !important;
-                        border-radius: 8px !important;
-                        font-size: 16px !important;
-                        font-weight: bold !important;
-                        cursor: pointer !important;
-                    ">Login</button>
+                    <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Username:</label><input type="text" id="loginUsername" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <div style="margin-bottom: 25px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Password:</label><input type="password" id="loginPassword" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <button id="loginButton" onclick="attemptLogin()" style="width: 100% !important; padding: 15px !important; background: linear-gradient(135deg, #667eea, #764ba2) !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Login</button>
                 </div>
-                
-                <!-- Register Form -->
                 <div id="registerForm" style="display: none !important;">
-                    <div style="margin-bottom: 20px !important;">
-                        <label style="
-                            display: block !important;
-                            margin-bottom: 8px !important;
-                            font-weight: bold !important;
-                            color: #333 !important;
-                        ">Username:</label>
-                        <input type="text" id="registerUsername" style="
-                            width: 100% !important;
-                            padding: 12px !important;
-                            border: 2px solid #ddd !important;
-                            border-radius: 6px !important;
-                            font-size: 16px !important;
-                            box-sizing: border-box !important;
-                        " />
-                    </div>
-                    
-                    <div style="margin-bottom: 20px !important;">
-                        <label style="
-                            display: block !important;
-                            margin-bottom: 8px !important;
-                            font-weight: bold !important;
-                            color: #333 !important;
-                        ">Email:</label>
-                        <input type="email" id="registerEmail" style="
-                            width: 100% !important;
-                            padding: 12px !important;
-                            border: 2px solid #ddd !important;
-                            border-radius: 6px !important;
-                            font-size: 16px !important;
-                            box-sizing: border-box !important;
-                        " />
-                    </div>
-                    
-                    <div style="margin-bottom: 25px !important;">
-                        <label style="
-                            display: block !important;
-                            margin-bottom: 8px !important;
-                            font-weight: bold !important;
-                            color: #333 !important;
-                        ">Password:</label>
-                        <input type="password" id="registerPassword" style="
-                            width: 100% !important;
-                            padding: 12px !important;
-                            border: 2px solid #ddd !important;
-                            border-radius: 6px !important;
-                            font-size: 16px !important;
-                            box-sizing: border-box !important;
-                        " />
-                    </div>
-                    
-                    <button id="registerButton" onclick="attemptRegister()" style="
-                        width: 100% !important;
-                        padding: 15px !important;
-                        background: linear-gradient(135deg, #667eea, #764ba2) !important;
-                        color: white !important;
-                        border: none !important;
-                        border-radius: 8px !important;
-                        font-size: 16px !important;
-                        font-weight: bold !important;
-                        cursor: pointer !important;
-                    ">Register</button>
+                    <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Username:</label><input type="text" id="registerUsername" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Email:</label><input type="email" id="registerEmail" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <div style="margin-bottom: 25px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Password:</label><input type="password" id="registerPassword" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <button id="registerButton" onclick="attemptRegister()" style="width: 100% !important; padding: 15px !important; background: linear-gradient(135deg, #667eea, #764ba2) !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Register</button>
                 </div>
-                
-                <!-- Test Accounts -->
-                <div style="
-                    margin-top: 25px !important;
-                    padding: 15px !important;
-                    background: #e0f2fe !important;
-                    border-radius: 8px !important;
-                    font-size: 14px !important;
-                ">
-                    <strong>Test Accounts:</strong><br/>
-                    <div id="testAccountsList" style="margin-top: 10px !important;">
-                        <strong>demo</strong> / demo123<br/>
-                        <strong>test</strong> / test123
-                    </div>
-                </div>
+                <div style="margin-top: 25px !important; padding: 15px !important; background: #e0f2fe !important; border-radius: 8px !important; font-size: 14px !important;"><strong>Test Accounts:</strong><br/><div style="margin-top: 10px !important;"><strong>demo</strong> / demo123<br/><strong>test</strong> / test123</div></div>
             </div>
         </div>
 
         <!-- Pick Details Modal -->
-        <div id="pickDetailsModal" style="
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: rgba(0, 0, 0, 0.7) !important;
-            display: none !important;
-            justify-content: center !important;
-            align-items: center !important;
-            z-index: 1000 !important;
-            padding: 20px !important;
-            box-sizing: border-box !important;
-        ">
-            <div style="
-                background: white !important;
-                border-radius: 15px !important;
-                padding: 30px !important;
-                max-width: 500px !important;
-                width: 100% !important;
-                max-height: 90vh !important;
-                overflow-y: auto !important;
-                position: relative !important;
-            ">
-                <button onclick="hidePickDetails()" style="
-                    position: absolute !important;
-                    top: 15px !important;
-                    right: 15px !important;
-                    background: #ef4444 !important;
-                    color: white !important;
-                    border: none !important;
-                    border-radius: 50% !important;
-                    width: 30px !important;
-                    height: 30px !important;
-                    cursor: pointer !important;
-                    font-weight: bold !important;
-                ">×</button>
-                
-                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;" id="pickDetailsTitle">
-                    Share Your Prediction
-                </h2>
-                
-                <div style="margin-bottom: 20px !important;">
-                    <label style="
-                        display: block !important;
-                        margin-bottom: 8px !important;
-                        font-weight: bold !important;
-                        color: #333 !important;
-                    ">Your Pick:</label>
-                    <div id="selectedPickDisplay" style="
-                        padding: 12px !important;
-                        background: #f0f9ff !important;
-                        border: 2px solid #3b82f6 !important;
-                        border-radius: 8px !important;
-                        font-weight: bold !important;
-                        color: #1e40af !important;
-                    "></div>
-                </div>
-                
-                <div style="margin-bottom: 20px !important;">
-                    <label style="
-                        display: block !important;
-                        margin-bottom: 8px !important;
-                        font-weight: bold !important;
-                        color: #333 !important;
-                    ">Confidence Level:</label>
-                    <div id="confidenceStars" style="
-                        display: flex !important;
-                        gap: 5px !important;
-                        margin-bottom: 10px !important;
-                    ">
-                        <span onclick="setConfidence(1)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
-                        <span onclick="setConfidence(2)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
-                        <span onclick="setConfidence(3)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
-                        <span onclick="setConfidence(4)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
-                        <span onclick="setConfidence(5)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span>
-                    </div>
-                    <div id="confidenceLabel" style="font-size: 14px !important; color: #666 !important;">Click stars to set confidence</div>
-                </div>
-                
-                <div style="margin-bottom: 25px !important;">
-                    <label style="
-                        display: block !important;
-                        margin-bottom: 8px !important;
-                        font-weight: bold !important;
-                        color: #333 !important;
-                    ">Share Your Reasoning (Optional):</label>
-                    <textarea id="pickReasoning" placeholder="Why are you confident in this pick? Share your analysis..." style="
-                        width: 100% !important;
-                        height: 100px !important;
-                        padding: 12px !important;
-                        border: 2px solid #ddd !important;
-                        border-radius: 8px !important;
-                        font-size: 14px !important;
-                        box-sizing: border-box !important;
-                        resize: vertical !important;
-                        font-family: Arial, sans-serif !important;
-                    "></textarea>
-                    <div style="font-size: 12px !important; color: #666 !important; margin-top: 5px !important;">
-                        💰 Earn 5 coins for sharing detailed reasoning!
-                    </div>
-                </div>
-                
-                <div style="display: flex !important; gap: 15px !important;">
-                    <button onclick="confirmPick()" style="
-                        flex: 1 !important;
-                        padding: 15px !important;
-                        background: linear-gradient(135deg, #10b981, #059669) !important;
-                        color: white !important;
-                        border: none !important;
-                        border-radius: 8px !important;
-                        font-size: 16px !important;
-                        font-weight: bold !important;
-                        cursor: pointer !important;
-                    ">Confirm Pick</button>
-                    
-                    <button onclick="hidePickDetails()" style="
-                        padding: 15px 20px !important;
-                        background: #6b7280 !important;
-                        color: white !important;
-                        border: none !important;
-                        border-radius: 8px !important;
-                        font-size: 16px !important;
-                        font-weight: bold !important;
-                        cursor: pointer !important;
-                    ">Cancel</button>
-                </div>
+        <div id="pickDetailsModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important; box-sizing: border-box !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 500px !important; width: 100% !important; position: relative !important;">
+                <button onclick="hidePickDetails()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;" id="pickDetailsTitle">Share Your Prediction</h2>
+                <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Your Pick:</label><div id="selectedPickDisplay" style="padding: 12px !important; background: #f0f9ff !important; border: 2px solid #3b82f6 !important; border-radius: 8px !important; font-weight: bold !important; color: #1e40af !important;"></div></div>
+                <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Confidence Level:</label><div id="confidenceStars" style="display: flex !important; gap: 5px !important; margin-bottom: 10px !important;"><span onclick="setConfidence(1)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(2)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(3)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(4)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(5)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span></div><div id="confidenceLabel" style="font-size: 14px !important; color: #666 !important;">Click stars to set confidence</div></div>
+                <div style="margin-bottom: 25px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Share Your Reasoning (Optional):</label><textarea id="pickReasoning" placeholder="Why are you confident in this pick? Share your analysis..." style="width: 100% !important; height: 100px !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 8px !important; font-size: 14px !important; box-sizing: border-box !important; resize: vertical !important; font-family: Arial, sans-serif !important;"></textarea><div style="font-size: 12px !important; color: #666 !important; margin-top: 5px !important;">💰 Earn 5 coins for sharing detailed reasoning!</div></div>
+                <div style="display: flex !important; gap: 15px !important;"><button onclick="confirmPick()" style="flex: 1 !important; padding: 15px !important; background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Confirm Pick</button><button onclick="hidePickDetails()" style="padding: 15px 20px !important; background: #6b7280 !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Cancel</button></div>
             </div>
         </div>
 
         <!-- Community Modal -->
-        <div id="communityModal" style="
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: rgba(0, 0, 0, 0.7) !important;
-            display: none !important;
-            justify-content: center !important;
-            align-items: center !important;
-            z-index: 1000 !important;
-            padding: 20px !important;
-            box-sizing: border-box !important;
-        ">
-            <div style="
-                background: white !important;
-                border-radius: 15px !important;
-                padding: 30px !important;
-                max-width: 800px !important;
-                width: 100% !important;
-                max-height: 90vh !important;
-                overflow-y: auto !important;
-                position: relative !important;
-            ">
-                <button onclick="hideCommunity()" style="
-                    position: absolute !important;
-                    top: 15px !important;
-                    right: 15px !important;
-                    background: #ef4444 !important;
-                    color: white !important;
-                    border: none !important;
-                    border-radius: 50% !important;
-                    width: 30px !important;
-                    height: 30px !important;
-                    cursor: pointer !important;
-                    font-weight: bold !important;
-                ">×</button>
-                
-                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">
-                    Community Predictions
-                </h2>
-                
-                <div id="communityContent" style="
-                    max-height: 400px !important;
-                    overflow-y: auto !important;
-                ">
-                    <!-- Community predictions will be displayed here -->
-                </div>
+        <div id="communityModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 800px !important; width: 100% !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important;">
+                <button onclick="hideCommunity()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">Community Predictions</h2>
+                <div id="communityContent" style="max-height: 400px !important; overflow-y: auto !important;"></div>
             </div>
         </div>
 
         <!-- Achievements Modal -->
-        <div id="achievementsModal" style="
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: rgba(0, 0, 0, 0.7) !important;
-            display: none !important;
-            justify-content: center !important;
-            align-items: center !important;
-            z-index: 1000 !important;
-            padding: 20px !important;
-            box-sizing: border-box !important;
-        ">
-            <div style="
-                background: white !important;
-                border-radius: 15px !important;
-                padding: 30px !important;
-                max-width: 600px !important;
-                width: 100% !important;
-                max-height: 90vh !important;
-                overflow-y: auto !important;
-                position: relative !important;
-            ">
-                <button onclick="hideAchievements()" style="
-                    position: absolute !important;
-                    top: 15px !important;
-                    right: 15px !important;
-                    background: #ef4444 !important;
-                    color: white !important;
-                    border: none !important;
-                    border-radius: 50% !important;
-                    width: 30px !important;
-                    height: 30px !important;
-                    cursor: pointer !important;
-                    font-weight: bold !important;
-                ">×</button>
-                
-                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">
-                    Your Achievements
-                </h2>
-                
-                <div id="achievementsGrid" style="
-                    display: grid !important;
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
-                    gap: 15px !important;
-                ">
-                    <!-- Achievements will be displayed here -->
-                </div>
+        <div id="achievementsModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 600px !important; width: 100% !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important;">
+                <button onclick="hideAchievements()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">Your Achievements</h2>
+                <div id="achievementsGrid" style="display: grid !important; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important; gap: 15px !important;"></div>
             </div>
         </div>
     </div>
@@ -768,104 +457,21 @@
         let communityPicks = [];
         let currentPickDetails = null;
         let userCoins = 0;
-        let likedPicks = new Set(); // Track which picks user has liked
-        let submittedGames = new Set(); // Track which games have been submitted
+        let likedPicks = new Set();
+        let submittedGames = new Set();
 
-        // Enhanced achievement definitions with coin rewards
+        // Achievement definitions with coin rewards
         const ACHIEVEMENTS = {
-            // Social Achievements
-            firstShare: {
-                id: 'firstShare',
-                name: 'First Insight',
-                description: 'Shared your first pick reasoning!',
-                icon: '💭',
-                color: '#10b981',
-                coinReward: 10,
-                condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 1
-            },
-            socialButterfly: {
-                id: 'socialButterfly',
-                name: 'Social Butterfly',
-                description: 'Shared reasoning for 5 picks!',
-                icon: '🦋',
-                color: '#ec4899',
-                coinReward: 25,
-                condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 5
-            },
-            confident: {
-                id: 'confident',
-                name: 'Supremely Confident',
-                description: 'Made a 5-star confidence pick!',
-                icon: '⭐',
-                color: '#f59e0b',
-                coinReward: 15,
-                condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.confidence === 5).length >= 1
-            },
-            
-            // Original Achievements with coin rewards
-            firstPick: {
-                id: 'firstPick',
-                name: 'First Steps',
-                description: 'Made your first pick!',
-                icon: '🎯',
-                color: '#10b981',
-                coinReward: 5,
-                condition: () => totalPicksMade >= 1
-            },
-            quickStarter: {
-                id: 'quickStarter',
-                name: 'Quick Starter',
-                description: 'Made 5 picks in one session!',
-                icon: '⚡',
-                color: '#f59e0b',
-                coinReward: 15,
-                condition: () => totalPicksMade >= 5
-            },
-            pickMaster: {
-                id: 'pickMaster',
-                name: 'Pick Master',
-                description: 'Made 10 picks total!',
-                icon: '🏆',
-                color: '#8b5cf6',
-                coinReward: 30,
-                condition: () => totalPicksMade >= 10
-            },
-            streakStarter: {
-                id: 'streakStarter',
-                name: 'On Fire',
-                description: 'Reached a 3-game win streak!',
-                icon: '🔥',
-                color: '#ef4444',
-                coinReward: 20,
-                condition: () => currentUser && currentUser.streak >= 3
-            },
-            streakMaster: {
-                id: 'streakMaster',
-                name: 'Unstoppable',
-                description: 'Reached a 5-game win streak!',
-                icon: '🌟',
-                color: '#fbbf24',
-                coinReward: 50,
-                condition: () => currentUser && currentUser.streak >= 5
-            },
-            accurateShooter: {
-                id: 'accurateShooter',
-                name: 'Sharp Shooter',
-                description: 'Maintained 80%+ accuracy!',
-                icon: '🎯',
-                color: '#06b6d4',
-                coinReward: 40,
-                condition: () => currentUser && currentUser.accuracy >= 80
-            },
-            centurion: {
-                id: 'centurion',
-                name: 'Centurion',
-                description: 'Reached 100 points!',
-                icon: '💯',
-                color: '#ec4899',
-                coinReward: 25,
-                condition: () => currentUser && currentUser.score >= 100
-            }
+            firstShare: { id: 'firstShare', name: 'First Insight', description: 'Shared your first pick reasoning!', icon: '💭', color: '#10b981', coinReward: 10, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 1 },
+            socialButterfly: { id: 'socialButterfly', name: 'Social Butterfly', description: 'Shared reasoning for 5 picks!', icon: '🦋', color: '#ec4899', coinReward: 25, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.reasoning).length >= 5 },
+            confident: { id: 'confident', name: 'Supremely Confident', description: 'Made a 5-star confidence pick!', icon: '⭐', color: '#f59e0b', coinReward: 15, condition: () => communityPicks.filter(p => p.username === currentUser?.username && p.confidence === 5).length >= 1 },
+            firstPick: { id: 'firstPick', name: 'First Steps', description: 'Made your first pick!', icon: '🎯', color: '#10b981', coinReward: 5, condition: () => totalPicksMade >= 1 },
+            quickStarter: { id: 'quickStarter', name: 'Quick Starter', description: 'Made 5 picks in one session!', icon: '⚡', color: '#f59e0b', coinReward: 15, condition: () => totalPicksMade >= 5 },
+            pickMaster: { id: 'pickMaster', name: 'Pick Master', description: 'Made 10 picks total!', icon: '🏆', color: '#8b5cf6', coinReward: 30, condition: () => totalPicksMade >= 10 },
+            streakStarter: { id: 'streakStarter', name: 'On Fire', description: 'Reached a 3-game win streak!', icon: '🔥', color: '#ef4444', coinReward: 20, condition: () => currentUser && currentUser.streak >= 3 },
+            streakMaster: { id: 'streakMaster', name: 'Unstoppable', description: 'Reached a 5-game win streak!', icon: '🌟', color: '#fbbf24', coinReward: 50, condition: () => currentUser && currentUser.streak >= 5 },
+            accurateShooter: { id: 'accurateShooter', name: 'Sharp Shooter', description: 'Maintained 80%+ accuracy!', icon: '🎯', color: '#06b6d4', coinReward: 40, condition: () => currentUser && currentUser.accuracy >= 80 },
+            centurion: { id: 'centurion', name: 'Centurion', description: 'Reached 100 points!', icon: '💯', color: '#ec4899', coinReward: 25, condition: () => currentUser && currentUser.score >= 100 }
         };
 
         function initializeApp() {
@@ -873,24 +479,19 @@
             loadUsers();
             loadTodaysGames();
             loadCommunityPicks();
-            loadExistingPicks(); // Load existing picks from Google Sheets
             updateLeaderboard();
         }
 
-        // New function to load existing picks from Google Sheets
-        async function loadExistingPicks() {
+        function loadExistingPicks() {
             if (!currentUser) return;
             
             try {
                 console.log('Loading existing picks from Google Sheets...');
                 
-                const response = await fetch(`${APPS_SCRIPT_URL}?action=getPicks`);
-                
-                if (response.ok) {
-                    const csvData = await response.text();
+                fetch(`${APPS_SCRIPT_URL}?action=getPicks`)
+                .then(response => response.text())
+                .then(csvData => {
                     console.log('Picks CSV Response:', csvData);
-                    
-                    // Parse CSV data
                     const lines = csvData.trim().split('\n');
                     if (lines.length <= 1) {
                         console.log('No existing picks found');
@@ -898,8 +499,8 @@
                     }
                     
                     const headers = lines[0].split(',');
+                    const userGamePicks = new Set();
                     
-                    // Look for current user's picks
                     for (let i = 1; i < lines.length; i++) {
                         if (lines[i].trim()) {
                             const values = lines[i].split(',');
@@ -908,24 +509,24 @@
                                 pick[header.trim()] = values[index] ? values[index].trim().replace(/"/g, '') : '';
                             });
                             
-                            // If this pick belongs to current user, mark game as submitted
-                            if (pick.Username === currentUser.username) {
-                                submittedGames.add(parseInt(pick.GameID || pick.gameID));
+                            if (pick.Username === currentUser.username && pick.GameID) {
+                                userGamePicks.add(parseInt(pick.GameID));
                             }
                         }
                     }
                     
-                    console.log('Submitted games loaded:', Array.from(submittedGames));
-                } else {
-                    console.log('Could not load existing picks');
-                }
+                    submittedGames = userGamePicks;
+                    console.log(`Current user (${currentUser.username}) has submitted picks for games:`, Array.from(submittedGames));
+                })
+                .catch(error => {
+                    console.error('Error loading existing picks:', error);
+                });
                 
             } catch (error) {
                 console.error('Error loading existing picks:', error);
             }
         }
 
-        // FIXED: selectPick function - simplified to work like the original
         function selectPick(gameId, pickType, selection) {
             if (!currentUser) {
                 showLogin();
@@ -966,7 +567,7 @@
         function resetConfidenceStars() {
             document.querySelectorAll('#confidenceStars span').forEach(star => {
                 star.style.color = '#d1d5db';
-                star.innerHTML = '☆'; // Empty star
+                star.innerHTML = '☆';
             });
             document.getElementById('confidenceLabel').textContent = 'Click stars to set confidence';
         }
@@ -978,10 +579,10 @@
             stars.forEach((star, index) => {
                 if (index < level) {
                     star.style.color = '#f59e0b';
-                    star.innerHTML = '★'; // Filled star
+                    star.innerHTML = '★';
                 } else {
                     star.style.color = '#d1d5db';
-                    star.innerHTML = '☆'; // Empty star
+                    star.innerHTML = '☆';
                 }
             });
             
@@ -996,7 +597,6 @@
             
             const reasoning = document.getElementById('pickReasoning').value.trim();
             
-            // Save the pick
             if (!userPicks[currentPickDetails.gameId]) {
                 userPicks[currentPickDetails.gameId] = {};
             }
@@ -1004,7 +604,6 @@
             userPicks[currentPickDetails.gameId][currentPickDetails.pickType] = currentPickDetails.selection;
             totalPicksMade = Object.values(userPicks).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
             
-            // Add to community picks if reasoning is provided
             if (reasoning) {
                 const communityPick = {
                     id: Date.now(),
@@ -1021,12 +620,9 @@
                 
                 communityPicks.unshift(communityPick);
                 updateCommunityFeed();
-                
-                // Award coins for sharing reasoning
                 awardCoins(5, 'Shared pick reasoning!');
             }
             
-            // Update visual selection
             updatePickVisual(currentPickDetails.gameId, currentPickDetails.pickType, currentPickDetails.selection);
             
             const pickInfo = `${currentPickDetails.pickType === 'winner' ? 'Winner' : 'Total'}: ${currentPickDetails.selection}`;
@@ -1039,7 +635,6 @@
         }
 
         function updatePickVisual(gameId, pickType, selection) {
-            // Clear previous selections for this pick type
             const allButtons = document.querySelectorAll(`[id^="pick_${gameId}_${pickType}_"]`);
             allButtons.forEach(btn => {
                 btn.style.background = 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)';
@@ -1047,7 +642,6 @@
                 btn.style.color = '#334155';
             });
             
-            // Highlight selected option
             const selectedButton = document.getElementById(`pick_${gameId}_${pickType}_${selection}`);
             if (selectedButton) {
                 selectedButton.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
@@ -1057,33 +651,17 @@
             }
         }
 
-        // FIXED: loadCommunityPicks function
         function loadCommunityPicks() {
-            // Sample community picks for demo
             communityPicks = [
                 {
-                    id: 1,
-                    username: 'ProBettor',
-                    gameTitle: 'Lakers vs Warriors',
-                    pickType: 'winner',
-                    selection: 'Lakers',
-                    pickDisplay: 'Lakers',
+                    id: 1, username: 'ProBettor', gameTitle: 'Lakers vs Warriors', pickType: 'winner', selection: 'Lakers', pickDisplay: 'Lakers',
                     reasoning: 'LeBron is back from injury and the Lakers have been dominating at home. Warriors missing key players.',
-                    confidence: 4,
-                    timestamp: '2 hours ago',
-                    likes: 12
+                    confidence: 4, timestamp: '2 hours ago', likes: 12
                 },
                 {
-                    id: 2,
-                    username: 'SportsAnalyst',
-                    gameTitle: 'Chiefs vs Bills',
-                    pickType: 'total',
-                    selection: 'Over',
-                    pickDisplay: 'Over 45.5',
+                    id: 2, username: 'SportsAnalyst', gameTitle: 'Chiefs vs Bills', pickType: 'total', selection: 'Over', pickDisplay: 'Over 45.5',
                     reasoning: 'Both teams have explosive offenses. Weather looks good for passing. I expect a shootout!',
-                    confidence: 5,
-                    timestamp: '4 hours ago',
-                    likes: 8
+                    confidence: 5, timestamp: '4 hours ago', likes: 8
                 }
             ];
             updateCommunityFeed();
@@ -1092,121 +670,37 @@
         function updateCommunityFeed() {
             const communityContent = document.getElementById('communityContent');
             
-            if (!currentUser) {
-                return;
-            }
+            if (!currentUser) return;
             
             if (communityPicks.length === 0) {
-                const emptyMessage = `
-                    <div style="text-align: center !important; color: #666 !important; padding: 40px !important;">
-                        <div style="font-size: 48px !important; margin-bottom: 15px !important;">💭</div>
-                        <p>No community insights yet. Be the first to share your reasoning!</p>
-                    </div>
-                `;
+                const emptyMessage = `<div style="text-align: center !important; color: #666 !important; padding: 40px !important;"><div style="font-size: 48px !important; margin-bottom: 15px !important;">💭</div><p>No community insights yet. Be the first to share your reasoning!</p></div>`;
                 if (communityContent) communityContent.innerHTML = emptyMessage;
                 return;
             }
             
             const fullHTML = communityPicks.map(pick => createCommunityPickHTML(pick)).join('');
-            
-            if (communityContent) {
-                communityContent.innerHTML = fullHTML;
-            }
+            if (communityContent) communityContent.innerHTML = fullHTML;
         }
 
         function createCommunityPickHTML(pick) {
             const isLiked = likedPicks.has(pick.id);
-            return `
-                <div style="
-                    background: white !important;
-                    border: 2px solid #e5e7eb !important;
-                    border-radius: 12px !important;
-                    padding: 20px !important;
-                    margin-bottom: 15px !important;
-                    transition: all 0.3s ease !important;
-                " onmouseover="this.style.borderColor='#667eea'" onmouseout="this.style.borderColor='#e5e7eb'">
-                    <div style="
-                        display: flex !important;
-                        justify-content: space-between !important;
-                        align-items: flex-start !important;
-                        margin-bottom: 15px !important;
-                        flex-wrap: wrap !important;
-                        gap: 10px !important;
-                    ">
-                        <div>
-                            <div style="
-                                display: flex !important;
-                                align-items: center !important;
-                                gap: 10px !important;
-                                margin-bottom: 5px !important;
-                            ">
-                                <span style="font-weight: bold !important; color: #667eea !important;">${pick.username}</span>
-                                <div style="
-                                    display: flex !important;
-                                    gap: 2px !important;
-                                ">
-                                    ${Array(pick.confidence).fill('★').join('')}
-                                    ${Array(5 - pick.confidence).fill('☆').join('')}
-                                </div>
-                            </div>
-                            <div style="font-size: 14px !important; color: #666 !important;">${pick.timestamp}</div>
-                        </div>
-                        <div style="
-                            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-                            color: white !important;
-                            padding: 6px 12px !important;
-                            border-radius: 20px !important;
-                            font-size: 12px !important;
-                            font-weight: bold !important;
-                        ">${pick.pickDisplay}</div>
-                    </div>
-                    
-                    <div style="
-                        background: #f8fafc !important;
-                        padding: 15px !important;
-                        border-radius: 8px !important;
-                        margin-bottom: 15px !important;
-                        border-left: 4px solid #667eea !important;
-                    ">
-                        <div style="font-weight: bold !important; margin-bottom: 8px !important; color: #1f2937 !important;">
-                            ${pick.gameTitle} - ${pick.pickType === 'winner' ? 'Winner Pick' : 'Total Points'}
-                        </div>
-                        <div style="color: #4b5563 !important; line-height: 1.5 !important;">
-                            "${pick.reasoning}"
-                        </div>
-                    </div>
-                    
-                    <div style="
-                        display: flex !important;
-                        justify-content: space-between !important;
-                        align-items: center !important;
-                    ">
-                        <button onclick="likePick(${pick.id})" style="
-                            display: flex !important;
-                            align-items: center !important;
-                            gap: 5px !important;
-                            background: ${isLiked ? '#f59e0b' : 'none'} !important;
-                            border: 2px solid ${isLiked ? '#f59e0b' : '#e5e7eb'} !important;
-                            color: ${isLiked ? 'white' : '#666'} !important;
-                            border-radius: 20px !important;
-                            padding: 8px 16px !important;
-                            cursor: ${isLiked ? 'not-allowed' : 'pointer'} !important;
-                            transition: all 0.3s ease !important;
-                            font-weight: bold !important;
-                        " ${!isLiked ? `onmouseover="this.style.borderColor='#f59e0b'; this.style.color='#f59e0b'" onmouseout="this.style.borderColor='#e5e7eb'; this.style.color='#666'"` : ''}>
-                            👍 ${pick.likes} ${isLiked ? '(Liked)' : ''}
-                        </button>
-                        
-                        <div style="font-size: 12px !important; color: #666 !important;">
-                            💰 +5 coins for sharing insights
-                        </div>
-                    </div>
+            return `<div style="background: white !important; border: 2px solid #e5e7eb !important; border-radius: 12px !important; padding: 20px !important; margin-bottom: 15px !important; transition: all 0.3s ease !important;" onmouseover="this.style.borderColor='#667eea'" onmouseout="this.style.borderColor='#e5e7eb'">
+                <div style="display: flex !important; justify-content: space-between !important; align-items: flex-start !important; margin-bottom: 15px !important; flex-wrap: wrap !important; gap: 10px !important;">
+                    <div><div style="display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 5px !important;"><span style="font-weight: bold !important; color: #667eea !important;">${pick.username}</span><div style="display: flex !important; gap: 2px !important;">${Array(pick.confidence).fill('★').join('')}${Array(5 - pick.confidence).fill('☆').join('')}</div></div><div style="font-size: 14px !important; color: #666 !important;">${pick.timestamp}</div></div>
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: white !important; padding: 6px 12px !important; border-radius: 20px !important; font-size: 12px !important; font-weight: bold !important;">${pick.pickDisplay}</div>
                 </div>
-            `;
+                <div style="background: #f8fafc !important; padding: 15px !important; border-radius: 8px !important; margin-bottom: 15px !important; border-left: 4px solid #667eea !important;">
+                    <div style="font-weight: bold !important; margin-bottom: 8px !important; color: #1f2937 !important;">${pick.gameTitle} - ${pick.pickType === 'winner' ? 'Winner Pick' : 'Total Points'}</div>
+                    <div style="color: #4b5563 !important; line-height: 1.5 !important;">"${pick.reasoning}"</div>
+                </div>
+                <div style="display: flex !important; justify-content: space-between !important; align-items: center !important;">
+                    <button onclick="likePick(${pick.id})" style="display: flex !important; align-items: center !important; gap: 5px !important; background: ${isLiked ? '#f59e0b' : 'none'} !important; border: 2px solid ${isLiked ? '#f59e0b' : '#e5e7eb'} !important; color: ${isLiked ? 'white' : '#666'} !important; border-radius: 20px !important; padding: 8px 16px !important; cursor: ${isLiked ? 'not-allowed' : 'pointer'} !important; font-weight: bold !important;">👍 ${pick.likes} ${isLiked ? '(Liked)' : ''}</button>
+                    <div style="font-size: 12px !important; color: #666 !important;">💰 +5 coins for sharing insights</div>
+                </div>
+            </div>`;
         }
 
         function likePick(pickId) {
-            // Check if user already liked this pick
             if (likedPicks.has(pickId)) {
                 showNotification('You already liked this pick!', 'warning', 2000);
                 return;
@@ -1215,7 +709,7 @@
             const pick = communityPicks.find(p => p.id === pickId);
             if (pick) {
                 pick.likes++;
-                likedPicks.add(pickId); // Track that user liked this pick
+                likedPicks.add(pickId);
                 awardCoins(1, 'Liked a community pick!');
                 updateCommunityFeed();
                 showNotification('Thanks for the feedback! +1 coin', 'success', 2000);
@@ -1231,12 +725,10 @@
         }
 
         function updateCoinDisplay() {
-            const coinDisplays = ['userCoins', 'userCoinsDisplay'];
+            const coinDisplays = ['userCoins', 'userCoinsDisplay', 'accountCoins'];
             coinDisplays.forEach(id => {
                 const element = document.getElementById(id);
-                if (element) {
-                    element.textContent = userCoins;
-                }
+                if (element) element.textContent = userCoins;
             });
         }
 
@@ -1249,7 +741,6 @@
             document.getElementById('communityModal').style.display = 'none';
         }
 
-        // Enhanced achievement checking with coin rewards
         function checkAchievements() {
             let newAchievements = [];
             
@@ -1258,7 +749,6 @@
                     userAchievements.push(achievement.id);
                     newAchievements.push(achievement);
                     
-                    // Award coins for achievement
                     if (achievement.coinReward) {
                         awardCoins(achievement.coinReward, `Achievement: ${achievement.name}!`);
                     }
@@ -1278,156 +768,32 @@
             const container = document.getElementById('gamesContainer');
             container.innerHTML = '';
             
-            todaysGames.forEach((game, index) => {
+            todaysGames.forEach((game) => {
                 const countdown = getGameCountdown();
                 const gameDiv = document.createElement('div');
-                gameDiv.style.cssText = `
-                    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
-                    border-radius: 15px !important;
-                    padding: 25px !important;
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
-                    border: 2px solid #e5e7eb !important;
-                    transition: all 0.3s ease !important;
-                    position: relative !important;
-                    overflow: hidden !important;
-                `;
+                gameDiv.style.cssText = `background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important; border-radius: 15px !important; padding: 25px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important; border: 2px solid #e5e7eb !important; transition: all 0.3s ease !important; position: relative !important; overflow: hidden !important;`;
                 
                 gameDiv.innerHTML = `
-                    <div style="
-                        position: absolute !important;
-                        top: 0 !important;
-                        right: 0 !important;
-                        width: 60px !important;
-                        height: 60px !important;
-                        background: linear-gradient(135deg, #667eea20 0%, transparent 100%) !important;
-                        border-radius: 0 15px 0 100% !important;
-                    "></div>
-                    
-                    <div style="
-                        display: flex !important;
-                        justify-content: space-between !important;
-                        align-items: center !important;
-                        margin-bottom: 20px !important;
-                        flex-wrap: wrap !important;
-                        gap: 15px !important;
-                    ">
-                        <h3 style="
-                            color: #1f2937 !important;
-                            margin: 0 !important;
-                            font-size: 20px !important;
-                            font-weight: 700 !important;
-                        ">${game.teamA} vs ${game.teamB}</h3>
-                        
+                    <div style="position: absolute !important; top: 0 !important; right: 0 !important; width: 60px !important; height: 60px !important; background: linear-gradient(135deg, #667eea20 0%, transparent 100%) !important; border-radius: 0 15px 0 100% !important;"></div>
+                    <div style="display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 20px !important; flex-wrap: wrap !important; gap: 15px !important;">
+                        <h3 style="color: #1f2937 !important; margin: 0 !important; font-size: 20px !important; font-weight: 700 !important;">${game.teamA} vs ${game.teamB}</h3>
                         <div style="display: flex !important; gap: 12px !important; align-items: center !important;">
-                            <span style="
-                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-                                color: white !important;
-                                padding: 6px 12px !important;
-                                border-radius: 15px !important;
-                                font-size: 11px !important;
-                                font-weight: bold !important;
-                                text-transform: uppercase !important;
-                            ">${game.league}</span>
-                            <span style="
-                                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-                                color: white !important;
-                                padding: 6px 12px !important;
-                                border-radius: 15px !important;
-                                font-size: 11px !important;
-                                font-weight: bold !important;
-                            ">${countdown}</span>
+                            <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; padding: 6px 12px !important; border-radius: 15px !important; font-size: 11px !important; font-weight: bold !important; text-transform: uppercase !important;">${game.league}</span>
+                            <span style="background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: white !important; padding: 6px 12px !important; border-radius: 15px !important; font-size: 11px !important; font-weight: bold !important;">${countdown}</span>
                         </div>
                     </div>
-                    
                     <div style="margin-bottom: 20px !important;">
-                        <div style="
-                            display: flex !important;
-                            align-items: center !important;
-                            margin-bottom: 12px !important;
-                            gap: 10px !important;
-                        ">
-                            <div style="
-                                width: 4px !important;
-                                height: 20px !important;
-                                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-                                border-radius: 2px !important;
-                            "></div>
-                            <strong style="color: #1f2937 !important; font-weight: 600 !important;">Pick the Winner</strong>
-                        </div>
-                        <div style="
-                            display: grid !important;
-                            grid-template-columns: 1fr 1fr !important;
-                            gap: 12px !important;
-                        ">
-                            <button onclick="selectPick(${game.id}, 'winner', '${game.teamA}')" 
-                                    id="pick_${game.id}_winner_${game.teamA}" style="
-                                padding: 14px !important;
-                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-                                border: 2px solid #e2e8f0 !important;
-                                border-radius: 10px !important;
-                                cursor: pointer !important;
-                                font-weight: 600 !important;
-                                transition: all 0.3s ease !important;
-                                color: #334155 !important;
-                            ">${game.teamA}</button>
-                            
-                            <button onclick="selectPick(${game.id}, 'winner', '${game.teamB}')" 
-                                    id="pick_${game.id}_winner_${game.teamB}" style="
-                                padding: 14px !important;
-                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-                                border: 2px solid #e2e8f0 !important;
-                                border-radius: 10px !important;
-                                cursor: pointer !important;
-                                font-weight: 600 !important;
-                                transition: all 0.3s ease !important;
-                                color: #334155 !important;
-                            ">${game.teamB}</button>
+                        <div style="display: flex !important; align-items: center !important; margin-bottom: 12px !important; gap: 10px !important;"><div style="width: 4px !important; height: 20px !important; background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; border-radius: 2px !important;"></div><strong style="color: #1f2937 !important; font-weight: 600 !important;">Pick the Winner</strong></div>
+                        <div style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 12px !important;">
+                            <button onclick="selectPick(${game.id}, 'winner', '${game.teamA}')" id="pick_${game.id}_winner_${game.teamA}" style="padding: 14px !important; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important; border: 2px solid #e2e8f0 !important; border-radius: 10px !important; cursor: pointer !important; font-weight: 600 !important; transition: all 0.3s ease !important; color: #334155 !important;">${game.teamA}</button>
+                            <button onclick="selectPick(${game.id}, 'winner', '${game.teamB}')" id="pick_${game.id}_winner_${game.teamB}" style="padding: 14px !important; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important; border: 2px solid #e2e8f0 !important; border-radius: 10px !important; cursor: pointer !important; font-weight: 600 !important; transition: all 0.3s ease !important; color: #334155 !important;">${game.teamB}</button>
                         </div>
                     </div>
-                    
                     <div>
-                        <div style="
-                            display: flex !important;
-                            align-items: center !important;
-                            margin-bottom: 12px !important;
-                            gap: 10px !important;
-                        ">
-                            <div style="
-                                width: 4px !important;
-                                height: 20px !important;
-                                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-                                border-radius: 2px !important;
-                            "></div>
-                            <strong style="color: #1f2937 !important; font-weight: 600 !important;">Total Points</strong>
-                        </div>
-                        <div style="
-                            display: grid !important;
-                            grid-template-columns: 1fr 1fr !important;
-                            gap: 12px !important;
-                        ">
-                            <button onclick="selectPick(${game.id}, 'total', 'Over')" 
-                                    id="pick_${game.id}_total_Over" style="
-                                padding: 14px !important;
-                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-                                border: 2px solid #e2e8f0 !important;
-                                border-radius: 10px !important;
-                                cursor: pointer !important;
-                                font-weight: 600 !important;
-                                transition: all 0.3s ease !important;
-                                color: #334155 !important;
-                            ">Over 45.5</button>
-                            
-                            <button onclick="selectPick(${game.id}, 'total', 'Under')" 
-                                    id="pick_${game.id}_total_Under" style="
-                                padding: 14px !important;
-                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-                                border: 2px solid #e2e8f0 !important;
-                                border-radius: 10px !important;
-                                cursor: pointer !important;
-                                font-weight: 600 !important;
-                                transition: all 0.3s ease !important;
-                                color: #334155 !important;
-                            ">Under 45.5</button>
+                        <div style="display: flex !important; align-items: center !important; margin-bottom: 12px !important; gap: 10px !important;"><div style="width: 4px !important; height: 20px !important; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; border-radius: 2px !important;"></div><strong style="color: #1f2937 !important; font-weight: 600 !important;">Total Points</strong></div>
+                        <div style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 12px !important;">
+                            <button onclick="selectPick(${game.id}, 'total', 'Over')" id="pick_${game.id}_total_Over" style="padding: 14px !important; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important; border: 2px solid #e2e8f0 !important; border-radius: 10px !important; cursor: pointer !important; font-weight: 600 !important; transition: all 0.3s ease !important; color: #334155 !important;">Over 45.5</button>
+                            <button onclick="selectPick(${game.id}, 'total', 'Under')" id="pick_${game.id}_total_Under" style="padding: 14px !important; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important; border: 2px solid #e2e8f0 !important; border-radius: 10px !important; cursor: pointer !important; font-weight: 600 !important; transition: all 0.3s ease !important; color: #334155 !important;">Under 45.5</button>
                         </div>
                     </div>
                 `;
@@ -1436,7 +802,6 @@
             });
         }
 
-        // FIXED: updatePickStatus function
         function updatePickStatus() {
             const totalPossiblePicks = todaysGames.length * 2;
             const totalMadePicks = Object.values(userPicks).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
@@ -1480,7 +845,6 @@
             }
         }
 
-        // All the existing functions (keeping the same structure)
         function showLogin() {
             document.getElementById('loginModal').style.display = 'flex';
         }
@@ -1499,50 +863,11 @@
             document.getElementById('achievementsModal').style.display = 'none';
         }
 
-        function updateAchievementsModal() {
-            const grid = document.getElementById('achievementsGrid');
-            
-            grid.innerHTML = Object.values(ACHIEVEMENTS).map(achievement => {
-                const isUnlocked = userAchievements.includes(achievement.id);
-                return `
-                    <div style="
-                        background: ${isUnlocked ? achievement.color : '#f3f4f6'} !important;
-                        color: ${isUnlocked ? 'white' : '#9ca3af'} !important;
-                        padding: 20px !important;
-                        border-radius: 12px !important;
-                        text-align: center !important;
-                        ${isUnlocked ? 'box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;' : ''}
-                        position: relative !important;
-                    ">
-                        <div style="font-size: 32px !important; margin-bottom: 10px !important;">
-                            ${isUnlocked ? achievement.icon : '🔒'}
-                        </div>
-                        <h3 style="margin: 0 0 5px 0 !important; font-size: 18px !important;">
-                            ${achievement.name}
-                        </h3>
-                        <p style="margin: 0 0 10px 0 !important; font-size: 14px !important; opacity: 0.9 !important;">
-                            ${achievement.description}
-                        </p>
-                        ${isUnlocked ? `
-                            <div style="
-                                background: rgba(255,255,255,0.2) !important;
-                                padding: 4px 8px !important;
-                                border-radius: 12px !important;
-                                font-size: 12px !important;
-                                font-weight: bold !important;
-                            ">💰 +${achievement.coinReward} coins</div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
         function switchToLogin() {
             document.getElementById('loginTab').style.background = '#667eea';
             document.getElementById('loginTab').style.color = 'white';
             document.getElementById('registerTab').style.background = 'transparent';
             document.getElementById('registerTab').style.color = '#666';
-            
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('registerForm').style.display = 'none';
             clearMessage();
@@ -1553,7 +878,6 @@
             document.getElementById('registerTab').style.color = 'white';
             document.getElementById('loginTab').style.background = 'transparent';
             document.getElementById('loginTab').style.color = '#666';
-            
             document.getElementById('registerForm').style.display = 'block';
             document.getElementById('loginForm').style.display = 'none';
             clearMessage();
@@ -1562,15 +886,11 @@
         async function loadUsers() {
             try {
                 console.log('Loading users from Google Sheets...');
-                
-                // First try to load from Google Sheets
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=getUsers`);
                 
                 if (response.ok) {
                     const csvData = await response.text();
                     console.log('CSV Response:', csvData);
-                    
-                    // Parse CSV data
                     const lines = csvData.trim().split('\n');
                     const headers = lines[0].split(',');
                     
@@ -1585,7 +905,6 @@
                             allUsers.push(user);
                         }
                     }
-                    
                     console.log('Users loaded from Google Sheets:', allUsers.length);
                 } else {
                     throw new Error('Failed to fetch from Google Sheets');
@@ -1593,8 +912,6 @@
                 
             } catch (error) {
                 console.error('Error loading users from Google Sheets, using demo data:', error);
-                
-                // Fallback to demo users if Google Sheets fails
                 allUsers = [
                     { ID: '1', Username: 'demo', Email: 'demo@test.com', Password: 'demo123', Score: '150', Streak: '5', Accuracy: '75', JoinDate: '2024-01-01' },
                     { ID: '2', Username: 'test', Email: 'test@test.com', Password: 'test123', Score: '0', Streak: '0', Accuracy: '0', JoinDate: '2024-01-01' },
@@ -1633,15 +950,13 @@
                         accuracy: parseFloat(user.Accuracy || 0)
                     };
                     
-                    // Set coins based on user score (since Google Sheets doesn't have coins column)
-                    userCoins = Math.floor(currentUser.score / 10) + 25; // Base 25 + bonus based on score
+                    userCoins = Math.floor(currentUser.score / 10) + 25;
                     
                     showUserInterface();
                     hideLogin();
                     showNotification(`Welcome back, ${username}! Connected to Google Sheets.`, 'success', 3000);
                     updateCommunityFeed();
                     
-                    // Load existing picks for this user
                     setTimeout(() => {
                         loadExistingPicks();
                     }, 500);
@@ -1678,7 +993,6 @@
             registerButton.disabled = true;
             
             try {
-                // Create user data for Google Sheets
                 const userData = new URLSearchParams({
                     action: 'addUser',
                     username: username,
@@ -1690,7 +1004,6 @@
                     joinDate: new Date().toISOString().split('T')[0]
                 });
                 
-                // Submit to Google Sheets
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
@@ -1703,7 +1016,6 @@
                     const result = await response.text();
                     console.log('Registration result:', result);
                     
-                    // Add to local array for immediate use
                     const newUser = {
                         ID: (allUsers.length + 1).toString(),
                         Username: username,
@@ -1740,38 +1052,74 @@
         function showUserInterface() {
             document.getElementById('headerSubtext').textContent = `Welcome back, ${currentUser.username}!`;
             document.getElementById('loginBtn').style.display = 'none';
-            document.getElementById('logoutBtn').style.display = 'block';
-            document.getElementById('communityBtn').style.display = 'block';
+            document.getElementById('accountDropdown').style.display = 'block';
             document.getElementById('achievementsBtn').style.display = 'block';
-            document.getElementById('currencyDisplay').style.display = 'block';
             document.getElementById('userStatsSection').style.display = 'block';
             
-            // Update stats
             document.getElementById('welcomeUsername').textContent = currentUser.username;
             document.getElementById('userScore').textContent = currentUser.score;
             document.getElementById('userAccuracy').textContent = currentUser.accuracy + '%';
             document.getElementById('userStreak').textContent = currentUser.streak;
             
+            document.getElementById('accountUsername').textContent = currentUser.username;
             updateCoinDisplay();
             
-            // Initialize achievements
             userAchievements = [];
             totalPicksMade = 0;
             setTimeout(() => checkAchievements(), 1000);
+        }
+
+        function toggleAccountMenu() {
+            const menu = document.getElementById('accountMenu');
+            const isVisible = menu.style.display === 'block';
+            
+            if (isVisible) {
+                hideAccountMenu();
+            } else {
+                showAccountMenu();
+            }
+        }
+
+        function showAccountMenu() {
+            document.getElementById('accountMenu').style.display = 'block';
+            
+            setTimeout(() => {
+                document.addEventListener('click', handleOutsideClick);
+            }, 100);
+        }
+
+        function hideAccountMenu() {
+            document.getElementById('accountMenu').style.display = 'none';
+            document.removeEventListener('click', handleOutsideClick);
+        }
+
+        function handleOutsideClick(event) {
+            const dropdown = document.getElementById('accountDropdown');
+            if (!dropdown.contains(event.target)) {
+                hideAccountMenu();
+            }
+        }
+
+        function showProfile() {
+            hideAccountMenu();
+            showNotification('Profile feature coming soon!', 'info', 2000);
+        }
+
+        function showSettings() {
+            hideAccountMenu();
+            showNotification('Settings feature coming soon!', 'info', 2000);
         }
 
         async function loadTodaysGames() {
             try {
                 console.log('Loading games from Google Sheets...');
                 
-                // Try to load from Google Sheets first
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=getGames`);
                 
                 if (response.ok) {
                     const csvData = await response.text();
                     console.log('Games CSV Response:', csvData);
                     
-                    // Parse CSV data
                     const lines = csvData.trim().split('\n');
                     const headers = lines[0].split(',');
                     
@@ -1784,7 +1132,6 @@
                                 game[header.trim()] = values[index] ? values[index].trim().replace(/"/g, '') : '';
                             });
                             
-                            // Convert to expected format
                             const gameObj = {
                                 id: game.ID || game.id,
                                 teamA: game.TeamA || game.teamA,
@@ -1810,7 +1157,6 @@
             } catch (error) {
                 console.error('Error loading games from Google Sheets, using demo data:', error);
                 
-                // Fallback to demo games
                 todaysGames = [
                     { id: 1, teamA: 'Lakers', teamB: 'Warriors', league: 'NBA' },
                     { id: 2, teamA: 'Chiefs', teamB: 'Bills', league: 'NFL' },
@@ -1858,7 +1204,6 @@
                 const totals = ['Over', 'Under'];
                 const randomTotal = totals[Math.floor(Math.random() * totals.length)];
                 
-                // Add to userPicks without showing modal
                 if (!userPicks[game.id]) {
                     userPicks[game.id] = {};
                 }
@@ -1900,18 +1245,28 @@
             showNotification('All picks cleared!', 'info', 2000);
         }
 
+        function resetSubmittedGames() {
+            submittedGames.clear();
+            
+            const submitBtn = document.getElementById('submitPicksBtn');
+            submitBtn.innerHTML = 'Submit All Picks';
+            submitBtn.disabled = Object.keys(userPicks).length === 0;
+            updateSubmitButton();
+            
+            showNotification('Submitted games reset! You can now submit picks again.', 'success', 3000);
+        }
+
         async function submitAllPicks() {
             if (Object.keys(userPicks).length === 0) {
                 showNotification('Please make some picks first!', 'warning');
                 return;
             }
             
-            // Check if any of the games have already been submitted
             const gamesToSubmit = Object.keys(userPicks);
             const alreadySubmitted = gamesToSubmit.filter(gameId => submittedGames.has(parseInt(gameId)));
             
             if (alreadySubmitted.length > 0) {
-                showNotification('Some games have already been submitted!', 'warning');
+                showNotification(`You have already submitted picks for game(s): ${alreadySubmitted.join(', ')}`, 'warning');
                 return;
             }
             
@@ -1922,7 +1277,6 @@
             showNotification('Submitting your picks to Google Sheets...', 'info', 2000);
             
             try {
-                // Prepare picks data for Google Sheets
                 const picksArray = [];
                 
                 Object.keys(userPicks).forEach(gameId => {
@@ -1935,16 +1289,15 @@
                             GameID: gameId,
                             PickType: pickType,
                             Selection: selection,
-                            IsCorrect: '', // Will be updated later when game completes
+                            IsCorrect: '',
                             SubmittedAt: new Date().toISOString(),
-                            Points: 0 // Will be updated later when game completes
+                            Points: 0
                         });
                     });
                 });
                 
                 console.log('Submitting picks:', picksArray);
                 
-                // Submit to Google Sheets
                 const formData = new URLSearchParams({
                     action: 'submitPicks',
                     picks: JSON.stringify(picksArray)
@@ -1964,17 +1317,14 @@
                     
                     const totalPicks = Object.values(userPicks).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
                     
-                    // Mark games as submitted
                     gamesToSubmit.forEach(gameId => {
                         submittedGames.add(parseInt(gameId));
                     });
                     
-                    // Award coins for submitting picks
                     awardCoins(totalPicks * 2, `Submitted ${totalPicks} picks!`);
                     
                     showNotification(`All ${totalPicks} picks submitted successfully to Google Sheets!`, 'success', 5000);
                     
-                    // Clear only the submitted picks but keep the visual state
                     userPicks = {};
                     totalPicksMade = 0;
                     submitBtn.innerHTML = 'All Picks Submitted ✓';
@@ -1992,21 +1342,17 @@
                 console.error('Error submitting picks:', error);
                 showNotification('Error submitting picks to Google Sheets. Please try again.', 'error');
                 
-                // Fallback - still process locally
                 setTimeout(() => {
                     const totalPicks = Object.values(userPicks).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
                     
-                    // Mark games as submitted
                     gamesToSubmit.forEach(gameId => {
                         submittedGames.add(parseInt(gameId));
                     });
                     
-                    // Award coins for submitting picks
                     awardCoins(totalPicks * 2, `Submitted ${totalPicks} picks (local backup)!`);
                     
                     showNotification(`${totalPicks} picks saved locally (Google Sheets unavailable)`, 'warning', 5000);
                     
-                    // Clear only the submitted picks but keep the visual state
                     userPicks = {};
                     totalPicksMade = 0;
                     submitBtn.innerHTML = 'Picks Submitted (Local) ✓';
@@ -2059,7 +1405,7 @@
                                 ${user.Username}${user.Username === currentUser?.username ? ' (You)' : ''}
                             </div>
                             <div style="font-size: 12px !important; color: #666 !important;">
-                                ${user.Accuracy || 0}% accuracy • ${user.Streak || 0} streak • 💰${user.Coins || 0} coins
+                                ${user.Accuracy || 0}% accuracy • ${user.Streak || 0} streak
                             </div>
                         </div>
                     </div>
@@ -2080,24 +1426,22 @@
             userAchievements = [];
             totalPicksMade = 0;
             userCoins = 0;
-            likedPicks.clear(); // Reset liked picks
-            submittedGames.clear(); // Reset submitted games
+            likedPicks.clear();
+            submittedGames.clear();
             
             document.getElementById('headerSubtext').textContent = 'Make your predictions and share your insights';
             document.getElementById('loginBtn').style.display = 'block';
-            document.getElementById('logoutBtn').style.display = 'none';
-            document.getElementById('communityBtn').style.display = 'none';
+            document.getElementById('accountDropdown').style.display = 'none';
             document.getElementById('achievementsBtn').style.display = 'none';
-            document.getElementById('currencyDisplay').style.display = 'none';
             document.getElementById('userStatsSection').style.display = 'none';
             
-            // Reset submit button
+            hideAccountMenu();
+            
             const submitBtn = document.getElementById('submitPicksBtn');
             submitBtn.innerHTML = 'Submit All Picks';
             submitBtn.style.background = 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)';
             submitBtn.disabled = true;
             
-            // Reset game visuals
             document.querySelectorAll('[id^="pick_"]').forEach(btn => {
                 btn.style.background = 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)';
                 btn.style.borderColor = '#e2e8f0';
