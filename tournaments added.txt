@@ -799,7 +799,7 @@
 
     <script>
         // Configuration
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoF43jxw5Zvh7dKUfgcEnbf18JzQXPiT5YC3H0fp0AMw2Qi_-jsNIwz2HeYUYa6HLA/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSa-TaDy6Engy7O012H-lN4LRPGH1EhbABjwksagS_ESs2OEX0-dZ21dZyxtig3Kzh/exec';
         
         let allUsers = [];
         let currentUser = null;
@@ -1574,6 +1574,26 @@ function formatTimestamp(timestamp) {
             return newAchievements;
         }
 
+// Add this function to your JavaScript section
+function parseCSV(csvData) {
+    const lines = csvData.trim().split('\n');
+    const headers = parseCSVLine(lines[0]);
+    const result = [];
+    
+    for (let i = 1; i < lines.length; i++) {
+        const values = parseCSVLine(lines[i]);
+        const obj = {};
+        
+        headers.forEach((header, index) => {
+            obj[header.trim()] = values[index] ? values[index].trim() : '';
+        });
+        
+        result.push(obj);
+    }
+    
+    return result;
+}
+
        // FIXED VERSION - Replace your renderGames() function with this:
 
 // Helper function to properly parse CSV lines (handles commas in quoted values)
@@ -2287,6 +2307,18 @@ function renderGames() {
                 loginButton.disabled = false;
             }
         }
+
+// 2. Enhanced showUserInterface wrapper (RECOMMENDED - adds tournament init after login)
+const originalShowUserInterface = window.showUserInterface;
+window.showUserInterface = function() {
+    // Call your existing showUserInterface function
+    if (originalShowUserInterface) {
+        originalShowUserInterface();
+    }
+    
+    // Initialize tournament system after user logs in
+    setTimeout(initializeTournamentSystem, 1000);
+};
 
         async function attemptRegister() {
             const username = document.getElementById('registerUsername').value.trim();
