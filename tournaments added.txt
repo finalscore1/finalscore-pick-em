@@ -3,2283 +3,799 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinalScore - Premium Pick'em Experience</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <title>FinalScore - Pick'em Challenge</title>
 <style>
-/* PREMIUM VISUAL REDESIGN - COMPLETE UI TRANSFORMATION */
-
-:root {
-    /* Premium Color Palette */
-    --primary-purple: #8B5CF6;
-    --primary-orange: #F97316;
-    --primary-yellow: #FCD34D;
-    --primary-teal: #06B6D4;
-    --primary-pink: #EC4899;
-    --primary-green: #10B981;
-    
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
-    --gradient-secondary: linear-gradient(135deg, #F97316 0%, #FCD34D 100%);
-    --gradient-success: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
-    --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
-    --gradient-dark: linear-gradient(135deg, #1F2937 0%, #374151 100%);
-    
-    /* Backgrounds */
-    --bg-main: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
-    --bg-card: rgba(255, 255, 255, 0.03);
-    --bg-card-hover: rgba(255, 255, 255, 0.08);
-    --bg-glass: rgba(255, 255, 255, 0.1);
-    
-    /* Shadows & Glows */
-    --shadow-small: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    --glow-purple: 0 0 30px rgba(139, 92, 246, 0.3);
-    --glow-orange: 0 0 30px rgba(249, 115, 22, 0.3);
-    --glow-yellow: 0 0 30px rgba(252, 211, 77, 0.3);
-    --glow-teal: 0 0 30px rgba(6, 182, 212, 0.3);
-    
-    /* Typography */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-    
-    /* Spacing */
-    --space-xs: 0.5rem;
-    --space-sm: 0.75rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-2xl: 3rem;
-    --space-3xl: 4rem;
-    
-    /* Border Radius */
-    --radius-sm: 0.5rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1rem;
-    --radius-xl: 1.5rem;
-    --radius-2xl: 2rem;
-    --radius-full: 9999px;
-}
-
-/* Reset & Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-primary);
-    background: var(--bg-main);
-    color: white;
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--gradient-primary);
-    border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--gradient-secondary);
-}
-
-/* Background Animation */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
-    z-index: -1;
-    animation: backgroundShift 20s ease-in-out infinite;
-}
-
-@keyframes backgroundShift {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(5deg); }
-}
-
-/* Header */
-.header {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: var(--space-lg) var(--space-xl);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-lg);
-}
-
-.logo {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 800;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: var(--glow-purple);
-}
-
-.header-actions {
-    display: flex;
-    gap: var(--space-md);
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-/* Premium Button System */
-.btn {
-    font-family: var(--font-primary);
-    font-weight: 600;
-    padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-full);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: 0.95rem;
-    letter-spacing: 0.5px;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-.btn:hover::before {
-    left: 100%;
-}
-
-.btn-primary {
-    background: var(--gradient-primary);
-    color: white;
-    box-shadow: var(--glow-purple);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--glow-purple), var(--shadow-large);
-}
-
-.btn-secondary {
-    background: var(--gradient-secondary);
-    color: white;
-    box-shadow: var(--glow-orange);
-}
-
-.btn-secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--glow-orange), var(--shadow-large);
-}
-
-.btn-success {
-    background: var(--gradient-success);
-    color: white;
-    box-shadow: var(--glow-teal);
-}
-
-.btn-success:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--glow-teal), var(--shadow-large);
-}
-
-.btn-glass {
-    background: var(--bg-glass);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-}
-
-.btn-glass:hover {
-    background: var(--bg-card-hover);
-    transform: translateY(-2px);
-}
-
-/* Main Content */
-.main-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: var(--space-2xl) var(--space-xl);
-}
-
-/* Premium Card System */
-.card {
-    background: var(--bg-card);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-xl);
-    padding: var(--space-2xl);
-    margin-bottom: var(--space-2xl);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--gradient-primary);
-    opacity: 0.5;
-}
-
-.card:hover {
-    background: var(--bg-card-hover);
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-large);
-}
-
-.card-premium {
-    background: var(--bg-glass);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    box-shadow: var(--glow-purple);
-}
-
-.card-tournament {
-    background: var(--bg-glass);
-    border: 1px solid rgba(249, 115, 22, 0.3);
-    box-shadow: var(--glow-orange);
-}
-
-.card-success {
-    background: var(--bg-glass);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    box-shadow: var(--glow-teal);
-}
-
-/* Typography */
-.heading-xl {
-    font-family: var(--font-display);
-    font-size: 3rem;
-    font-weight: 800;
-    margin-bottom: var(--space-lg);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
-}
-
-.heading-lg {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: var(--space-md);
-    color: white;
-}
-
-.heading-md {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: var(--space-sm);
-    color: white;
-}
-
-.text-gradient {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.text-muted {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.95rem;
-}
-
-/* User Stats Grid */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--space-lg);
-    margin-bottom: var(--space-2xl);
-}
-
-.stat-card {
-    background: var(--bg-glass);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    padding: var(--space-xl);
-    text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--gradient-primary);
-}
-
-.stat-card:nth-child(2)::before { background: var(--gradient-secondary); }
-.stat-card:nth-child(3)::before { background: var(--gradient-success); }
-.stat-card:nth-child(4)::before { background: var(--gradient-warning); }
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    background: var(--bg-card-hover);
-    box-shadow: var(--shadow-medium);
-}
-
-.stat-value {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: var(--space-xs);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.stat-card:nth-child(2) .stat-value { background: var(--gradient-secondary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.stat-card:nth-child(3) .stat-value { background: var(--gradient-success); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.stat-card:nth-child(4) .stat-value { background: var(--gradient-warning); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-.stat-label {
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.85rem;
-}
-
-/* Tournament Banner */
+/* Tournament Banner Styles */
 .tournament-banner {
-    background: var(--gradient-secondary);
-    border-radius: var(--radius-xl);
-    padding: var(--space-2xl);
-    margin-bottom: var(--space-2xl);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--glow-orange);
-    animation: tournamentPulse 3s infinite ease-in-out;
-}
-
-.tournament-banner::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(transparent, rgba(255, 255, 255, 0.1), transparent);
-    animation: rotate 10s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes tournamentPulse {
-    0%, 100% { transform: scale(1); box-shadow: var(--glow-orange); }
-    50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(249, 115, 22, 0.5); }
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.tournament-title {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: var(--space-lg);
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    position: relative;
-    z-index: 1;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+    animation: tournamentPulse 3s infinite ease-in-out;
+    display: none; /* Hidden by default */
 }
 
-.tournament-stats {
+.tournament-banner.active {
+    display: block;
+}
+
+.tournament-banner h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.tournament-banner .tournament-info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-lg);
-    margin: var(--space-lg) 0;
-    position: relative;
-    z-index: 1;
+    gap: 15px;
+    margin: 15px 0;
 }
 
 .tournament-stat {
     background: rgba(255, 255, 255, 0.15);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    padding: 10px;
+    border-radius: 8px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.tournament-stat-label {
-    font-size: 0.85rem;
+.tournament-stat .label {
+    font-size: 12px;
     opacity: 0.9;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: var(--space-xs);
 }
 
-.tournament-stat-value {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
+.tournament-stat .value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
 }
 
-.tournament-actions {
-    display: flex;
-    gap: var(--space-md);
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: var(--space-lg);
-    position: relative;
-    z-index: 1;
-}
-
-/* Games Section */
-.games-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-xl);
-    flex-wrap: wrap;
-    gap: var(--space-md);
-}
-
-.games-controls {
-    display: flex;
-    gap: var(--space-sm);
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.pick-status {
-    background: var(--bg-glass);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-full);
-    padding: var(--space-sm) var(--space-lg);
-    font-weight: 600;
-    color: white;
-    backdrop-filter: blur(10px);
-}
-
-/* Game Cards */
-.game-card {
-    background: var(--bg-glass);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-xl);
-    padding: var(--space-xl);
-    margin-bottom: var(--space-lg);
+.join-tournament-btn {
+    background: white;
+    color: #d97706;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    margin: 15px 10px 0 10px;
+    display: inline-block;
 }
 
-.game-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--gradient-primary);
-    opacity: 0.5;
+.join-tournament-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-.game-card:hover {
-    background: var(--bg-card-hover);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-medium);
-}
-
-.game-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-lg);
-    flex-wrap: wrap;
-    gap: var(--space-md);
-}
-
-.game-title {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 700;
+.join-tournament-btn:disabled {
+    background: #9ca3af;
     color: white;
+    cursor: not-allowed;
+    transform: none;
 }
 
-.game-meta {
-    display: flex;
-    gap: var(--space-sm);
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.league-badge {
-    background: var(--gradient-primary);
+.tournament-leaderboard-btn {
+    background: rgba(255, 255, 255, 0.2);
     color: white;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-full);
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    border: 2px solid white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 15px 10px 0 10px;
 }
 
-.countdown-badge {
-    background: var(--gradient-success);
+.tournament-leaderboard-btn:hover {
+    background: white;
+    color: #d97706;
+}
+
+@keyframes tournamentPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+/* Tournament Game Badge */
+.tournament-game-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-full);
-    font-size: 0.8rem;
-    font-weight: 600;
-    min-width: 80px;
-    text-align: center;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+    animation: badgeShine 2s infinite;
 }
 
-.countdown-badge.live {
-    background: var(--gradient-warning);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
+@keyframes badgeShine {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.8; }
 }
 
-/* Pick Sections */
-.pick-section {
-    margin-bottom: var(--space-lg);
+/* Mini Tournament Leaderboard */
+.mini-tournament-leaderboard {
+    background: #f8fafc;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    display: none;
 }
 
-.pick-section:last-child {
-    margin-bottom: 0;
-}
-
-.pick-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-md);
-}
-
-.pick-indicator {
-    width: 4px;
-    height: 20px;
-    background: var(--gradient-primary);
-    border-radius: var(--radius-full);
-}
-
-.pick-section:nth-child(2) .pick-indicator { background: var(--gradient-secondary); }
-.pick-section:nth-child(3) .pick-indicator { background: var(--gradient-success); }
-
-.pick-title {
-    font-weight: 600;
-    color: white;
-    font-size: 1rem;
-}
-
-.pick-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-sm);
-}
-
-.pick-button {
-    background: var(--bg-glass);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: var(--space-md);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
-}
-
-.pick-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.pick-button:hover::before {
-    left: 100%;
-}
-
-.pick-button:hover {
-    border-color: rgba(139, 92, 246, 0.5);
-    background: rgba(139, 92, 246, 0.1);
-    transform: translateY(-2px);
-}
-
-.pick-button.selected {
-    background: var(--gradient-success);
-    border-color: var(--primary-green);
-    box-shadow: var(--glow-teal);
-}
-
-.pick-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-/* Enhanced Leaderboard */
-.leaderboard-container {
-    background: var(--bg-glass);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-xl);
-    padding: var(--space-2xl);
-    margin-bottom: var(--space-2xl);
-    backdrop-filter: blur(20px);
-    position: relative;
-    overflow: hidden;
-}
-
-.leaderboard-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--gradient-primary);
-}
-
-.leaderboard-header {
-    text-align: center;
-    margin-bottom: var(--space-xl);
-}
-
-.leaderboard-title {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.leaderboard-tabs {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-xl);
-    flex-wrap: wrap;
-}
-
-.leaderboard-tab {
-    background: var(--bg-glass);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
-}
-
-.leaderboard-tab::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.leaderboard-tab:hover::before {
-    left: 100%;
-}
-
-.leaderboard-tab:hover {
-    border-color: rgba(139, 92, 246, 0.5);
-    transform: translateY(-2px);
-}
-
-.leaderboard-tab.active {
-    background: var(--gradient-primary);
-    border-color: var(--primary-purple);
-    box-shadow: var(--glow-purple);
-}
-
-.leaderboard-entry {
-    display: flex;
-    align-items: center;
-    padding: var(--space-lg);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-    border-radius: var(--radius-md);
-    margin-bottom: var(--space-xs);
-}
-
-.leaderboard-entry:hover {
-    background: var(--bg-card-hover);
-    transform: translateX(5px);
-}
-
-.leaderboard-entry.current-user {
-    background: var(--gradient-secondary);
-    box-shadow: var(--glow-orange);
-    border: none;
-    animation: userGlow 3s infinite ease-in-out;
-}
-
-@keyframes userGlow {
-    0%, 100% { box-shadow: var(--glow-orange); }
-    50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.6); }
-}
-
-.rank-badge {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 1.2rem;
-    margin-right: var(--space-lg);
-    flex-shrink: 0;
-    font-family: var(--font-display);
-}
-
-.rank-badge.gold {
-    background: var(--gradient-secondary);
-    color: white;
-    box-shadow: var(--glow-yellow);
-}
-
-.rank-badge.silver {
-    background: linear-gradient(135deg, #E5E7EB 0%, #9CA3AF 100%);
-    color: #374151;
-    box-shadow: 0 0 20px rgba(156, 163, 175, 0.3);
-}
-
-.rank-badge.bronze {
-    background: linear-gradient(135deg, #CD7F32 0%, #A0522D 100%);
-    color: white;
-    box-shadow: 0 0 20px rgba(205, 127, 50, 0.3);
-}
-
-.rank-badge.regular {
-    background: var(--bg-glass);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .main-content {
-        padding: var(--space-xl) var(--space-lg);
-    }
-}
-
-@media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .main-content {
-        padding: var(--space-lg) var(--space-md);
-    }
-    
-    .heading-xl {
-        font-size: 2.5rem;
-    }
-    
-    .heading-lg {
-        font-size: 1.75rem;
-    }
-    
-    .tournament-title {
-        font-size: 2rem;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-md);
-    }
-    
-    .tournament-stats {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-md);
-    }
-    
-    .games-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .leaderboard-tabs {
-        justify-content: flex-start;
-        overflow-x: auto;
-        padding-bottom: var(--space-xs);
-    }
-    
-    .leaderboard-tab {
-        flex-shrink: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .card {
-        padding: var(--space-lg);
-        margin-bottom: var(--space-lg);
-    }
-    
-    .tournament-banner {
-        padding: var(--space-lg);
-    }
-    
-    .game-card {
-        padding: var(--space-lg);
-    }
-    
-    .leaderboard-entry {
-        padding: var(--space-md);
-    }
-}
-
-/* Notification System */
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--bg-glass);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-lg);
-    padding: var(--space-lg);
-    backdrop-filter: blur(20px);
-    color: white;
-    font-weight: 600;
-    transform: translateY(-100px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
-    max-width: 350px;
-    border-left: 4px solid var(--primary-purple);
-}
-
-.notification.show {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.notification.success {
-    border-left-color: var(--primary-green);
-    box-shadow: var(--glow-teal);
-}
-
-.notification.warning {
-    border-left-color: var(--primary-orange);
-    box-shadow: var(--glow-orange);
-}
-
-.notification.error {
-    border-left-color: #EF4444;
-    box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
-}
-
-/* Loading States */
-.loading-skeleton {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
-    background-size: 200% 100%;
-    animation: skeleton-loading 1.5s infinite;
-    border-radius: var(--radius-md);
-}
-
-@keyframes skeleton-loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-/* Achievement Badges */
-.achievement-badge {
-    background: var(--gradient-primary);
-    color: white;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-full);
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    margin: var(--space-xs);
-    box-shadow: var(--glow-purple);
-    animation: badgeGlow 2s infinite ease-in-out;
-}
-
-@keyframes badgeGlow {
-    0%, 100% { box-shadow: var(--glow-purple); }
-    50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
-}
-
-.achievement-badge.champion { background: var(--gradient-secondary); box-shadow: var(--glow-orange); }
-.achievement-badge.elite { background: var(--gradient-success); box-shadow: var(--glow-teal); }
-.achievement-badge.streak { background: var(--gradient-warning); box-shadow: var(--glow-yellow); }
-
-/* Modal System */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.modal.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-content {
-    background: var(--bg-glass);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-xl);
-    padding: var(--space-2xl);
-    max-width: 500px;
-    width: 90%;
-    backdrop-filter: blur(20px);
-    position: relative;
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-}
-
-.modal.show .modal-content {
-    transform: scale(1);
-}
-
-.modal-header {
-    margin-bottom: var(--space-lg);
-    text-align: center;
-}
-
-.modal-title {
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: var(--space-sm);
-}
-
-.modal-close {
-    position: absolute;
-    top: var(--space-lg);
-    right: var(--space-lg);
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #EF4444;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.modal-close:hover {
-    background: rgba(239, 68, 68, 0.2);
-    transform: scale(1.1);
-}
-
-/* Form Elements */
-.form-group {
-    margin-bottom: var(--space-lg);
-}
-
-.form-label {
+.mini-tournament-leaderboard.active {
     display: block;
-    margin-bottom: var(--space-xs);
-    font-weight: 600;
-    color: white;
-    font-size: 0.95rem;
 }
 
-.form-input {
-    width: 100%;
-    padding: var(--space-md);
-    background: var(--bg-glass);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-md);
-    color: white;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+.mini-tournament-leaderboard h3 {
+    margin: 0 0 15px 0;
+    color: #374151;
 }
 
-.form-input:focus {
-    outline: none;
-    border-color: var(--primary-purple);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-}
-
-.form-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* Enhanced Animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadeInRight {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.animate-fade-in-up {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-.animate-fade-in-left {
-    animation: fadeInLeft 0.6s ease-out;
-}
-
-.animate-fade-in-right {
-    animation: fadeInRight 0.6s ease-out;
-}
-
-/* Stagger animations for lists */
-.animate-stagger > * {
-    opacity: 0;
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-stagger > *:nth-child(1) { animation-delay: 0.1s; }
-.animate-stagger > *:nth-child(2) { animation-delay: 0.2s; }
-.animate-stagger > *:nth-child(3) { animation-delay: 0.3s; }
-.animate-stagger > *:nth-child(4) { animation-delay: 0.4s; }
-.animate-stagger > *:nth-child(5) { animation-delay: 0.5s; }
-
-/* Floating Action Button */
-.fab {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: var(--gradient-primary);
-    border: none;
-    border-radius: 50%;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: var(--glow-purple);
-    transition: all 0.3s ease;
-    z-index: 100;
-}
-
-.fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
-}
-
-/* Enhanced Status Indicators */
-.status-indicator {
-    display: inline-flex;
+.tournament-ranking {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-full);
-    font-size: 0.85rem;
-    font-weight: 600;
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.status-indicator.live {
-    background: rgba(239, 68, 68, 0.1);
-    color: #EF4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+.tournament-ranking:last-child {
+    border-bottom: none;
 }
 
-.status-indicator.live::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: #EF4444;
-    border-radius: 50%;
-    animation: pulse 1s infinite;
+.tournament-ranking.user-rank {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    margin: 0 -10px;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
 }
 
-.status-indicator.upcoming {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--primary-green);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.status-indicator.closed {
-    background: rgba(156, 163, 175, 0.1);
-    color: #9CA3AF;
-    border: 1px solid rgba(156, 163, 175, 0.3);
-}
-
-/* Premium Progress Bars */
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-full);
-    overflow: hidden;
-    position: relative;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--gradient-primary);
-    border-radius: var(--radius-full);
-    transition: width 0.3s ease;
-    position: relative;
-}
-
-.progress-fill::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-/* Coin Display */
-.coin-display {
-    display: inline-flex;
+.rank-info {
+    display: flex;
     align-items: center;
-    gap: var(--space-xs);
-    background: var(--gradient-secondary);
+    gap: 10px;
+}
+
+.rank-number {
+    background: #6b7280;
     color: white;
-    padding: var(--space-xs) var(--space-md);
-    border-radius: var(--radius-full);
-    font-weight: 700;
-    box-shadow: var(--glow-orange);
-    animation: coinGlow 3s infinite ease-in-out;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
 }
 
-@keyframes coinGlow {
-    0%, 100% { box-shadow: var(--glow-orange); }
-    50% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.6); }
+.rank-number.first { background: #fbbf24; }
+.rank-number.second { background: #9ca3af; }
+.rank-number.third { background: #cd7f32; }
+
+.tournament-points {
+    font-weight: bold;
+    color: #059669;
+
 }
-
-.coin-icon {
-    font-size: 1.2rem;
-    animation: coinSpin 4s infinite linear;
-}
-
-@keyframes coinSpin {
-    from { transform: rotateY(0deg); }
-    to { transport: rotateY(360deg); }
-}
-
-/* Utility Classes */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-.mb-0 { margin-bottom: 0; }
-.mb-1 { margin-bottom: var(--space-xs); }
-.mb-2 { margin-bottom: var(--space-sm); }
-.mb-3 { margin-bottom: var(--space-md); }
-.mb-4 { margin-bottom: var(--space-lg); }
-.mb-5 { margin-bottom: var(--space-xl); }
-
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: var(--space-xs); }
-.mt-2 { margin-top: var(--space-sm); }
-.mt-3 { margin-top: var(--space-md); }
-.mt-4 { margin-top: var(--space-lg); }
-.mt-5 { margin-top: var(--space-xl); }
-
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: var(--space-sm); }
-.gap-3 { gap: var(--space-md); }
-.gap-4 { gap: var(--space-lg); }
-
-.hidden { display: none; }
-.block { display: block; }
-.inline-block { display: inline-block; }
-
-/* Hover Effects */
-.hover-lift {
-    transition: transform 0.3s ease;
-}
-
-.hover-lift:hover {
-    transform: translateY(-5px);
-}
-
-.hover-glow {
-    transition: all 0.3s ease;
-}
-
-.hover-glow:hover {
-    box-shadow: var(--glow-purple);
-}
-
-/* Focus States */
-*:focus {
-    outline: 2px solid var(--primary-purple);
-    outline-offset: 2px;
-}
-
-/* Selection */
-::selection {
-    background: rgba(139, 92, 246, 0.3);
-    color: white;
-}
-
-/* Print Styles */
-@media print {
-    body {
-        background: white;
-        color: black;
-    }
-    
-    .card {
-        border: 1px solid #ddd;
-        background: white;
-    }
-}
-
-/* Dark Mode Support (for future) */
-@media (prefers-color-scheme: dark) {
-    /* Already optimized for dark theme */
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* High Contrast Support */
-@media (prefers-contrast: high) {
-    .card {
-        border: 2px solid white;
-    }
-    
-    .btn {
-        border: 2px solid currentColor;
-    }
-}
-
-
-</style> 
-
+</style>
 </head>
-<!-- PREMIUM HTML STRUCTURE - COMPLETE PAGE LAYOUT -->
-<!-- Replace your entire HTML body content with this premium version -->
-
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div>
-                <h1 class="logo">✨ FinalScore</h1>
-                <p class="text-muted">Premium Sports Prediction Platform</p>
-            </div>
-            
-            <div class="header-actions">
-                <button id="achievementsBtn" class="btn btn-glass hover-lift" onclick="showAchievements()" style="display: none;">
-                    🏆 Achievements
-                </button>
-                
-                <!-- Account Dropdown -->
-                <div id="accountDropdown" style="position: relative; display: none;">
-                    <button id="accountBtn" class="btn btn-primary hover-lift" onclick="toggleAccountMenu()">
-                        👤 Account <span style="font-size: 12px;">▼</span>
-                    </button>
-                    
-                    <div id="accountMenu" class="modal-content" style="
-                        position: absolute;
-                        top: 100%;
-                        right: 0;
-                        margin-top: 10px;
-                        min-width: 250px;
-                        display: none;
-                        z-index: 1000;
-                        padding: var(--space-lg);
-                    ">
-                        <!-- User Info -->
-                        <div style="margin-bottom: var(--space-md); text-align: center;">
-                            <div class="heading-md" id="accountUsername">Username</div>
-                            <div class="coin-display">
-                                <span class="coin-icon">🪙</span>
-                                <span id="accountCoins">0</span> coins
-                            </div>
-                        </div>
-                        
-                        <!-- Menu Options -->
-                        <div style="display: flex; flex-direction: column; gap: var(--space-xs);">
-                            <button onclick="showProfile()" class="btn btn-glass" style="width: 100%; justify-content: flex-start;">
-                                📊 View Profile
-                            </button>
-                            <button onclick="showSettings()" class="btn btn-glass" style="width: 100%; justify-content: flex-start;">
-                                ⚙️ Settings
-                            </button>
-                            <hr style="border: 1px solid rgba(255, 255, 255, 0.1); margin: var(--space-sm) 0;">
-                            <button onclick="logout(); hideAccountMenu();" class="btn" style="
-                                width: 100%; 
-                                justify-content: flex-start;
-                                background: rgba(239, 68, 68, 0.1);
-                                color: #EF4444;
-                                border: 1px solid rgba(239, 68, 68, 0.3);
-                            ">
-                                🚪 Logout
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <button id="loginBtn" class="btn btn-secondary hover-lift" onclick="showLogin()">
-                    🚀 Get Started
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
+    <div style="
+        display: block !important; 
+        visibility: visible !important; 
+        opacity: 1 !important; 
+        position: relative !important;
+        width: 100% !important;
+        min-height: 100vh !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        font-family: 'Arial', sans-serif !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    " id="pickemApp">
         
-        <!-- User Stats Section -->
-        <div id="userStatsSection" class="animate-fade-in-up" style="display: none;">
-            <div class="text-center mb-4">
-                <h2 class="heading-lg">
-                    Welcome back, <span class="text-gradient" id="welcomeUsername"></span>! 🎯
-                </h2>
-                <p class="text-muted">Your performance dashboard</p>
-            </div>
-            
-            <div class="stats-grid animate-stagger">
-                <div class="stat-card hover-lift">
-                    <div class="stat-value" id="userScore">0</div>
-                    <div class="stat-label">Total Score</div>
-                </div>
-                
-                <div class="stat-card hover-lift">
-                    <div class="stat-value" id="userAccuracy">0%</div>
-                    <div class="stat-label">Accuracy</div>
-                </div>
-                
-                <div class="stat-card hover-lift">
-                    <div class="stat-value" id="userStreak">0</div>
-                    <div class="stat-label">Win Streak</div>
-                </div>
-                
-                <div class="stat-card hover-lift" onclick="showCommunity()" style="cursor: pointer;">
-                    <div class="stat-value">💬</div>
-                    <div class="stat-label">Community</div>
-                    <div class="text-muted" style="font-size: 0.8rem; margin-top: var(--space-xs);">
-                        Share & discuss picks
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tournament Banner -->
-        <div id="tournamentBanner" class="tournament-banner animate-fade-in-up" style="display: none;">
-            <h2 class="tournament-title">
-                🏆 <span id="tournamentName">Weekend Warrior #1</span> - LIVE!
-            </h2>
-            
-            <div class="tournament-stats">
-                <div class="tournament-stat">
-                    <div class="tournament-stat-label">Prize Pool</div>
-                    <div class="tournament-stat-value" id="tournamentPrizePool">500 coins</div>
-                </div>
-                <div class="tournament-stat">
-                    <div class="tournament-stat-label">Participants</div>
-                    <div class="tournament-stat-value" id="tournamentParticipants">0 / 1000</div>
-                </div>
-                <div class="tournament-stat">
-                    <div class="tournament-stat-label">Time Left</div>
-                    <div class="tournament-stat-value" id="tournamentTimeLeft">2 days 15h</div>
-                </div>
-                <div class="tournament-stat">
-                    <div class="tournament-stat-label">Your Rank</div>
-                    <div class="tournament-stat-value" id="tournamentUserRank">Not Joined</div>
-                </div>
-            </div>
-            
-            <div class="tournament-actions">
-                <button id="joinTournamentBtn" class="btn btn-secondary hover-lift" onclick="joinTournament()">
-                    🚀 Join Tournament (FREE!)
-                </button>
-                <button class="btn btn-glass hover-lift" onclick="toggleTournamentLeaderboard()">
-                    📊 View Leaderboard
-                </button>
-            </div>
-        </div>
-
-        <!-- Mini Tournament Leaderboard -->
-        <div id="miniTournamentLeaderboard" class="card animate-fade-in-up" style="display: none;">
-            <h3 class="heading-md">🏆 Tournament Leaderboard</h3>
-            <div id="tournamentRankings">
-                <!-- Rankings will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Games Section -->
-        <div class="card card-premium animate-fade-in-up">
-            <div class="games-header">
-                <div>
-                    <h2 class="heading-lg">Today's Games 🎯</h2>
-                    <p class="text-muted">Make your predictions and share your insights</p>
-                </div>
-                
-                <div class="games-controls">
-                    <div id="pickStatus" class="pick-status">0 picks made</div>
-                    
-                    <button onclick="quickFillRandom()" class="btn btn-glass hover-lift">
-                        ⚡ Quick Fill
-                    </button>
-                    
-                    <button onclick="clearAllPicks()" class="btn" style="
-                        background: rgba(239, 68, 68, 0.1);
-                        color: #EF4444;
-                        border: 1px solid rgba(239, 68, 68, 0.3);
-                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                        🗑️ Clear All
-                    </button>
-                    
-                    <button onclick="resetSubmittedGames()" class="btn btn-primary hover-lift">
-                        🔄 Reset Submitted
-                    </button>
-                </div>
-            </div>
-            
-            <div id="gamesContainer" class="animate-stagger">
-                <!-- Games will be loaded here -->
-            </div>
-            
-            <button id="submitPicksBtn" onclick="submitAllPicks()" class="btn hover-lift" style="
-                width: 100%;
-                padding: var(--space-lg);
-                margin-top: var(--space-xl);
-                background: rgba(156, 163, 175, 0.1);
-                color: #9CA3AF;
-                border: 1px solid rgba(156, 163, 175, 0.3);
-                cursor: not-allowed;
-                font-size: 1.1rem;
-            " disabled>
-                Submit All Picks
-            </button>
-        </div>
-
-        <!-- Enhanced Leaderboard -->
-        <div class="leaderboard-container animate-fade-in-up">
-            <div class="leaderboard-header">
-                <h2 class="leaderboard-title">🏆 Champions Hall</h2>
-                
-                <!-- Period Info -->
-                <div id="leaderboardPeriodInfo" class="card" style="
-                    background: rgba(255, 255, 255, 0.05);
-                    padding: var(--space-lg);
-                    margin-bottom: var(--space-lg);
-                ">
-                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">
-                        Monthly Reset: <span class="text-gradient" id="monthlyCountdown">23d 15h 42m</span>
-                    </div>
-                    <div class="text-muted">🏆 Top 3 win coins! 🥇500 🥈300 🥉200</div>
-                </div>
-                
-                <!-- Leaderboard Tabs -->
-                <div class="leaderboard-tabs">
-                    <button class="leaderboard-tab active hover-lift" onclick="switchLeaderboard('alltime')">
-                        👑 All-Time
-                    </button>
-                    <button class="leaderboard-tab hover-lift" onclick="switchLeaderboard('monthly')">
-                        📅 Monthly
-                    </button>
-                    <button class="leaderboard-tab hover-lift" onclick="switchLeaderboard('weekly')">
-                        ⚡ Weekly
-                    </button>
-                    <button class="leaderboard-tab hover-lift" onclick="switchLeaderboard('tournament')">
-                        🏆 Tournament
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Leaderboard Content -->
-            <div id="leaderboardContent" class="animate-stagger">
-                <div style="text-align: center; padding: var(--space-2xl);">
-                    <div class="loading-skeleton" style="height: 50px; margin-bottom: var(--space-md);"></div>
-                    <div style="color: rgba(255, 255, 255, 0.7);">Loading champions...</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Debug Tools Section (Enhanced) -->
-        <div class="card" style="
-            background: rgba(249, 115, 22, 0.05);
-            border: 1px solid rgba(249, 115, 22, 0.2);
-            border-left: 4px solid var(--primary-orange);
+        <!-- Notification System -->
+        <div id="notificationContainer" style="
+            position: fixed !important;
+            top: 20px !important;
+            right: 20px !important;
+            z-index: 1000 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            max-width: 350px !important;
+        "></div>
+        
+        <!-- Main Header -->
+        <header style="
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            padding: 20px !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 100 !important;
         ">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); flex-wrap: wrap; gap: var(--space-md);">
+            <div style="
+                max-width: 1200px !important;
+                margin: 0 auto !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                flex-wrap: wrap !important;
+                gap: 15px !important;
+            ">
                 <div>
-                    <h4 class="heading-md">🔧 Scoring System Debug Tools</h4>
-                    <p class="text-muted">Test and debug the automatic scoring system</p>
+                    <h1 style="
+                        margin: 0 !important;
+                        color: #667eea !important;
+                        font-size: 28px !important;
+                        font-weight: bold !important;
+                    ">FinalScore</h1>
+                    <p style="
+                        margin: 5px 0 0 0 !important;
+                        color: #666 !important;
+                        font-size: 14px !important;
+                    " id="headerSubtext">Make your predictions and share your insights</p>
                 </div>
-                <div id="debugStatus" class="status-indicator">
-                    Ready for testing
+                
+                <div style="display: flex !important; gap: 15px !important; align-items: center !important;">
+                    <button id="achievementsBtn" onclick="showAchievements()" style="
+                        padding: 10px 20px !important;
+                        background: #f59e0b !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                        display: none !important;
+                    ">Achievements</button>
+                    
+                    <!-- Account Dropdown Button -->
+                    <div id="accountDropdown" style="position: relative !important; display: none !important;">
+                        <button id="accountBtn" onclick="toggleAccountMenu()" style="
+                            padding: 10px 20px !important;
+                            background: #667eea !important;
+                            color: white !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            cursor: pointer !important;
+                            font-weight: bold !important;
+                            display: flex !important;
+                            align-items: center !important;
+                            gap: 8px !important;
+                        ">
+                            👤 Account <span style="font-size: 12px !important;">▼</span>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div id="accountMenu" style="
+                            position: absolute !important;
+                            top: 100% !important;
+                            right: 0 !important;
+                            background: white !important;
+                            border: 2px solid #e5e7eb !important;
+                            border-radius: 8px !important;
+                            box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+                            z-index: 1000 !important;
+                            min-width: 200px !important;
+                            display: none !important;
+                            margin-top: 5px !important;
+                        ">
+                            <!-- User Info Section -->
+                            <div style="
+                                padding: 15px !important;
+                                border-bottom: 1px solid #e5e7eb !important;
+                                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+                                border-radius: 6px 6px 0 0 !important;
+                            ">
+                                <div style="font-weight: bold !important; color: #333 !important; margin-bottom: 5px !important;">
+                                    <span id="accountUsername">Username</span>
+                                </div>
+                                <div style="
+                                    display: flex !important;
+                                    align-items: center !important;
+                                    gap: 8px !important;
+                                    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                                    color: white !important;
+                                    padding: 6px 12px !important;
+                                    border-radius: 15px !important;
+                                    font-weight: bold !important;
+                                    font-size: 14px !important;
+                                    width: fit-content !important;
+                                ">
+                                    💰 <span id="accountCoins">0</span> coins
+                                </div>
+                            </div>
+                            
+                            <!-- Menu Options -->
+                            <div style="padding: 8px !important;">
+                                <button onclick="showProfile()" style="
+                                    width: 100% !important;
+                                    padding: 12px 15px !important;
+                                    background: none !important;
+                                    border: none !important;
+                                    text-align: left !important;
+                                    cursor: pointer !important;
+                                    border-radius: 6px !important;
+                                    color: #333 !important;
+                                    font-weight: 500 !important;
+                                " onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">
+                                    📊 View Profile
+                                </button>
+                                
+                                <button onclick="showSettings()" style="
+                                    width: 100% !important;
+                                    padding: 12px 15px !important;
+                                    background: none !important;
+                                    border: none !important;
+                                    text-align: left !important;
+                                    cursor: pointer !important;
+                                    border-radius: 6px !important;
+                                    color: #333 !important;
+                                    font-weight: 500 !important;
+                                " onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">
+                                    ⚙️ Settings
+                                </button>
+                                
+                                <hr style="margin: 8px 0 !important; border: none !important; border-top: 1px solid #e5e7eb !important;">
+                                
+                                <button onclick="logout(); hideAccountMenu();" style="
+                                    width: 100% !important;
+                                    padding: 12px 15px !important;
+                                    background: none !important;
+                                    border: none !important;
+                                    text-align: left !important;
+                                    cursor: pointer !important;
+                                    border-radius: 6px !important;
+                                    color: #ef4444 !important;
+                                    font-weight: 500 !important;
+                                " onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">
+                                    🚪 Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="loginBtn" onclick="showLogin()" style="
+                        padding: 10px 20px !important;
+                        background: #667eea !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        cursor: pointer !important;
+                        font-weight: bold !important;
+                    ">Login</button>
                 </div>
             </div>
+        </header>
+
+        <!-- Main Content -->
+        <main style="
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 30px 20px !important;
+        ">
             
-            <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
-                <button onclick="stepByStepTest()" class="btn hover-lift" style="
-                    background: rgba(220, 38, 38, 0.1);
-                    color: #DC2626;
-                    border: 1px solid rgba(220, 38, 38, 0.3);
+            <!-- User Stats Section -->
+            <div id="userStatsSection" style="
+                display: none !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                border-radius: 15px !important;
+                padding: 25px !important;
+                margin-bottom: 30px !important;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+            ">
+                <div style="
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                    margin-bottom: 20px !important;
                 ">
-                    🎯 Full Debug Test
-                </button>
+                    <div>
+                        <h2 style="margin: 0 !important; color: #333 !important;">
+                            Welcome back, <span id="welcomeUsername"></span>!
+                        </h2>
+                        <p style="margin: 5px 0 0 0 !important; color: #666 !important;">
+                            Your performance dashboard
+                        </p>
+                    </div>
+                </div>
                 
-                <button onclick="forceProcessing()" class="btn hover-lift" style="
-                    background: rgba(124, 58, 237, 0.1);
-                    color: #7C3AED;
-                    border: 1px solid rgba(124, 58, 237, 0.3);
+                <!-- Enhanced Stats Grid -->
+                <div style="
+                    display: grid !important;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+                    gap: 20px !important;
                 ">
-                    🚀 Force Processing
-                </button>
-                
-                <button onclick="debugScoringSystem()" class="btn hover-lift" style="
-                    background: rgba(5, 150, 105, 0.1);
-                    color: #059669;
-                    border: 1px solid rgba(5, 150, 105, 0.3);
-                ">
-                    🔍 Debug Only
-                </button>
-                
-                <button onclick="checkMyResults()" class="btn hover-lift" style="
-                    background: rgba(234, 88, 12, 0.1);
-                    color: #EA580C;
-                    border: 1px solid rgba(234, 88, 12, 0.3);
-                ">
-                    📋 Check My Results
-                </button>
+                    <div style="
+                        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+                        padding: 20px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: 24px !important; font-weight: bold !important; color: #667eea !important;" id="userScore">0</div>
+                        <div style="color: #666 !important; font-weight: bold !important;">Score</div>
+                    </div>
+                    
+                    <div style="
+                        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+                        padding: 20px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: 24px !important; font-weight: bold !important; color: #10b981 !important;" id="userAccuracy">0%</div>
+                        <div style="color: #666 !important; font-weight: bold !important;">Accuracy</div>
+                    </div>
+                    
+                    <div style="
+                        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+                        padding: 20px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                    ">
+                        <div style="font-size: 24px !important; font-weight: bold !important; color: #f59e0b !important;" id="userStreak">0</div>
+                        <div style="color: #666 !important; font-weight: bold !important;">Win Streak</div>
+                    </div>
+                    
+                    <div onclick="showCommunity()" style="
+                        background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important;
+                        padding: 20px !important;
+                        border-radius: 12px !important;
+                        text-align: center !important;
+                        cursor: pointer !important;
+                        transition: all 0.3s ease !important;
+                        border: 2px solid transparent !important;
+                    " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='#8b5cf6';" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='transparent';">
+                        <div style="font-size: 32px !important; font-weight: bold !important; color: #8b5cf6 !important; margin-bottom: 8px !important;">💭</div>
+                        <div style="color: #666 !important; font-weight: bold !important; font-size: 16px !important;">Community</div>
+                        <div style="color: #8b5cf6 !important; font-size: 12px !important; margin-top: 4px !important;">Share & discuss picks</div>
+                    </div>
+                </div>
             </div>
+
+ <!-- Games Section -->
+<div style="
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 15px !important;
+    padding: 25px !important;
+    margin-bottom: 30px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    backdrop-filter: blur(10px) !important;
+">
+    <div style="
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 25px !important;
+        flex-wrap: wrap !important;
+        gap: 15px !important;
+    ">
+        <div>
+            <h2 style="margin: 0 !important; color: #333 !important; font-size: 24px !important;">Today's Games</h2>
+            <p style="margin: 5px 0 0 0 !important; color: #666 !important;">
+                Make your predictions and share your reasoning
+            </p>
         </div>
-
-    </main>
-
-    <!-- Modals -->
+        
+        <div style="display: flex !important; gap: 15px !important; align-items: center !important; flex-wrap: wrap !important;">
+            <div id="pickStatus" style="
+                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+                padding: 12px 18px !important;
+                border-radius: 25px !important;
+                font-size: 14px !important;
+                font-weight: bold !important;
+                color: #4a5568 !important;
+                border: 2px solid #e2e8f0 !important;
+            ">0 picks made</div>
+            
+            <button onclick="quickFillRandom()" style="
+                padding: 10px 16px !important;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                border: none !important;
+                border-radius: 20px !important;
+                font-size: 12px !important;
+                font-weight: bold !important;
+                cursor: pointer !important;
+            ">Quick Fill</button>
+            
+            <button onclick="clearAllPicks()" style="
+                padding: 10px 16px !important;
+                background: #ef4444 !important;
+                color: white !important;
+                border: none !important;
+                border-radius: 20px !important;
+                font-size: 12px !important;
+                font-weight: bold !important;
+                cursor: pointer !important;
+            ">Clear All</button>
+            
+            <button onclick="resetSubmittedGames()" style="
+                padding: 10px 16px !important;
+                background: #8b5cf6 !important;
+                color: white !important;
+                border: none !important;
+                border-radius: 20px !important;
+                font-size: 12px !important;
+                font-weight: bold !important;
+                cursor: pointer !important;
+            ">Reset Submitted</button>
+        </div>
+    </div>
     
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <button onclick="hideLogin()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title">Join FinalScore ✨</h2>
-                <p class="text-muted">Start your prediction journey</p>
-            <div id="messageArea" class="notification" style="position: relative; display: none; margin-bottom: var(--space-lg);"></div>
-            
-            <!-- Tab System -->
-            <div style="display: flex; margin-bottom: var(--space-lg); background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-md); padding: var(--space-xs);">
-                <button id="loginTab" class="btn btn-primary" style="flex: 1; margin: 0;" onclick="switchToLogin()">Login</button>
-                <button id="registerTab" class="btn btn-glass" style="flex: 1; margin: 0;" onclick="switchToRegister()">Register</button>
-            </div>
-            
-            <!-- Login Form -->
-            <div id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">Username:</label>
-                    <input type="text" id="loginUsername" class="form-input" placeholder="Enter your username" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password:</label>
-                    <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" />
-                </div>
-                <button id="loginButton" onclick="attemptLogin()" class="btn btn-primary hover-lift" style="width: 100%;">
-                    🚀 Login
-                </button>
-            </div>
-            
-            <!-- Register Form -->
-            <div id="registerForm" style="display: none;">
-                <div class="form-group">
-                    <label class="form-label">Username:</label>
-                    <input type="text" id="registerUsername" class="form-input" placeholder="Choose a username" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Email:</label>
-                    <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password:</label>
-                    <input type="password" id="registerPassword" class="form-input" placeholder="Create a password" />
-                </div>
-                <button id="registerButton" onclick="attemptRegister()" class="btn btn-secondary hover-lift" style="width: 100%;">
-                    ✨ Create Account
-                </button>
-            </div>
-            
-            <!-- Test Accounts Info -->
-            <div class="card" style="margin-top: var(--space-lg); background: rgba(6, 182, 212, 0.05); border: 1px solid rgba(6, 182, 212, 0.2);">
-                <div style="font-weight: 600; margin-bottom: var(--space-xs); color: var(--primary-teal);">🧪 Test Accounts:</div>
-                <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">
-                    <strong>demo</strong> / demo123<br>
-                    <strong>test</strong> / test123
-                </div>
-            </div>
-        </div>
+    <div id="gamesContainer" style="
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    ">
+        <!-- Games will be loaded here -->
     </div>
-
-    <!-- Pick Details Modal -->
-    <div id="pickDetailsModal" class="modal">
-        <div class="modal-content">
-            <button onclick="hidePickDetails()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title" id="pickDetailsTitle">Share Your Prediction</h2>
-                <p class="text-muted">Add confidence and reasoning to your pick</p>
-            </div>
-            
-            <!-- Selected Pick Display -->
-            <div class="form-group">
-                <label class="form-label">Your Pick:</label>
-                <div id="selectedPickDisplay" class="card" style="
-                    background: rgba(16, 185, 129, 0.1);
-                    border: 2px solid rgba(16, 185, 129, 0.3);
-                    color: var(--primary-green);
-                    font-weight: 600;
-                    text-align: center;
-                    padding: var(--space-lg);
-                "></div>
-            </div>
-            
-            <!-- Confidence Level -->
-            <div class="form-group">
-                <label class="form-label">Confidence Level:</label>
-                <div id="confidenceStars" style="display: flex; gap: var(--space-xs); margin-bottom: var(--space-sm); justify-content: center;">
-                    <span onclick="setConfidence(1)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(2)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(3)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(4)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(5)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                </div>
-                <div id="confidenceLabel" class="text-muted text-center">Click stars to set confidence</div>
-            </div>
-            
-            <!-- Reasoning -->
-            <div class="form-group">
-                <label class="form-label">Share Your Reasoning (Optional):</label>
-                <textarea id="pickReasoning" class="form-input" style="height: 120px; resize: vertical;" placeholder="Why are you confident in this pick? Share your analysis..."></textarea>
-                <div class="text-muted" style="font-size: 0.85rem; margin-top: var(--space-xs);">
-                    💰 Earn 5 coins for sharing detailed reasoning!
-                </div>
-            </div>
-            
-            <!-- Actions -->
-            <div style="display: flex; gap: var(--space-md);">
-                <button onclick="confirmPick()" class="btn btn-success hover-lift" style="flex: 1;">
-                    ✅ Confirm Pick
-                </button>
-                <button onclick="hidePickDetails()" class="btn btn-glass hover-lift">
-                    ❌ Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Community Modal -->
-    <div id="communityModal" class="modal">
-        <div class="modal-content" style="max-width: 800px;">
-            <button onclick="hideCommunity()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title">💬 Community Predictions</h2>
-                <p class="text-muted">See what other players are thinking</p>
-            </div>
-            <div id="communityContent" style="max-height: 500px; overflow-y: auto;">
-                <!-- Community content will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Achievements Modal -->
-    <div id="achievementsModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <button onclick="hideAchievements()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title">🏆 Your Achievements</h2>
-                <p class="text-muted">Track your progress and unlock rewards</p>
-            </div>
-            <div id="achievementsGrid" style="
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: var(--space-lg);
-                max-height: 500px;
-                overflow-y: auto;
-            ">
-                <!-- Achievements will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating Action Button -->
-    <button class="fab hover-lift" onclick="showCommunity()" title="Community">
-        💬
+    
+    <button id="submitPicksBtn" onclick="submitAllPicks()" style="
+        width: 100% !important;
+        padding: 18px !important;
+        background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        cursor: not-allowed !important;
+        margin-top: 25px !important;
+        transition: all 0.3s ease !important;
+    " disabled>
+        Submit All Picks
     </button>
+</div>
 
-    <!-- Notification Container -->
-    <div id="notificationContainer" style="
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-sm);
-        max-width: 350px;
-    "></div>
+<!-- Tournament Banner HTML -->
+<div id="tournamentBanner" class="tournament-banner">
+    <h2>🏆 <span id="tournamentName">Weekend Warrior #1</span> - LIVE!</h2>
+    <div class="tournament-info">
+        <div class="tournament-stat">
+            <div class="label">Prize Pool</div>
+            <div class="value" id="tournamentPrizePool">500 coins</div>
+        </div>
+        <div class="tournament-stat">
+            <div class="label">Participants</div>
+            <div class="value" id="tournamentParticipants">0 / 1000</div>
+        </div>
+        <div class="tournament-stat">
+            <div class="label">Time Left</div>
+            <div class="value" id="tournamentTimeLeft">2 days 15h</div>
+        </div>
+        <div class="tournament-stat">
+            <div class="label">Your Rank</div>
+            <div class="value" id="tournamentUserRank">Not Joined</div>
+        </div>
+    </div>
+    <div>
+        <button id="joinTournamentBtn" class="join-tournament-btn" onclick="joinTournament()">
+            🚀 Join Tournament (FREE!)
+        </button>
+        <button class="tournament-leaderboard-btn" onclick="toggleTournamentLeaderboard()">
+            📊 View Leaderboard
+        </button>
+    </div>
+</div>
 
-    <!-- Enhanced JavaScript Integration -->
-    <script>
-        // Premium UI Enhancement Functions
+<!-- Mini Tournament Leaderboard -->
+<div id="miniTournamentLeaderboard" class="mini-tournament-leaderboard">
+    <h3>🏆 Tournament Leaderboard</h3>
+    <div id="tournamentRankings">
+        <!-- Rankings will be populated by JavaScript -->
+    </div>
+</div>
+
+<!-- 🔧 Debug Tools Section -->
+<div style="
+    background: rgba(254, 243, 199, 0.95) !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin-bottom: 30px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    border-left: 4px solid #f59e0b !important;
+">
+    <div style="
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 15px !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    ">
+        <h4 style="margin: 0 !important; color: #92400e !important; font-size: 18px !important;">🔧 Scoring System Debug Tools</h4>
+        <div id="debugStatus" style="
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+            padding: 8px 12px !important;
+            border-radius: 15px !important;
+            font-size: 12px !important;
+            font-weight: bold !important;
+            color: #92400e !important;
+            border: 2px solid #f59e0b !important;
+        ">Ready for testing</div>
+    </div>
+    
+    <p style="margin: 0 0 15px 0 !important; color: #92400e !important; font-size: 14px !important;">
+        Use these tools to test and debug the automatic scoring system when games are completed.
+    </p>
+    
+    <div style="display: flex !important; gap: 10px !important; flex-wrap: wrap !important;">
+        <button onclick="stepByStepTest()" style="
+            padding: 12px 18px !important;
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3) !important;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            🎯 Full Debug Test
+        </button>
         
-        // Enhanced notification system
-        function showNotification(message, type = 'info', duration = 4000) {
-            const container = document.getElementById('notificationContainer');
-            
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: var(--space-sm);">
-                    <div style="font-size: 1.2rem;">
-                        ${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : type === 'error' ? '❌' : 'ℹ️'}
-                    </div>
-                    <div style="flex: 1;">${message}</div>
-                    <button onclick="this.parentElement.parentElement.remove()" style="
-                        background: none;
-                        border: none;
-                        color: currentColor;
-                        cursor: pointer;
-                        font-size: 1.2rem;
-                        opacity: 0.7;
-                        transition: opacity 0.3s ease;
-                    " onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">×</button>
-                </div>
-            `;
-            
-            container.appendChild(notification);
-            
-            // Animate in
-            setTimeout(() => notification.classList.add('show'), 100);
-            
-            // Auto remove
-            const timeoutId = setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            }, duration);
-            
-            // Click to dismiss
-            notification.onclick = () => {
-                clearTimeout(timeoutId);
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            };
-        }
-
-        // Enhanced game card rendering
-        function createGameCard(game) {
-            const { countdown, status, isExpired } = getGameCountdownDetailed(game.StartTime);
-            const isPickingDisabled = isExpired || status === 'live' || status === 'starting-soon';
-            
-            return `
-                <div class="game-card hover-lift animate-fade-in-up" style="${isPickingDisabled ? 'opacity: 0.8;' : ''}">
-                    ${isPickingDisabled ? `
-                        <div class="status-indicator ${status}" style="position: absolute; top: var(--space-lg); left: var(--space-lg); z-index: 10;">
-                            ${status === 'live' ? '🔴 LIVE' : status === 'starting-soon' ? '⏰ STARTING' : '🔒 CLOSED'}
-                        </div>
-                    ` : ''}
-                    
-                    <div class="game-header">
-                        <h3 class="game-title">${game.TeamA} vs ${game.TeamB}</h3>
-                        <div class="game-meta">
-                            <span class="league-badge">${game.League}</span>
-                            <span class="countdown-badge ${status === 'live' ? 'live' : ''}" id="countdown_${game.id}">
-                                ${countdown}
-                            </span>
-                        </div>
-                    </div>
-                    
-                    ${game.StartTime ? `
-                        <div class="card" style="
-                            background: rgba(6, 182, 212, 0.05);
-                            border: 1px solid rgba(6, 182, 212, 0.2);
-                            border-left: 4px solid var(--primary-teal);
-                            padding: var(--space-md);
-                            margin-bottom: var(--space-lg);
-                        ">
-                            <div style="font-size: 0.85rem; color: var(--primary-teal); font-weight: 600;">
-                                🕐 Game Time: ${formatGameTime(game.StartTime)}
-                            </div>
-                        </div>
-                    ` : `
-                        <div class="card" style="
-                            background: rgba(249, 115, 22, 0.05);
-                            border: 1px solid rgba(249, 115, 22, 0.2);
-                            border-left: 4px solid var(--primary-orange);
-                            padding: var(--space-md);
-                            margin-bottom: var(--space-lg);
-                        ">
-                            <div style="font-size: 0.85rem; color: var(--primary-orange); font-weight: 600;">
-                                ⏰ Game Time: To Be Determined
-                            </div>
-                        </div>
-                    `}
-                    
-                    <!-- Winner Pick Section -->
-                    <div class="pick-section">
-                        <div class="pick-header">
-                            <div class="pick-indicator"></div>
-                            <div class="pick-title">Pick the Winner</div>
-                            ${isPickingDisabled ? '<span class="status-indicator closed">🔒 Picks Closed</span>' : ''}
-                        </div>
-                        <div class="pick-options">
-                            <button onclick="selectPick(${game.id}, 'winner', '${game.TeamA}')" 
-                                    id="pick_${game.id}_winner_${game.TeamA}" 
-                                    class="pick-button hover-lift" 
-                                    ${isPickingDisabled ? 'disabled' : ''}>
-                                ${game.TeamA}
-                            </button>
-                            <button onclick="selectPick(${game.id}, 'winner', '${game.TeamB}')" 
-                                    id="pick_${game.id}_winner_${game.TeamB}" 
-                                    class="pick-button hover-lift" 
-                                    ${isPickingDisabled ? 'disabled' : ''}>
-                                ${game.TeamB}
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Total Points Pick Section -->
-                    <div class="pick-section">
-                        <div class="pick-header">
-                            <div class="pick-indicator"></div>
-                            <div class="pick-title">Total Points (${game.TotalLine || '220.5'})</div>
-                            ${isPickingDisabled ? '<span class="status-indicator closed">🔒 Picks Closed</span>' : ''}
-                        </div>
-                        <div class="pick-options">
-                            <button onclick="selectPick(${game.id}, 'total', 'Over')" 
-                                    id="pick_${game.id}_total_Over" 
-                                    class="pick-button hover-lift" 
-                                    ${isPickingDisabled ? 'disabled' : ''}>
-                                Over ${game.TotalLine || '220.5'}
-                            </button>
-                            <button onclick="selectPick(${game.id}, 'total', 'Under')" 
-                                    id="pick_${game.id}_total_Under" 
-                                    class="pick-button hover-lift" 
-                                    ${isPickingDisabled ? 'disabled' : ''}>
-                                Under ${game.TotalLine || '220.5'}
-                            </button>
-                        </div>
-                    </div>
-                    
-                    ${(game.SpreadA && game.SpreadA !== '' && game.SpreadA !== '-3.5') ? `
-                    <!-- Spread Pick Section -->
-                    <div class="pick-section">
-                        <div class="pick-header">
-                            <div class="pick-indicator"></div>
-                            <div class="pick-title">Point Spread</div>
-                            ${isPickingDisabled ? '<span class="status-indicator closed">🔒 Picks Closed</span>' : ''}
-                        </div>
-                        <div class="pick-options">
-                            <button onclick="selectPick(${game.id}, 'spread', '${game.TeamA} ${game.SpreadA}')" 
-                                    id="pick_${game.id}_spread_${game.TeamA}" 
-                                    class="pick-button hover-lift" 
-                                    ${isPickingDisabled ? 'disabled' : ''}>
-                                ${game.TeamA} ${game.SpreadA}
-                            </button>
-                            <button onclick="selectPick(${game.id}, 'spread', '${game.TeamB} ${game.SpreadB}')" 
-                                    id="pick_${game.id}_spread_${game.TeamB}" 
-                                    class="pick-button hover-lift" 
-                                    ${isPickingDisabled ? 'disabled' : ''}>
-                                ${game.TeamB} ${game.SpreadB}
-                            </button>
-                        </div>
-                    </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        // Enhanced pick visual update
-        function updatePickVisual(gameId, pickType, selection) {
-            const allButtons = document.querySelectorAll(`[id^="pick_${gameId}_${pickType}_"]`);
-            allButtons.forEach(btn => {
-                btn.classList.remove('selected');
-                btn.style.background = '';
-                btn.style.borderColor = '';
-                btn.style.boxShadow = '';
-            });
-            
-            const selectedButton = document.getElementById(`pick_${gameId}_${pickType}_${selection}`);
-            if (selectedButton) {
-                selectedButton.classList.add('selected');
-            }
-        }
-
-        // Enhanced submit button update
-        function updateSubmitButton() {
-            const totalMadePicks = Object.values(userPicks || {}).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
-            const submitBtn = document.getElementById('submitPicksBtn');
-            
-            if (!submitBtn) return;
-            
-            submitBtn.disabled = totalMadePicks === 0;
-            submitBtn.textContent = `Submit ${totalMadePicks > 0 ? totalMadePicks : 'All'} Pick${totalMadePicks !== 1 ? 's' : ''}`;
-            
-            if (totalMadePicks > 0) {
-                submitBtn.style.background = 'var(--gradient-success)';
-                submitBtn.style.borderColor = 'var(--primary-green)';
-                submitBtn.style.color = 'white';
-                submitBtn.style.cursor = 'pointer';
-                submitBtn.style.boxShadow = 'var(--glow-teal)';
-                submitBtn.classList.add('hover-lift');
-            } else {
-                submitBtn.style.background = 'rgba(156, 163, 175, 0.1)';
-                submitBtn.style.borderColor = 'rgba(156, 163, 175, 0.3)';
-                submitBtn.style.color = '#9CA3AF';
-                submitBtn.style.cursor = 'not-allowed';
-                submitBtn.style.boxShadow = 'none';
-                submitBtn.classList.remove('hover-lift');
-            }
-        }
-
-        // Enhanced pick status update
-        function updatePickStatus() {
-            const totalPossiblePicks = (todaysGames || []).length * 2;
-            const totalMadePicks = Object.values(userPicks || {}).reduce((sum, gamePicks) => sum + Object.keys(gamePicks).length, 0);
-            
-            const pickStatus = document.getElementById('pickStatus');
-            if (!pickStatus) return;
-            
-            pickStatus.textContent = `${totalMadePicks}/${totalPossiblePicks} picks made`;
-            
-            const percentage = totalPossiblePicks > 0 ? totalMadePicks / totalPossiblePicks : 0;
-            
-            if (percentage === 0) {
-                pickStatus.style.background = 'rgba(156, 163, 175, 0.1)';
-                pickStatus.style.borderColor = 'rgba(156, 163, 175, 0.3)';
-                pickStatus.style.color = '#9CA3AF';
-            } else if (percentage < 0.5) {
-                pickStatus.style.background = 'rgba(249, 115, 22, 0.1)';
-                pickStatus.style.borderColor = 'rgba(249, 115, 22, 0.3)';
-                pickStatus.style.color = 'var(--primary-orange)';
-            } else if (percentage < 1) {
-                pickStatus.style.background = 'rgba(6, 182, 212, 0.1)';
-                pickStatus.style.borderColor = 'rgba(6, 182, 212, 0.3)';
-                pickStatus.style.color = 'var(--primary-teal)';
-            } else {
-                pickStatus.style.background = 'rgba(16, 185, 129, 0.1)';
-                pickStatus.style.borderColor = 'rgba(16, 185, 129, 0.3)';
-                pickStatus.style.color = 'var(--primary-green)';
-            }
-        }
-
-        // Initialize premium UI on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add stagger animation to elements as they load
-            const animateElements = document.querySelectorAll('.animate-stagger > *');
-            animateElements.forEach((el, index) => {
-                el.style.animationDelay = `${0.1 * (index + 1)}s`;
-            });
-            
-            // Initialize tooltips and enhanced interactions
-            console.log('🎨 Premium UI System Initialized!');
-            console.log('✨ Enhanced animations, interactions, and styling active!');
-        });
-
-        console.log('🚀 Premium FinalScore Platform - Complete Visual Experience Ready!');
-    </script>
-
-</body>
-</html>
+        <button onclick="forceProcessing()" style="
+            padding: 12px 18px !important;
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3) !important;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            🚀 Force Processing
+        </button>
         
-<!-- MISSING HTML MODALS - COMPLETE MODAL STRUCTURES -->
-<!-- Insert this AFTER </main> and BEFORE your existing <script> tags -->
+        <button onclick="debugScoringSystem()" style="
+            padding: 12px 18px !important;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3) !important;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            🔍 Debug Only
+        </button>
+        
+        <button onclick="manuallyUpdateMyStats()" style="
+            padding: 12px 18px !important;
+            background: linear-gradient(135deg, #0369a1 0%, #075985 100%) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(3, 105, 161, 0.3) !important;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            📊 Manual Stats Test
+        </button>
+        
+        <button onclick="checkMyResults()" style="
+            padding: 12px 18px !important;
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3) !important;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            📋 Check My Results
+        </button>
+    </div>
+    
+    <div style="
+        margin-top: 15px !important;
+        padding: 12px !important;
+        background: rgba(254, 252, 232, 0.8) !important;
+        border-radius: 8px !important;
+        border: 1px solid #fbbf24 !important;
+    ">
+        <div style="font-size: 12px !important; color: #92400e !important;">
+            <strong>💡 Quick Guide:</strong><br>
+            • <strong>Full Debug Test</strong> - Complete system check (start here)<br>
+            • <strong>Force Processing</strong> - Manually trigger scoring for completed games<br>
+            • <strong>Debug Only</strong> - Check system status without processing<br>
+            • <strong>Check My Results</strong> - See your scored picks<br>
+            <strong>👀 Check browser console (F12) for detailed output</strong>
+        </div>
+    </div>
+</div>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <button onclick="hideLogin()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title">Join FinalScore ✨</h2>
-                <p class="text-muted">Start your prediction journey</p>
+<!-- Leaderboard Section -->
+<div style="
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 15px !important;
+    padding: 25px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+">
+    <h2 style="margin: 0 0 20px 0 !important; color: #333 !important;">Leaderboard</h2>
+    <div id="leaderboardContainer">
+        <!-- Leaderboard will be loaded here -->
+    </div>
+</div>
+        </main>
+
+        <!-- Login Modal -->
+        <div id="loginModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important; box-sizing: border-box !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 400px !important; width: 100% !important; position: relative !important;">
+                <button onclick="hideLogin()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="text-align: center !important; margin-bottom: 25px !important; color: #667eea !important;">Join FinalScore</h2>
+                <div id="messageArea" style="display: none !important; padding: 15px !important; border-radius: 8px !important; margin-bottom: 20px !important; text-align: center !important; font-weight: bold !important;"></div>
+                <div style="display: flex !important; margin-bottom: 25px !important; background: #f0f0f0 !important; border-radius: 10px !important; padding: 5px !important;">
+                    <button id="loginTab" style="flex: 1 !important; padding: 12px !important; border: none !important; background: #667eea !important; color: white !important; border-radius: 6px !important; cursor: pointer !important; font-weight: bold !important;" onclick="switchToLogin()">Login</button>
+                    <button id="registerTab" style="flex: 1 !important; padding: 12px !important; border: none !important; background: transparent !important; color: #666 !important; border-radius: 6px !important; cursor: pointer !important; font-weight: bold !important;" onclick="switchToRegister()">Register</button>
+                </div>
+                <div id="loginForm">
+                    <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Username:</label><input type="text" id="loginUsername" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <div style="margin-bottom: 25px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Password:</label><input type="password" id="loginPassword" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <button id="loginButton" onclick="attemptLogin()" style="width: 100% !important; padding: 15px !important; background: linear-gradient(135deg, #667eea, #764ba2) !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Login</button>
+                </div>
+                <div id="registerForm" style="display: none !important;">
+                    <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Username:</label><input type="text" id="registerUsername" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Email:</label><input type="email" id="registerEmail" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <div style="margin-bottom: 25px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Password:</label><input type="password" id="registerPassword" style="width: 100% !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 6px !important; font-size: 16px !important; box-sizing: border-box !important;" /></div>
+                    <button id="registerButton" onclick="attemptRegister()" style="width: 100% !important; padding: 15px !important; background: linear-gradient(135deg, #667eea, #764ba2) !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Register</button>
+                </div>
+                <div style="margin-top: 25px !important; padding: 15px !important; background: #e0f2fe !important; border-radius: 8px !important; font-size: 14px !important;"><strong>Test Accounts:</strong><br/><div style="margin-top: 10px !important;"><strong>demo</strong> / demo123<br/><strong>test</strong> / test123</div></div>
             </div>
-            
-            <div id="messageArea" class="notification" style="position: relative; display: none; margin-bottom: var(--space-lg);"></div>
-            
-            <!-- Tab System -->
-            <div style="display: flex; margin-bottom: var(--space-lg); background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-md); padding: var(--space-xs);">
-                <button id="loginTab" class="btn btn-primary" style="flex: 1; margin: 0;" onclick="switchToLogin()">Login</button>
-                <button id="registerTab" class="btn btn-glass" style="flex: 1; margin: 0;" onclick="switchToRegister()">Register</button>
+        </div>
+
+        <!-- Pick Details Modal -->
+        <div id="pickDetailsModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important; box-sizing: border-box !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 500px !important; width: 100% !important; position: relative !important;">
+                <button onclick="hidePickDetails()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;" id="pickDetailsTitle">Share Your Prediction</h2>
+                <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Your Pick:</label><div id="selectedPickDisplay" style="padding: 12px !important; background: #f0f9ff !important; border: 2px solid #3b82f6 !important; border-radius: 8px !important; font-weight: bold !important; color: #1e40af !important;"></div></div>
+                <div style="margin-bottom: 20px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Confidence Level:</label><div id="confidenceStars" style="display: flex !important; gap: 5px !important; margin-bottom: 10px !important;"><span onclick="setConfidence(1)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(2)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(3)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(4)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span><span onclick="setConfidence(5)" style="font-size: 24px !important; cursor: pointer !important; color: #d1d5db !important;">☆</span></div><div id="confidenceLabel" style="font-size: 14px !important; color: #666 !important;">Click stars to set confidence</div></div>
+                <div style="margin-bottom: 25px !important;"><label style="display: block !important; margin-bottom: 8px !important; font-weight: bold !important; color: #333 !important;">Share Your Reasoning (Optional):</label><textarea id="pickReasoning" placeholder="Why are you confident in this pick? Share your analysis..." style="width: 100% !important; height: 100px !important; padding: 12px !important; border: 2px solid #ddd !important; border-radius: 8px !important; font-size: 14px !important; box-sizing: border-box !important; resize: vertical !important; font-family: Arial, sans-serif !important;"></textarea><div style="font-size: 12px !important; color: #666 !important; margin-top: 5px !important;">💰 Earn 5 coins for sharing detailed reasoning!</div></div>
+                <div style="display: flex !important; gap: 15px !important;"><button onclick="confirmPick()" style="flex: 1 !important; padding: 15px !important; background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Confirm Pick</button><button onclick="hidePickDetails()" style="padding: 15px 20px !important; background: #6b7280 !important; color: white !important; border: none !important; border-radius: 8px !important; font-size: 16px !important; font-weight: bold !important; cursor: pointer !important;">Cancel</button></div>
             </div>
-            
-            <!-- Login Form -->
-            <div id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">Username:</label>
-                    <input type="text" id="loginUsername" class="form-input" placeholder="Enter your username" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password:</label>
-                    <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" />
-                </div>
-                <button id="loginButton" onclick="attemptLogin()" class="btn btn-primary hover-lift" style="width: 100%;">
-                    🚀 Login
-                </button>
+        </div>
+
+        <!-- Community Modal -->
+        <div id="communityModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 800px !important; width: 100% !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important;">
+                <button onclick="hideCommunity()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">Community Predictions</h2>
+                <div id="communityContent" style="max-height: 400px !important; overflow-y: auto !important;"></div>
             </div>
-            
-            <!-- Register Form -->
-            <div id="registerForm" style="display: none;">
-                <div class="form-group">
-                    <label class="form-label">Username:</label>
-                    <input type="text" id="registerUsername" class="form-input" placeholder="Choose a username" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Email:</label>
-                    <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password:</label>
-                    <input type="password" id="registerPassword" class="form-input" placeholder="Create a password" />
-                </div>
-                <button id="registerButton" onclick="attemptRegister()" class="btn btn-secondary hover-lift" style="width: 100%;">
-                    ✨ Create Account
-                </button>
-            </div>
-            
-            <!-- Test Accounts Info -->
-            <div class="card" style="margin-top: var(--space-lg); background: rgba(6, 182, 212, 0.05); border: 1px solid rgba(6, 182, 212, 0.2);">
-                <div style="font-weight: 600; margin-bottom: var(--space-xs); color: var(--primary-teal);">🧪 Test Accounts:</div>
-                <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">
-                    <strong>demo</strong> / demo123<br>
-                    <strong>test</strong> / test123
-                </div>
+        </div>
+
+        <!-- Achievements Modal -->
+        <div id="achievementsModal" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0, 0, 0, 0.7) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 1000 !important; padding: 20px !important;">
+            <div style="background: white !important; border-radius: 15px !important; padding: 30px !important; max-width: 600px !important; width: 100% !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important;">
+                <button onclick="hideAchievements()" style="position: absolute !important; top: 15px !important; right: 15px !important; background: #ef4444 !important; color: white !important; border: none !important; border-radius: 50% !important; width: 30px !important; height: 30px !important; cursor: pointer !important; font-weight: bold !important;">×</button>
+                <h2 style="margin: 0 0 20px 0 !important; color: #667eea !important;">Your Achievements</h2>
+                <div id="achievementsGrid" style="display: grid !important; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important; gap: 15px !important;"></div>
             </div>
         </div>
     </div>
-
-    <!-- Pick Details Modal -->
-    <div id="pickDetailsModal" class="modal">
-        <div class="modal-content">
-            <button onclick="hidePickDetails()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title" id="pickDetailsTitle">Share Your Prediction</h2>
-                <p class="text-muted">Add confidence and reasoning to your pick</p>
-            </div>
-            
-            <!-- Selected Pick Display -->
-            <div class="form-group">
-                <label class="form-label">Your Pick:</label>
-                <div id="selectedPickDisplay" class="card" style="
-                    background: rgba(16, 185, 129, 0.1);
-                    border: 2px solid rgba(16, 185, 129, 0.3);
-                    color: var(--primary-green);
-                    font-weight: 600;
-                    text-align: center;
-                    padding: var(--space-lg);
-                "></div>
-            </div>
-            
-            <!-- Confidence Level -->
-            <div class="form-group">
-                <label class="form-label">Confidence Level:</label>
-                <div id="confidenceStars" style="display: flex; gap: var(--space-xs); margin-bottom: var(--space-sm); justify-content: center;">
-                    <span onclick="setConfidence(1)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(2)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(3)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(4)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                    <span onclick="setConfidence(5)" style="font-size: 2rem; cursor: pointer; color: #374151; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">☆</span>
-                </div>
-                <div id="confidenceLabel" class="text-muted text-center">Click stars to set confidence</div>
-            </div>
-            
-            <!-- Reasoning -->
-            <div class="form-group">
-                <label class="form-label">Share Your Reasoning (Optional):</label>
-                <textarea id="pickReasoning" class="form-input" style="height: 120px; resize: vertical;" placeholder="Why are you confident in this pick? Share your analysis..."></textarea>
-                <div class="text-muted" style="font-size: 0.85rem; margin-top: var(--space-xs);">
-                    💰 Earn 5 coins for sharing detailed reasoning!
-                </div>
-            </div>
-            
-            <!-- Actions -->
-            <div style="display: flex; gap: var(--space-md);">
-                <button onclick="confirmPick()" class="btn btn-success hover-lift" style="flex: 1;">
-                    ✅ Confirm Pick
-                </button>
-                <button onclick="hidePickDetails()" class="btn btn-glass hover-lift">
-                    ❌ Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Community Modal -->
-    <div id="communityModal" class="modal">
-        <div class="modal-content" style="max-width: 800px;">
-            <button onclick="hideCommunity()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title">💬 Community Predictions</h2>
-                <p class="text-muted">See what other players are thinking</p>
-            </div>
-            <div id="communityContent" style="max-height: 500px; overflow-y: auto;">
-                <!-- Community content will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Achievements Modal -->
-    <div id="achievementsModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <button onclick="hideAchievements()" class="modal-close">×</button>
-            <div class="modal-header">
-                <h2 class="modal-title">🏆 Your Achievements</h2>
-                <p class="text-muted">Track your progress and unlock rewards</p>
-            </div>
-            <div id="achievementsGrid" style="
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: var(--space-lg);
-                max-height: 500px;
-                overflow-y: auto;
-            ">
-                <!-- Achievements will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating Action Button -->
-    <button class="fab hover-lift" onclick="showCommunity()" title="Community">
-        💬
-    </button>
-
-    <!-- Notification Container -->
-    <div id="notificationContainer" style="
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-sm);
-        max-width: 350px;
-    "></div>
 
     <script>
         // Configuration
@@ -2525,615 +1041,6 @@ const ACHIEVEMENTS = ACHIEVEMENTS_FIXED;
                 localStorage.setItem(`likedPicks_${currentUser.username}`, JSON.stringify([...likedPicks]));
             }
         }
-// Enhanced Modal Management
-function showLogin() {
-    document.getElementById('loginModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-}
-
-function hideLogin() {
-    document.getElementById('loginModal').classList.remove('show');
-    document.body.style.overflow = 'auto';
-}
-
-function switchToLogin() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginTab').className = 'btn btn-primary';
-    document.getElementById('registerTab').className = 'btn btn-glass';
-}
-
-function switchToRegister() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
-    document.getElementById('loginTab').className = 'btn btn-glass';
-    document.getElementById('registerTab').className = 'btn btn-primary';
-}
-
-// Enhanced Account Management
-function toggleAccountMenu() {
-    const menu = document.getElementById('accountMenu');
-    const isVisible = menu.style.display === 'block';
-    menu.style.display = isVisible ? 'none' : 'block';
-    
-    if (!isVisible) {
-        // Update account info when opening
-        updateAccountDisplay();
-    }
-}
-
-function hideAccountMenu() {
-    document.getElementById('accountMenu').style.display = 'none';
-}
-
-function updateAccountDisplay() {
-    if (currentUser) {
-        document.getElementById('accountUsername').textContent = currentUser.username;
-        document.getElementById('accountCoins').textContent = calculateUserCoins(currentUser).toLocaleString();
-    }
-}
-
-// Enhanced Pick Details Modal
-let currentPickDetails = {};
-
-function showPickDetails(gameId, pickType, selection, gameTitle) {
-    currentPickDetails = { gameId, pickType, selection, gameTitle };
-    
-    document.getElementById('pickDetailsTitle').textContent = `Confirm Your ${pickType.toUpperCase()} Pick`;
-    document.getElementById('selectedPickDisplay').textContent = `${gameTitle}: ${selection}`;
-    document.getElementById('pickDetailsModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-    
-    // Reset form
-    setConfidence(3); // Default to 3 stars
-    document.getElementById('pickReasoning').value = '';
-}
-
-function hidePickDetails() {
-    document.getElementById('pickDetailsModal').classList.remove('show');
-    document.body.style.overflow = 'auto';
-    currentPickDetails = {};
-}
-
-function setConfidence(level) {
-    const stars = document.querySelectorAll('#confidenceStars span');
-    const labels = ['', 'Not confident', 'Somewhat confident', 'Confident', 'Very confident', 'Lock of the day!'];
-    
-    stars.forEach((star, index) => {
-        if (index < level) {
-            star.textContent = '★';
-            star.style.color = '#FCD34D';
-            star.style.textShadow = '0 0 10px rgba(252, 211, 77, 0.5)';
-        } else {
-            star.textContent = '☆';
-            star.style.color = '#374151';
-            star.style.textShadow = 'none';
-        }
-    });
-    
-    document.getElementById('confidenceLabel').textContent = labels[level];
-    currentPickDetails.confidence = level;
-}
-
-function confirmPick() {
-    const reasoning = document.getElementById('pickReasoning').value.trim();
-    
-    // Add the pick
-    if (!userPicks[currentPickDetails.gameId]) {
-        userPicks[currentPickDetails.gameId] = {};
-    }
-    userPicks[currentPickDetails.gameId][currentPickDetails.pickType] = currentPickDetails.selection;
-    
-    // Update visual
-    updatePickVisual(currentPickDetails.gameId, currentPickDetails.pickType, currentPickDetails.selection);
-    updatePickStatus();
-    updateSubmitButton();
-    
-    // Save community pick if reasoning provided
-    if (reasoning.length > 10) {
-        saveCommunityPickData({
-            gameTitle: currentPickDetails.gameTitle,
-            pickType: currentPickDetails.pickType,
-            selection: currentPickDetails.selection,
-            reasoning: reasoning,
-            confidence: currentPickDetails.confidence || 3
-        });
-        
-        showNotification('Pick saved and shared with community! +5 coins earned! 🪙', 'success');
-    } else {
-        showNotification(`${currentPickDetails.pickType.toUpperCase()} pick confirmed: ${currentPickDetails.selection}`, 'success');
-    }
-    
-    hidePickDetails();
-}
-
-// Enhanced Community Modal
-function showCommunity() {
-    document.getElementById('communityModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-    loadCommunityContent();
-}
-
-function hideCommunity() {
-    document.getElementById('communityModal').classList.remove('show');
-    document.body.style.overflow = 'auto';
-}
-
-function loadCommunityContent() {
-    const container = document.getElementById('communityContent');
-    container.innerHTML = `
-        <div style="text-align: center; padding: var(--space-xl);">
-            <div class="loading-skeleton" style="height: 60px; margin-bottom: var(--space-md);"></div>
-            <div class="loading-skeleton" style="height: 40px; margin-bottom: var(--space-md);"></div>
-            <div class="loading-skeleton" style="height: 80px;"></div>
-        </div>
-    `;
-    
-    // Load community picks
-    setTimeout(() => {
-        if (communityPicks && communityPicks.length > 0) {
-            displayCommunityPicks();
-        } else {
-            container.innerHTML = `
-                <div style="text-align: center; padding: var(--space-xl); color: rgba(255, 255, 255, 0.7);">
-                    <div style="font-size: 3rem; margin-bottom: var(--space-lg);">💬</div>
-                    <h3 style="margin-bottom: var(--space-md);">No community picks yet!</h3>
-                    <p>Be the first to share your predictions with detailed reasoning.</p>
-                </div>
-            `;
-        }
-    }, 1000);
-}
-
-function displayCommunityPicks() {
-    const container = document.getElementById('communityContent');
-    
-    const html = communityPicks.map(pick => `
-        <div class="card hover-lift" style="margin-bottom: var(--space-lg);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
-                <div>
-                    <div style="font-weight: 600; color: white; margin-bottom: var(--space-xs);">
-                        ${pick.Username} 
-                        <span class="achievement-badge" style="margin-left: var(--space-xs);">
-                            ${'★'.repeat(pick.Confidence || 3)}
-                        </span>
-                    </div>
-                    <div style="color: var(--primary-teal); font-weight: 600;">
-                        ${pick.GameTitle}: ${pick.PickDisplay}
-                    </div>
-                </div>
-                <div style="text-align: right;">
-                    <button onclick="toggleLike('${pick.ID}')" class="btn btn-glass" style="padding: var(--space-xs) var(--space-sm);">
-                        ❤️ ${pick.Likes || 0}
-                    </button>
-                </div>
-            </div>
-            
-            ${pick.Reasoning ? `
-                <div style="
-                    background: rgba(255, 255, 255, 0.05);
-                    border-left: 4px solid var(--primary-purple);
-                    padding: var(--space-md);
-                    border-radius: var(--radius-md);
-                    font-style: italic;
-                    color: rgba(255, 255, 255, 0.9);
-                ">
-                    "${pick.Reasoning}"
-                </div>
-            ` : ''}
-            
-            <div style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: var(--space-md);
-                font-size: 0.85rem;
-                color: rgba(255, 255, 255, 0.6);
-            ">
-                <span>🕐 ${formatTimeAgo(pick.Timestamp)}</span>
-                <span>🎯 ${pick.PickType.toUpperCase()}</span>
-            </div>
-        </div>
-    `).join('');
-    
-    container.innerHTML = html;
-}
-
-// Enhanced Achievements Modal
-function showAchievements() {
-    document.getElementById('achievementsModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-    loadAchievementsContent();
-}
-
-function hideAchievements() {
-    document.getElementById('achievementsModal').classList.remove('show');
-    document.body.style.overflow = 'auto';
-}
-
-function loadAchievementsContent() {
-    const container = document.getElementById('achievementsGrid');
-    
-    const achievements = [
-        {
-            id: 'firstPick',
-            title: 'First Steps',
-            description: 'Make your first prediction',
-            icon: '🎯',
-            unlocked: userAchievements.firstPick || false,
-            progress: Math.min(Object.keys(userPicks || {}).length, 1),
-            target: 1
-        },
-        {
-            id: 'quickStarter',
-            title: 'Quick Starter',
-            description: 'Make 5 predictions in your first day',
-            icon: '⚡',
-            unlocked: userAchievements.quickStarter || false,
-            progress: Math.min(Object.keys(userPicks || {}).length, 5),
-            target: 5
-        },
-        {
-            id: 'firstShare',
-            title: 'First Insight',
-            description: 'Share your first detailed reasoning',
-            icon: '💡',
-            unlocked: userAchievements.firstShare || false,
-            progress: (communityPicks || []).filter(p => p.Username === (currentUser?.username)).length,
-            target: 1
-        },
-        {
-            id: 'socialButterfly',
-            title: 'Social Butterfly',
-            description: 'Share 10 detailed predictions',
-            icon: '🦋',
-            unlocked: userAchievements.socialButterfly || false,
-            progress: (communityPicks || []).filter(p => p.Username === (currentUser?.username)).length,
-            target: 10
-        },
-        {
-            id: 'centurion',
-            title: 'Centurion',
-            description: 'Reach 100 total points',
-            icon: '💯',
-            unlocked: userAchievements.centurion || false,
-            progress: Math.min(parseInt(currentUser?.score || 0), 100),
-            target: 100
-        },
-        {
-            id: 'accurateShooter',
-            title: 'Sharp Shooter',
-            description: 'Achieve 80% accuracy with 10+ picks',
-            icon: '🎯',
-            unlocked: userAchievements.accurateShooter || false,
-            progress: parseInt(currentUser?.accuracy || 0),
-            target: 80
-        }
-    ];
-    
-    const html = achievements.map(achievement => `
-        <div class="card ${achievement.unlocked ? 'card-success' : ''}" style="
-            ${achievement.unlocked ? 'border-color: var(--primary-green); box-shadow: var(--glow-teal);' : 'opacity: 0.7;'}
-            transition: all 0.3s ease;
-        ">
-            <div style="text-align: center; margin-bottom: var(--space-md);">
-                <div style="font-size: 3rem; margin-bottom: var(--space-sm);">${achievement.icon}</div>
-                <h4 style="font-weight: 700; margin-bottom: var(--space-xs); color: ${achievement.unlocked ? 'var(--primary-green)' : 'white'};">
-                    ${achievement.title}
-                </h4>
-                <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
-                    ${achievement.description}
-                </p>
-            </div>
-            
-            <div style="margin-bottom: var(--space-md);">
-                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-xs);">
-                    <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.7);">Progress</span>
-                    <span style="font-size: 0.85rem; font-weight: 600;">${achievement.progress}/${achievement.target}</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${Math.min((achievement.progress / achievement.target) * 100, 100)}%;"></div>
-                </div>
-            </div>
-            
-            ${achievement.unlocked ? `
-                <div style="
-                    background: rgba(16, 185, 129, 0.1);
-                    border: 1px solid rgba(16, 185, 129, 0.3);
-                    color: var(--primary-green);
-                    padding: var(--space-sm);
-                    border-radius: var(--radius-md);
-                    text-align: center;
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                ">
-                    ✅ UNLOCKED!
-                </div>
-            ` : `
-                <div style="
-                    background: rgba(156, 163, 175, 0.1);
-                    border: 1px solid rgba(156, 163, 175, 0.3);
-                    color: #9CA3AF;
-                    padding: var(--space-sm);
-                    border-radius: var(--radius-md);
-                    text-align: center;
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                ">
-                    🔒 LOCKED
-                </div>
-            `}
-        </div>
-    `).join('');
-    
-    container.innerHTML = html;
-}
-
-// Enhanced User Interface Functions
-function showUserInterface() {
-    // Show user-specific elements
-    document.getElementById('userStatsSection').style.display = 'block';
-    document.getElementById('accountDropdown').style.display = 'block';
-    document.getElementById('achievementsBtn').style.display = 'block';
-    document.getElementById('loginBtn').style.display = 'none';
-    
-    // Update user display
-    document.getElementById('welcomeUsername').textContent = currentUser.username;
-    document.getElementById('userScore').textContent = parseInt(currentUser.score || 0).toLocaleString();
-    document.getElementById('userAccuracy').textContent = `${currentUser.accuracy || 0}%`;
-    document.getElementById('userStreak').textContent = currentUser.streak || 0;
-    
-    // Update account button
-    document.getElementById('accountBtn').innerHTML = `
-        <div style="display: flex; align-items: center; gap: var(--space-xs);">
-            <span>👤 ${currentUser.username}</span>
-            <div class="coin-display" style="margin-left: var(--space-xs); font-size: 0.85rem;">
-                <span class="coin-icon">🪙</span>
-                <span>${calculateUserCoins(currentUser).toLocaleString()}</span>
-            </div>
-            <span style="font-size: 12px;">▼</span>
-        </div>
-    `;
-    
-    showNotification(`Welcome back, ${currentUser.username}! 🎉`, 'success');
-}
-
-// Enhanced Utility Functions
-function formatTimeAgo(timestamp) {
-    const now = new Date();
-    const time = new Date(timestamp);
-    const diffInHours = Math.floor((now - time) / (1000 * 60 * 60));
-    
-    if (diffInHours < 1) return 'Just now';
-    if (diffInHours < 24) return `${diffInHours}h ago`;
-    return `${Math.floor(diffInHours / 24)}d ago`;
-}
-
-function formatGameTime(startTime) {
-    return new Date(startTime).toLocaleString('en-US', {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-    });
-}
-
-function calculateUserCoins(user) {
-    const baseCoins = 100;
-    const scoreBonus = Math.floor(parseInt(user.score || 0) * 2);
-    const achievementBonus = Object.values(userAchievements || {}).filter(Boolean).length * 25;
-    return baseCoins + scoreBonus + achievementBonus;
-}
-
-// Enhanced Pick Management
-function selectPick(gameId, pickType, selection) {
-    const gameTitle = todaysGames.find(g => g.id == gameId)?.TeamA + ' vs ' + todaysGames.find(g => g.id == gameId)?.TeamB;
-    
-    // Show pick details modal for community sharing
-    showPickDetails(gameId, pickType, selection, gameTitle);
-}
-
-function quickFillRandom() {
-    if (!todaysGames || todaysGames.length === 0) {
-        showNotification('No games available for quick fill', 'warning');
-        return;
-    }
-    
-    todaysGames.forEach(game => {
-        // Random winner pick
-        const winnerOptions = [game.TeamA, game.TeamB];
-        const randomWinner = winnerOptions[Math.floor(Math.random() * winnerOptions.length)];
-        
-        // Random total pick
-        const totalOptions = ['Over', 'Under'];
-        const randomTotal = totalOptions[Math.floor(Math.random() * totalOptions.length)];
-        
-        if (!userPicks[game.id]) {
-            userPicks[game.id] = {};
-        }
-        
-        userPicks[game.id]['winner'] = randomWinner;
-        userPicks[game.id]['total'] = randomTotal;
-        
-        // Update visuals
-        updatePickVisual(game.id, 'winner', randomWinner);
-        updatePickVisual(game.id, 'total', randomTotal);
-    });
-    
-    updatePickStatus();
-    updateSubmitButton();
-    showNotification('All picks filled randomly! 🎲', 'success');
-}
-
-function clearAllPicks() {
-    userPicks = {};
-    
-    // Clear all visual selections
-    document.querySelectorAll('.pick-button.selected').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    
-    updatePickStatus();
-    updateSubmitButton();
-    showNotification('All picks cleared! 🗑️', 'warning');
-}
-
-// Enhanced Profile Functions
-function showProfile() {
-    hideAccountMenu();
-    showNotification('Profile feature coming soon! 👤', 'info');
-}
-
-function showSettings() {
-    hideAccountMenu();
-    showNotification('Settings feature coming soon! ⚙️', 'info');
-}
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', function(event) {
-    const accountDropdown = document.getElementById('accountDropdown');
-    const accountMenu = document.getElementById('accountMenu');
-    
-    if (accountDropdown && !accountDropdown.contains(event.target)) {
-        hideAccountMenu();
-    }
-});
-
-// Enhanced initialization
-function initializePremiumUI() {
-    console.log('🎨 Premium UI initialized');
-    
-    // Add smooth scrolling
-    document.documentElement.style.scrollBehavior = 'smooth';
-    
-    // Initialize tooltips and interactions
-    document.querySelectorAll('.hover-lift').forEach(el => {
-        el.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-3px)';
-        });
-        
-        el.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // Animate elements on scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    document.querySelectorAll('.card, .game-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-}
-
-// Initialize on DOM load
-document.addEventListener('DOMContentLoaded', function() {
-    initializePremiumUI();
-});
-
-console.log('🚀 Complete Premium Implementation Loaded!');
-console.log('✨ All modals, interactions, and enhanced features ready!');
-
-</script>
-
-<!-- Additional CSS for mobile optimization -->
-<style>
-/* Mobile-first responsive enhancements */
-@media (max-width: 640px) {
-    .header-content {
-        padding: var(--space-md);
-    }
-    
-    .logo {
-        font-size: 1.75rem;
-    }
-    
-    .main-content {
-        padding: var(--space-lg) var(--space-md);
-    }
-    
-    .modal-content {
-        margin: var(--space-md);
-        width: calc(100% - 2rem);
-    }
-    
-    .tournament-actions {
-        flex-direction: column;
-    }
-    
-    .btn {
-        padding: var(--space-md) var(--space-lg);
-    }
-    
-    .games-controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .fab {
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-    }
-}
-
-/* Enhanced focus states for accessibility */
-.btn:focus,
-.form-input:focus,
-.pick-button:focus {
-    outline: 2px solid var(--primary-yellow);
-    outline-offset: 2px;
-}
-
-/* Loading animations */
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.modal.show .modal-content {
-    animation: fadeInScale 0.3s ease-out;
-}
-
-/* Print styles */
-@media print {
-    .fab,
-    .modal,
-    .btn,
-    .header {
-        display: none !important;
-    }
-    
-    body {
-        background: white !important;
-        color: black !important;
-    }
-}
-
 
         function loadExistingPicks() {
             if (!currentUser) return;
@@ -6655,8 +4562,6 @@ function parseCSVLine(line) {
             console.log('- testSaveCommunityPick() - Test saving');
             console.log('- debugLoadCommunityPicks() - Test loading');
             console.log('- forceRefreshCommunityPicks() - Force refresh');
-console.log('🎨 Premium Visual System - Part 2 Loaded!');
-console.log('✨ Enhanced animations, modals, forms, and utility classes ready!');
         });
 
         console.log('🔍 Community Picks Debug Tools Ready!');
